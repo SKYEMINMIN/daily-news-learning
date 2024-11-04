@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Enhanced Learning Through Daily News"
-category: Test
+category: Education
 date: 2024-01-19
 source: "Learning Resources"
 source_url: "#"
@@ -13,6 +13,9 @@ vocabulary:
   - term: "structured"
     definition: "Arranged according to a pattern or plan"
     example: "A structured learning approach helps improve retention"
+  - term: "comprehension"
+    definition: "The ability to understand something"
+    example: "Regular reading improves reading comprehension"
 discussion_questions:
   - "How can daily news reading improve your language skills?"
   - "What strategies do you use to remember new vocabulary from news articles?"
@@ -54,4 +57,4 @@ Daily news reading is an effective way to improve both language skills and gener
 - Practice regular review
 - Engage in discussions
 
-This test article demonstrates the format and features of our learning-focused news system.
+This article demonstrates how to effectively use news articles for language learning and knowledge enhancement.

@@ -161,3 +161,168 @@ body {
         font-size: 2rem;
     }
 }
+
+/* Article Page Styles */
+.article-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 20px;
+}
+
+.article {
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.article-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.article-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.article-title {
+    font-size: 2rem;
+    color: #2a4494;
+    margin: 1rem 0;
+    line-height: 1.3;
+}
+
+.article-source {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.article-source a {
+    color: #2a4494;
+    text-decoration: none;
+}
+
+.article-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+}
+
+.article-content h2 {
+    color: #2a4494;
+    font-size: 1.5rem;
+    margin: 2rem 0 1rem;
+}
+
+.article-content h3 {
+    color: #333;
+    font-size: 1.3rem;
+    margin: 1.5rem 0 1rem;
+}
+
+.article-content p {
+    margin-bottom: 1.5rem;
+}
+
+.article-content ul, 
+.article-content ol {
+    margin: 1rem 0 1.5rem 2rem;
+}
+
+/* Vocabulary Section */
+.vocabulary-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+}
+
+.vocabulary-list {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.vocabulary-item {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.vocabulary-item h3 {
+    color: #2a4494;
+    margin: 0 0 0.5rem;
+    font-size: 1.2rem;
+}
+
+.definition {
+    margin-bottom: 0.5rem;
+}
+
+.example {
+    color: #666;
+    font-style: italic;
+}
+
+/* Discussion Section */
+.discussion-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+}
+
+.discussion-questions {
+    list-style-type: none;
+    padding: 0;
+}
+
+.discussion-questions li {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+}
+
+/* Article Navigation */
+.article-navigation {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.back-to-news {
+    display: inline-block;
+    color: #2a4494;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #2a4494;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.back-to-news:hover {
+    background: #2a4494;
+    color: white;
+}
+
+/* Responsive Design for Article Page */
+@media (max-width: 768px) {
+    .article-container {
+        padding: 0 15px;
+    }
+
+    .article {
+        padding: 1.5rem;
+    }
+
+    .article-title {
+        font-size: 1.75rem;
+    }
+
+    .vocabulary-list {
+        grid-template-columns: 1fr;
+    }
+}
