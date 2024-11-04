@@ -5,18 +5,21 @@ title: News
 
 <div class="content">
     <div class="news-header">
-        <h1>Latest News</h1>
+        <h1>📰 Latest News</h1>
     </div>
 
     <div class="news-list">
         {% for post in site.posts %}
         <div class="news-item">
-            <div class="news-date">
-                {{ post.date | date: "%Y-%m-%d" }}
-            </div>
+            <div class="news-date">{{ post.date | date: "%B %-d, %Y" }}</div>
             <div class="news-title">
                 <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
             </div>
+            {% if post.excerpt %}
+            <div class="news-excerpt">
+                {{ post.excerpt }}
+            </div>
+            {% endif %}
         </div>
         {% endfor %}
     </div>

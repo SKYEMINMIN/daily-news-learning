@@ -2,4 +2,15 @@ title: Daily News Learning
 description: Learn English through daily news
 baseurl: "/daily-news-learning"
 url: "https://skyeminmin.github.io"
+
 markdown: kramdown
+permalink: /:year/:month/:day/:title/
+
+plugins:
+  - jekyll-feed
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
