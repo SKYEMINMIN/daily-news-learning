@@ -203,3 +203,58 @@ header {
     border-radius: 4px;
     margin-right: 1rem;
 }
+/* Home page specific styles */
+.home-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.welcome-section {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.welcome-section h1 {
+    font-size: 2.5rem;
+    color: #2a4494;
+    margin-bottom: 1rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.feature-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.feature-card h3 {
+    color: #2a4494;
+    margin-bottom: 1rem;
+}
+
+/* Article specific styles */
+.article-content {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.vocabulary-section,
+.discussion-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
