@@ -1,26 +1,24 @@
 ---
 layout: default
-title: News
+title: News Archive
 ---
 
-<div class="content">
-    <div class="news-header">
-        <h1>📰 Latest News</h1>
-    </div>
+<header class="site-header">
+    <h1 class="site-title">📰 News Archive</h1>
+</header>
 
-    <div class="news-list">
-        {% for post in site.posts %}
-        <div class="news-item">
-            <div class="news-date">{{ post.date | date: "%B %-d, %Y" }}</div>
-            <div class="news-title">
-                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-            </div>
-            {% if post.excerpt %}
-            <div class="news-excerpt">
-                {{ post.excerpt }}
-            </div>
-            {% endif %}
+<div class="news-list">
+    {% for post in site.posts %}
+    <article class="news-item">
+        <div class="news-date">{{ post.date | date: "%B %d, %Y" }}</div>
+        <h2 class="news-title">
+            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        </h2>
+        {% if post.excerpt %}
+        <div class="news-excerpt">
+            {{ post.excerpt }}
         </div>
-        {% endfor %}
-    </div>
+        {% endif %}
+    </article>
+    {% endfor %}
 </div>
