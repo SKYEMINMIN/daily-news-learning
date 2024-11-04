@@ -1,69 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title }} - {{ site.title }}</title>
-    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="site-nav">
-        <div class="nav-container">
-            <a href="{{ site.baseurl }}/" class="site-title">{{ site.title }}</a>
-            <a href="{{ site.baseurl }}/news/" class="nav-link">Back to News</a>
-        </div>
-    </nav>
-
-    <!-- Article Container -->
-    <div class="article-container">
-        <!-- Article Header -->
-        <header class="article-header">
-            <div class="article-meta">
-                <span class="category">{{ page.category }}</span>
-                <span class="date">{{ page.date | date: "%B %-d, %Y" }}</span>
-            </div>
-            <h1 class="article-title">{{ page.title }}</h1>
-            {% if page.excerpt %}
-            <p class="article-excerpt">{{ page.excerpt }}</p>
+---
+layout: default
+---
+<article class="post">
+    <header class="post-header">
+        <div class="post-meta">
+            <span class="post-date">{{ page.date | date: "%B %-d, %Y" }}</span>
+            {% if page.category %}
+            <span class="post-category">{{ page.category }}</span>
             {% endif %}
-        </header>
-
-        <!-- Main Article Content -->
-        <div class="article-content">
-            {{ content }}
         </div>
-
-        <!-- Learning Resources -->
-        {% if page.vocabulary %}
-        <section class="learning-box vocabulary-section">
-            <h2>📚 Vocabulary</h2>
-            <div class="vocab-grid">
-                {% for item in page.vocabulary %}
-                <div class="vocab-card">
-                    <h3 class="vocab-term">{{ item.term }}</h3>
-                    <p class="vocab-definition">{{ item.definition }}</p>
-                    {% if item.example %}
-                    <p class="vocab-example">"{{ item.example }}"</p>
-                    {% endif %}
-                </div>
-                {% endfor %}
-            </div>
-        </section>
+        <h1 class="post-title">{{ page.title }}</h1>
+        {% if page.excerpt %}
+        <p class="post-excerpt">{{ page.excerpt }}</p>
         {% endif %}
+    </header>
 
-        {% if page.discussion_questions %}
-        <section class="learning-box discussion-section">
-            <h2>💭 Discussion Questions</h2>
-            <div class="question-grid">
-                {% for question in page.discussion_questions %}
-                <div class="question-card">
-                    <p>{{ question }}</p>
-                </div>
-                {% endfor %}
-            </div>
-        </section>
-        {% endif %}
+    <div class="post-content">
+        {{ content }}
     </div>
-</body>
-</html>
+
+    {% if page.vocabulary %}
+    <section class="vocabulary">
+        <h2>Vocabulary</h2>
+        <div class="vocab-list">
+            {% for word in page.vocabulary %}
+            <div class="vocab-item">
+                <h3>{{ word.term }}</h3>
+                <p class="definition">{{ word.definition }}</p>
+                {% if word.example %}
+                <p class="example">Example: {{ word.example }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {% if page.discussion_questions %}
+    <section class="discussion">
+        <h2>Discussion Questions</h2>
+        <ol class="question-list">
+            {% for question in page.discussion_questions %}
+            <li>{{ question }}</li>
+            {% endfor %}
+        </ol>
+    </section>
+    {% endif %}
+</article>

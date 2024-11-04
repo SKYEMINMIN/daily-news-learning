@@ -1,28 +1,7 @@
 title: Daily News Learning
-description: Daily news for language learning
+description: Learn English through daily news reading
 baseurl: "/daily-news-learning"
 url: "https://skyeminmin.github.io"
 
 # Build settings
 markdown: kramdown
-permalink: /:year/:month/:day/:title/
-
-# Collections
-collections:
-  posts:
-    output: true
-
-# Defaults
-defaults:
-  - scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: "post"
-
-# Exclude from processing
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - node_modules
-  - vendor
