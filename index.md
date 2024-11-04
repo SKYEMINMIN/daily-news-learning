@@ -5,13 +5,23 @@ title: Home
 
 # Welcome to Daily News Learning Hub
 
-Here you'll find daily news articles specially curated for English learners. Each article comes with:
+## Today's Featured Articles
 
-- Vocabulary explanations
-- Grammar points
-- Reading comprehension questions
-- Discussion topics
+{% for post in site.posts limit:3 %}
+<div class="featured-article">
+    <h3><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
+    <div class="article-meta">
+        <span class="category">{{ post.category }}</span>
+        <span class="source">Source: {{ post.source }}</span>
+    </div>
+</div>
+{% endfor %}
 
-## Latest Articles
+## Why Learn with Daily News?
 
-Check out our [News](/daily-news-learning/news) section for the latest updates!
+- **Real-world Context**: Learn English through current events
+- **Vocabulary Building**: Learn new words in context
+- **Reading Comprehension**: Improve your understanding
+- **Discussion Practice**: Engage with thought-provoking questions
+
+[Browse All Articles]({{ site.baseurl }}/news)

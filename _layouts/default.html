@@ -3,33 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title }} | {{ site.title }}</title>
+    <title>{{ page.title }} - Daily News Learning Hub</title>
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
-    <script src="{{ site.baseurl }}/assets/js/news.js"></script></head>
+</head>
 <body>
-    <div class="container">
-        <header>
-            <nav class="main-nav">
-                <div class="site-title">
-                    <a href="{{ site.baseurl }}/">{{ site.title }}</a>
-                </div>
-                <div class="nav-links">
-                    <a href="{{ site.baseurl }}/" {% if page.url == "/" %}class="active"{% endif %}>Home</a>
-                    <a href="{{ site.baseurl }}/news" {% if page.url == "/news" %}class="active"{% endif %}>News</a>
-                    <a href="{{ site.baseurl }}/about" {% if page.url == "/about" %}class="active"{% endif %}>About</a>
-                </div>
-            </nav>
-        </header>
-
-        <main>
-            <div class="content">
-                {{ content }}
+    <header>
+        <nav class="main-nav">
+            <div class="site-title">
+                <a href="{{ site.baseurl }}/">Daily News Learning Hub</a>
             </div>
-        </main>
+            <div class="nav-links">
+                <a href="{{ site.baseurl }}/">Home</a>
+                <a href="{{ site.baseurl }}/news">News</a>
+                <a href="{{ site.baseurl }}/about">About</a>
+            </div>
+        </nav>
+    </header>
 
-        <footer>
-            <p>&copy; {{ site.time | date: '%Y' }} {{ site.title }}</p>
-        </footer>
-    </div>
+    <main class="container">
+        {{ content }}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{ site.time | date: '%Y' }} Daily News Learning Hub</p>
+        </div>
+    </footer>
+    <script src="{{ site.baseurl }}/assets/js/news.js"></script>
 </body>
 </html>

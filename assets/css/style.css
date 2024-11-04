@@ -173,3 +173,33 @@ header {
     font-style: italic;
     margin-left: 1rem;
 }
+/* Home page styles */
+.featured-article {
+    background: white;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.featured-article h3 {
+    margin: 0 0 1rem 0;
+}
+
+.featured-article a {
+    color: #2a4494;
+    text-decoration: none;
+}
+
+.featured-article .article-meta {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.featured-article .category {
+    background-color: #2a4494;
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    margin-right: 1rem;
+}
