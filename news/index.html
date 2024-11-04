@@ -1,0 +1,32 @@
+---
+layout: default
+title: News Articles
+---
+
+<div class="news-page">
+    <header class="page-header">
+        <h1>News Articles</h1>
+        <p>Learn English through daily news reading</p>
+    </header>
+
+    <div class="news-grid">
+        {% for post in site.posts %}
+        <article class="news-card">
+            <div class="news-card-content">
+                <div class="news-meta">
+                    <span class="news-date">{{ post.date | date: "%B %-d, %Y" }}</span>
+                    {% if post.category %}
+                    <span class="news-category">{{ post.category }}</span>
+                    {% endif %}
+                </div>
+                <h2 class="news-title">
+                    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                </h2>
+                {% if post.excerpt %}
+                <p class="news-excerpt">{{ post.excerpt }}</p>
+                {% endif %}
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</div>
