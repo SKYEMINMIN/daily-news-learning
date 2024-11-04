@@ -3,7 +3,10 @@ description: Daily news articles for learning
 baseurl: "/daily-news-learning"
 url: "https://skyeminmin.github.io"
 
+# Build settings
 markdown: kramdown
+permalink: /:year/:month/:day/:title/
+
 plugins:
   - jekyll-feed
 
