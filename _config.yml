@@ -1,7 +1,10 @@
 title: Daily News Learning Hub
 description: Learn English through daily news updates
 baseurl: "/daily-news-learning"
-url: "https://skyewangcode.github.io"
+url: "https://skyeminmin.github.io"
 
 # Build settings
 markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
