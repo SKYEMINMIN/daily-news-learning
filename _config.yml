@@ -1,13 +1,30 @@
-title: Daily News Learning
+title: Daily News Learning Hub
 description: Learn English through daily news
 baseurl: "/daily-news-learning"
 url: "https://skyeminmin.github.io"
 
+# Build settings
 markdown: kramdown
-permalink: /:year/:month/:day/:title/
+remote_theme: pages-themes/cayman@v0.2.0
+plugins:
+  - jekyll-remote-theme
+  - jekyll-feed
 
+# Exclude from processing
+exclude:
+  - scripts/
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - .git/
+  - .gitignore
+
+# Default settings
 defaults:
-  - scope:
+  -
+    scope:
       path: ""
+      type: "posts"
     values:
-      layout: "default"
+      layout: "post"
+      author: "Daily News Bot"
