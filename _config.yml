@@ -1,10 +1,7 @@
-# Site settings
 title: Daily News Learning Hub
-description: A daily English news learning platform for middle school students
+description: Learn English through daily news updates
 baseurl: "/daily-news-learning"
-url: "https://skyeminmin.github.io"
+url: "https://skyewangcode.github.io"
 
 # Build settings
-theme: jekyll-theme-minimal
-plugins:
-  - jekyll-feed
+markdown: kramdown
