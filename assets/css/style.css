@@ -1,22 +1,85 @@
+/* Base styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-header {
-    margin-bottom: 30px;
-}
-
-nav a {
-    margin-right: 20px;
-    text-decoration: none;
     color: #333;
 }
 
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header styles */
+header {
+    background-color: #f8f9fa;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+nav a {
+    color: #495057;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
 nav a:hover {
-    color: #0066cc;
+    color: #228be6;
+    background-color: #e9ecef;
+}
+
+/* Main content */
+main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Typography */
+h1 {
+    color: #1971c2;
+    margin-bottom: 1.5rem;
+}
+
+h2 {
+    color: #1864ab;
+    margin: 2rem 0 1rem;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 3rem;
+    padding: 1rem 0;
+    color: #868e96;
+    border-top: 1px solid #e9ecef;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    
+    nav {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    nav a {
+        width: 100%;
+        text-align: center;
+    }
 }
