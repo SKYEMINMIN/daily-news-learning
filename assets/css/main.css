@@ -77,6 +77,12 @@ body {
     color: #3498db;
 }
 
+.news-excerpt {
+    color: #666;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     body {
