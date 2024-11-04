@@ -2,46 +2,64 @@
 layout: default
 ---
 
-<article class="article-content">
-    <header class="article-header">
-        <h1 class="article-title">{{ page.title }}</h1>
-        <div class="article-meta">
-            <span class="category">{{ page.category }}</span>
-            <span class="date">{{ page.date | date: "%B %-d, %Y" }}</span>
+<div class="article-page">
+    <div class="article-container">
+        <!-- 文章头部 -->
+        <header class="article-header">
+            <div class="article-meta">
+                <span class="category">{{ page.category }}</span>
+                <time class="date">{{ page.date | date: "%B %-d, %Y" }}</time>
+            </div>
+            <h1 class="article-title">{{ page.title }}</h1>
+            {% if page.excerpt %}
+            <p class="article-excerpt">{{ page.excerpt }}</p>
+            {% endif %}
+        </header>
+
+        <!-- 文章内容 -->
+        <div class="article-content">
+            {{ content }}
         </div>
-    </header>
 
-    <div class="article-body">
-        {{ content }}
-    </div>
-
-    {% if page.vocabulary or page.discussion_questions %}
-    <div class="learning-resources">
+        <!-- 学习资源部分 -->
         {% if page.vocabulary %}
-        <div class="vocabulary-section">
-            <h2>Vocabulary</h2>
-            <ul class="vocab-list">
-                {% for item in page.vocabulary %}
-                <li class="vocab-item">
-                    <strong class="vocab-word">{{ item.word }}</strong>
-                    <p class="vocab-meaning">{{ item.meaning }}</p>
-                    <p class="vocab-example">{{ item.example }}</p>
-                </li>
+        <section class="learning-section vocabulary-section">
+            <h2>📚 Vocabulary Learning</h2>
+            <div class="vocab-list">
+                {% for vocab in page.vocabulary %}
+                <div class="vocab-item">
+                    <div class="vocab-term">
+                        <h3>{{ vocab.term }}</h3>
+                        <div class="vocab-details">
+                            <p class="definition">{{ vocab.definition }}</p>
+                            {% if vocab.example %}
+                            <p class="example">"{{ vocab.example }}"</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
                 {% endfor %}
-            </ul>
-        </div>
+            </div>
+        </section>
         {% endif %}
 
+        <!-- 讨论问题部分 -->
         {% if page.discussion_questions %}
-        <div class="discussion-section">
-            <h2>Discussion Questions</h2>
-            <ul class="question-list">
+        <section class="learning-section discussion-section">
+            <h2>💭 Discussion Questions</h2>
+            <div class="question-list">
                 {% for question in page.discussion_questions %}
-                <li class="question-item">{{ question }}</li>
+                <div class="question-item">
+                    <p>{{ question }}</p>
+                </div>
                 {% endfor %}
-            </ul>
-        </div>
+            </div>
+        </section>
         {% endif %}
+
+        <!-- 导航链接 -->
+        <nav class="article-navigation">
+            <a href="{{ site.baseurl }}/news/" class="back-to-news">← Back to News</a>
+        </nav>
     </div>
-    {% endif %}
-</article>
+</div>

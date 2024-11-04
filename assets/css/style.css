@@ -942,3 +942,199 @@ body {
         padding: 1rem;
     }
 }
+
+/* Article Page Styles */
+.article-page {
+    background: #f8f9fa;
+    min-height: calc(100vh - 60px);
+    padding: 2rem 0;
+}
+
+.article-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Article Header */
+.article-header {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.article-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.article-meta .category {
+    background: #e8f4ff;
+    color: #2a4494;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.article-meta .date {
+    color: #6c757d;
+    font-size: 0.875rem;
+}
+
+.article-title {
+    font-size: 2.5rem;
+    color: #2a4494;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+.article-excerpt {
+    color: #6c757d;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Article Content */
+.article-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+.article-content h2 {
+    color: #2a4494;
+    margin: 2rem 0 1rem;
+    font-size: 1.8rem;
+}
+
+.article-content h3 {
+    color: #4a64b4;
+    margin: 1.5rem 0 1rem;
+    font-size: 1.4rem;
+}
+
+.article-content p {
+    margin-bottom: 1.5rem;
+}
+
+/* Learning Sections */
+.learning-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.learning-section h2 {
+    color: #2a4494;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Vocabulary Section */
+.vocab-list {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.vocab-item {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #2a4494;
+}
+
+.vocab-term h3 {
+    color: #2a4494;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.vocab-details .definition {
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.vocab-details .example {
+    color: #6c757d;
+    font-style: italic;
+    padding-left: 1rem;
+    border-left: 2px solid #dee2e6;
+}
+
+/* Discussion Section */
+.question-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.question-item {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #ff6b00;
+}
+
+.question-item p {
+    color: #495057;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* Navigation */
+.article-navigation {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid #dee2e6;
+}
+
+.back-to-news {
+    display: inline-flex;
+    align-items: center;
+    color: #2a4494;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.back-to-news:hover {
+    color: #4a64b4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .article-page {
+        padding: 1rem 0;
+    }
+
+    .article-container {
+        padding: 0 1rem;
+    }
+
+    .article-header,
+    .article-content,
+    .learning-section {
+        padding: 1.5rem;
+    }
+
+    .article-title {
+        font-size: 2rem;
+    }
+
+    .vocab-list,
+    .question-list {
+        gap: 1rem;
+    }
+}
