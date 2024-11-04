@@ -1,49 +1,45 @@
 ---
 layout: default
 ---
-<article class="post">
-    <header class="post-header">
-        <div class="post-meta">
-            <span class="post-date">{{ page.date | date: "%B %-d, %Y" }}</span>
+
+<article class="notion-post">
+    <header class="notion-post-header">
+        <h1 class="notion-post-title">{{ page.title }}</h1>
+        <div class="notion-post-meta">
             {% if page.category %}
-            <span class="post-category">{{ page.category }}</span>
+            <span class="notion-tag">{{ page.category }}</span>
             {% endif %}
+            <time class="notion-date">{{ page.date | date: "%B %d, %Y" }}</time>
         </div>
-        <h1 class="post-title">{{ page.title }}</h1>
-        {% if page.excerpt %}
-        <p class="post-excerpt">{{ page.excerpt }}</p>
-        {% endif %}
     </header>
 
-    <div class="post-content">
+    <div class="notion-post-content">
         {{ content }}
     </div>
 
     {% if page.vocabulary %}
-    <section class="vocabulary">
-        <h2>Vocabulary</h2>
-        <div class="vocab-list">
-            {% for word in page.vocabulary %}
-            <div class="vocab-item">
-                <h3>{{ word.term }}</h3>
-                <p class="definition">{{ word.definition }}</p>
-                {% if word.example %}
-                <p class="example">Example: {{ word.example }}</p>
-                {% endif %}
-            </div>
-            {% endfor %}
+    <div class="notion-vocabulary">
+        <h2>📚 Vocabulary</h2>
+        {% for word in page.vocabulary %}
+        <div class="notion-word">
+            <strong>{{ word.term }}</strong>
+            <p>{{ word.definition }}</p>
+            {% if word.example %}
+            <p><em>Example:</em> {{ word.example }}</p>
+            {% endif %}
         </div>
-    </section>
+        {% endfor %}
+    </div>
     {% endif %}
 
     {% if page.discussion_questions %}
-    <section class="discussion">
-        <h2>Discussion Questions</h2>
-        <ol class="question-list">
-            {% for question in page.discussion_questions %}
+    <div class="notion-questions">
+        <h2>💭 Discussion Questions</h2>
+        <ul>
+        {% for question in page.discussion_questions %}
             <li>{{ question }}</li>
-            {% endfor %}
-        </ol>
-    </section>
+        {% endfor %}
+        </ul>
+    </div>
     {% endif %}
 </article>

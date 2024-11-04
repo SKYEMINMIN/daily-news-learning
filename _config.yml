@@ -3,5 +3,12 @@ description: Learn English through daily news reading
 baseurl: "/daily-news-learning"
 url: "https://skyeminmin.github.io"
 
-# Build settings
 markdown: kramdown
+permalink: /:year/:month/:day/:title/
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"

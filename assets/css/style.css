@@ -1,4 +1,4 @@
-/* Base styles */
+/* Reset and Base Styles */
 * {
     margin: 0;
     padding: 0;
@@ -6,179 +6,163 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #f5f5f7;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.5;
+    color: rgb(55, 53, 47);
+    background: #ffffff;
 }
 
-/* Common layout */
-.container {
-    max-width: 1200px;
+/* Notion Container */
+.notion-container {
+    max-width: 900px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 2rem 1.5rem;
 }
 
-/* News page specific styles */
-.news-page {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem 20px;
-}
-
-.page-header {
-    text-align: center;
+/* Notion Header */
+.notion-header {
     margin-bottom: 3rem;
-    padding: 2rem;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(55, 53, 47, 0.1);
 }
 
-.page-header h1 {
+.notion-header h1 {
     font-size: 2.5rem;
-    color: #1c1c1e;
+    font-weight: 700;
     margin-bottom: 0.5rem;
 }
 
-.page-header p {
-    color: #666;
+.notion-subtitle {
+    color: rgba(55, 53, 47, 0.65);
     font-size: 1.1rem;
 }
 
-/* News Grid */
-.news-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
+/* Notion Content */
+.notion-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-/* News Card */
-.news-card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+/* Notion Page Link */
+.notion-page-link {
+    display: flex;
+    align-items: flex-start;
+    padding: 0.75rem;
+    border-radius: 3px;
+    transition: background-color 0.1s ease;
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 0.5rem;
 }
 
-.news-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+.notion-page-link:hover {
+    background-color: rgba(55, 53, 47, 0.03);
 }
 
-.news-card-content {
-    padding: 1.5rem;
+/* Notion Page Icon */
+.notion-page-icon {
+    flex-shrink: 0;
+    font-size: 1.5rem;
+    margin-right: 0.75rem;
+    margin-top: 0.2rem;
 }
 
-.news-meta {
+/* Notion Page Content */
+.notion-page-content {
+    flex: 1;
+}
+
+/* Notion Page Title */
+.notion-page-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.notion-page-title a {
+    color: rgb(55, 53, 47);
+    text-decoration: none;
+}
+
+.notion-page-title a:hover {
+    text-decoration: underline;
+}
+
+/* Notion Page Meta */
+.notion-page-meta {
     display: flex;
     align-items: center;
-    margin-bottom: 1rem;
-    gap: 1rem;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
 }
 
-.news-date {
-    color: #666;
+/* Notion Tag */
+.notion-tag {
     font-size: 0.875rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+    background: rgba(55, 53, 47, 0.08);
+    color: rgb(55, 53, 47);
 }
 
-.news-category {
-    background: #e8f4ff;
-    color: #2a4494;
-    padding: 0.25rem 0.75rem;
-    border-radius: 50px;
+/* Notion Date */
+.notion-date {
     font-size: 0.875rem;
-    font-weight: 500;
+    color: rgba(55, 53, 47, 0.65);
 }
 
-.news-title {
-    margin-bottom: 1rem;
-    font-size: 1.25rem;
-    line-height: 1.4;
-}
-
-.news-title a {
-    color: #1c1c1e;
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-.news-title a:hover {
-    color: #2a4494;
-}
-
-.news-excerpt {
-    color: #666;
+/* Notion Excerpt */
+.notion-excerpt {
     font-size: 0.95rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    color: rgba(55, 53, 47, 0.65);
+    margin-top: 0.5rem;
 }
 
-/* Post styles (from previous CSS) */
-.post-header {
-    margin-bottom: 2em;
-    background: white;
-    padding: 2em;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+/* Post Layout */
+.notion-post {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
 }
 
-.post-meta {
-    margin-bottom: 1em;
-    color: #666;
+.notion-post-header {
+    margin-bottom: 2rem;
 }
 
-.post-date {
-    margin-right: 1em;
+.notion-post-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
 }
 
-.post-category {
-    background: #e3f2fd;
-    padding: 0.3em 0.8em;
-    border-radius: 4px;
-    color: #1976d2;
-    font-size: 0.9em;
+.notion-post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
 }
 
-.post-title {
-    margin: 0 0 0.5em;
-    color: #1976d2;
+.notion-post-content {
+    font-size: 1.1rem;
+    line-height: 1.7;
 }
 
-.post-excerpt {
-    color: #666;
-    font-size: 1.1em;
-    margin: 0;
-}
-
-.post-content {
-    background: white;
-    padding: 2em;
-    margin-bottom: 2em;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-/* Responsive design */
+/* Responsive Design */
 @media (max-width: 768px) {
-    .news-page {
-        padding: 1rem;
+    .notion-container {
+        padding: 1.5rem 1rem;
     }
 
-    .page-header {
-        padding: 1.5rem;
-        margin-bottom: 2rem;
-    }
-
-    .page-header h1 {
+    .notion-header h1 {
         font-size: 2rem;
     }
 
-    .news-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
+    .notion-page-link {
+        padding: 0.5rem;
+    }
+
+    .notion-page-title {
+        font-size: 1rem;
     }
 }
