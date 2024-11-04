@@ -1,113 +1,132 @@
-import requests
-import json
-from datetime import datetime
-import os
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
+import requests
+from googletrans import Translator
 
 def fetch_news():
     """获取新闻数据"""
-    api_key = "70c47808e1fc40f2bb4450e822b5f2fc"
-    base_url = "https://newsapi.org/v2/top-headlines"
-    
-    params = {
-        "apiKey": api_key,
-        "country": "us",
-        "pageSize": 5,
-        "language": "en"
-    }
+    API_KEY = 'YOUR_NEWS_API_KEY'  # 替换为您的 API 密钥
+    url = 
+f'https://newsapi.org/v2/top-headlines?language=en&apiKey={API_KEY}'
     
     try:
-        response = requests.get(base_url, params=params)
-        response.raise_for_status()
+        response = requests.get(url)
         return response.json()
     except Exception as e:
         print(f"Error fetching news: {e}")
         return None
 
-def create_markdown_content(article):
-    """将单个新闻文章转换为Markdown格式"""
+def generate_post():
+    """生成博客文章"""
+    news_data = fetch_news()
+    
+    if not news_data or news_data.get('status') != 'ok':
+        print("Failed to fetch news")
+        return
+    
+    posts_dir = Path('_posts')
+    posts_dir.mkdir(exist_ok=True)
+    
+    tz = timezone(timedelta(hours=8))
+    today = datetime.now(tz)
+    file_name = today.strftime('%Y-%m-%d-daily-news.md')
+    file_path = posts_dir / file_name
+
+    content = create_post_content(news_data, today)
+    
+    with open(file_path, 'w', encoding='utf-8') as f:
+        f.write(content)
+    
+    print(f"Successfully generated post: {file_path}")
+
+def create_post_content(news_data, today):
+    """创建文章内容"""
+    front_matter = f"""---
+layout: post
+title: "每日英语新闻学习 ({today.strftime('%Y-%m-%d')})"
+date: {today.strftime('%Y-%m-%d %H:%M:%S')} +0800
+categories: daily-news
+tags: [english-learning, news, vocabulary]
+---
+
+# Today's English News
+
+_Date: {today.strftime('%B %d, %Y')} | Daily English Learning Through 
+News_
+
+"""
+    
+    article_contents = []
+    for idx, article in enumerate(news_data['articles'][:5], 1):
+        if article.get('title') and article['title'] != '[Removed]':
+            article_contents.append(create_article_content(article, idx))
+    
+    return front_matter + '\n'.join(article_contents)
+
+def create_article_content(article, index):
+    """创建单篇文章的内容"""
     title = article.get('title', '').replace('"', '\\"')
     description = article.get('description', 'No description available')
     url = article.get('url', '')
     source = article.get('source', {}).get('name', 'Unknown Source')
     
-    markdown_content = f"""## News: {title}
+    return f"""## News #{index}
 
-### Source
-{source}
+<div class="news-card">
 
-### Content
+### 📰 {title}
+
+**Source**: {source}  
+**Link**: [Read Original Article]({url})
+
+#### English Content
+<div class="english-content">
 {description}
+</div>
 
-### Original Link
-[Read More]({url})
+#### Key Words & Phrases
+<div class="vocabulary-section">
+| Word/Phrase | Definition | Usage |
+|------------|------------|--------|
+| (key word 1) | (definition) | (example) |
+| (key word 2) | (definition) | (example) |
+</div>
 
-### Vocabulary
-- word1: definition
-- word2: definition
-(Please add relevant vocabulary)
+#### Comprehension Check
+<div class="comprehension-section">
+1️⃣ **Main Idea**:
+<details>
+<summary>Click to see the main point</summary>
+<div class="answer-box">
+Main idea of the article
+</div>
+</details>
 
-### Reading Comprehension
-1. Question 1?
-   - [ ] Option A
-   - [ ] Option B
-   - [ ] Option C
-   - [ ] Option D
+2️⃣ **Key Details**:
+<details>
+<summary>Click to see key points</summary>
+<div class="answer-box">
+- Point 1
+- Point 2
+- Point 3
+</div>
+</details>
+</div>
 
-2. Question 2?
-   - [ ] Option A
-   - [ ] Option B
-   - [ ] Option C
-   - [ ] Option D
+#### Practice Section
+<div class="practice-section">
+🗣️ **Discussion Question**:  
+What do you think about this news?
 
-### Discussion
-What do you think about this news? Share your thoughts!
+✍️ **Writing Prompt**:  
+Write a brief summary of this news in your own words.
+</div>
+
+</div>
 
 ---
 """
-    return markdown_content
-
-def generate_post():
-    """生成完整的博客文章"""
-    news_data = fetch_news()
-    if not news_data or news_data.get('status') != 'ok':
-        print("Failed to fetch news")
-        return
-    
-    # 创建_posts目录（如果不存在）
-    posts_dir = Path('_posts')
-    posts_dir.mkdir(exist_ok=True)
-    
-    # 生成当前日期的文件名
-    today = datetime.now()
-    file_name = today.strftime('%Y-%m-%d-daily-news.md')
-    file_path = posts_dir / file_name
-    
-    # 创建文章头部信息
-    front_matter = f"""---
-layout: post
-title: "Daily News Learning {today.strftime('%Y-%m-%d')}"
-date: {today.strftime('%Y-%m-%d %H:%M:%S')} +0800
-categories: daily-news
-tags: [news, learning, english]
----
-
-# Today's News Summary ({today.strftime('%Y-%m-%d')})
-
-"""
-    
-    # 生成文章内容
-    article_contents = []
-    for article in news_data['articles']:
-        if article['title'] != '[Removed]':
-            article_contents.append(create_markdown_content(article))
-    
-    # 写入文件
-    with open(file_path, 'w', encoding='utf-8') as f:
-        f.write(front_matter)
-        f.write('\n'.join(article_contents))
-    
-    print(f"Successfully generated post: {file_path}")
 
 if __name__ == "__main__":
     generate_post()
+
