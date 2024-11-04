@@ -812,3 +812,133 @@ body {
         padding: 0 1rem;
     }
 }
+
+/* Article Content Styles */
+.article-content {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.article-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.article-title {
+    font-size: 2.5rem;
+    color: #2a4494;
+    margin-bottom: 1rem;
+}
+
+.article-meta {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Vocabulary Section */
+.vocabulary-section {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+.vocab-list {
+    list-style: none;
+    padding: 0;
+}
+
+.vocab-item {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.vocab-word {
+    color: #2a4494;
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.vocab-meaning {
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.vocab-example {
+    color: #6c757d;
+    font-style: italic;
+    padding-left: 1rem;
+    border-left: 3px solid #2a4494;
+}
+
+/* Discussion Section */
+.discussion-section {
+    background: #fff4e6;
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+.question-list {
+    list-style: none;
+    padding: 0;
+}
+
+.question-item {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Summary Section */
+.summary-section {
+    background: #e8f4ff;
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+.key-points {
+    list-style: none;
+    padding: 0;
+}
+
+.key-points li {
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.key-points li:before {
+    content: "•";
+    color: #2a4494;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .article-content {
+        padding: 1rem;
+        margin: 1rem;
+    }
+
+    .article-title {
+        font-size: 1.8rem;
+    }
+
+    .vocabulary-section,
+    .discussion-section,
+    .summary-section {
+        padding: 1rem;
+    }
+}

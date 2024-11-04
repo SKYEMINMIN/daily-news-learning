@@ -1,55 +1,47 @@
 ---
 layout: default
 ---
-<article class="article-container">
-    <div class="article">
-        <header class="article-header">
-            <div class="article-meta">
-                <span class="category">{{ page.category }}</span>
-                <time class="date">{{ page.date | date: "%B %-d, %Y" }}</time>
-            </div>
-            <h1 class="article-title">{{ page.title }}</h1>
-            {% if page.source %}
-            <div class="article-source">
-                Source: {% if page.source_url %}<a href="{{ page.source_url }}" target="_blank">{{ page.source }}</a>{% else %}{{ page.source }}{% endif %}
-            </div>
-            {% endif %}
-        </header>
 
-        <div class="article-content">
-            {{ content }}
+<article class="article-content">
+    <header class="article-header">
+        <h1 class="article-title">{{ page.title }}</h1>
+        <div class="article-meta">
+            <span class="category">{{ page.category }}</span>
+            <span class="date">{{ page.date | date: "%B %-d, %Y" }}</span>
         </div>
+    </header>
 
+    <div class="article-body">
+        {{ content }}
+    </div>
+
+    {% if page.vocabulary or page.discussion_questions %}
+    <div class="learning-resources">
         {% if page.vocabulary %}
-        <section class="vocabulary-section">
-            <h2>Key Vocabulary</h2>
-            <div class="vocabulary-list">
+        <div class="vocabulary-section">
+            <h2>Vocabulary</h2>
+            <ul class="vocab-list">
                 {% for item in page.vocabulary %}
-                <div class="vocabulary-item">
-                    <h3>{{ item.term }}</h3>
-                    <div class="definition">{{ item.definition }}</div>
-                    {% if item.example %}
-                    <div class="example">Example: "{{ item.example }}"</div>
-                    {% endif %}
-                </div>
+                <li class="vocab-item">
+                    <strong class="vocab-word">{{ item.word }}</strong>
+                    <p class="vocab-meaning">{{ item.meaning }}</p>
+                    <p class="vocab-example">{{ item.example }}</p>
+                </li>
                 {% endfor %}
-            </div>
-        </section>
+            </ul>
+        </div>
         {% endif %}
 
         {% if page.discussion_questions %}
-        <section class="discussion-section">
+        <div class="discussion-section">
             <h2>Discussion Questions</h2>
-            <ul class="discussion-questions">
+            <ul class="question-list">
                 {% for question in page.discussion_questions %}
-                <li>{{ question }}</li>
+                <li class="question-item">{{ question }}</li>
                 {% endfor %}
             </ul>
-        </section>
+        </div>
         {% endif %}
     </div>
-
-    <div class="article-navigation">
-        <a href="{{ site.baseurl }}/news/" class="back-to-news">← Back to News</a>
-    </div>
+    {% endif %}
 </article>
