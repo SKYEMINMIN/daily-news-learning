@@ -1,5 +1,5 @@
 title: Daily News Learning Hub
-description: Learn English through daily news
+description: Learn English through daily news articles
 baseurl: "/daily-news-learning"
 url: "https://skyeminmin.github.io"
 
@@ -8,9 +8,8 @@ markdown: kramdown
 plugins:
   - jekyll-feed
 
-# Exclude from processing
+# Exclude files from processing
 exclude:
   - Gemfile
   - Gemfile.lock
-  - node_modules
-  - vendor
+  - README.md

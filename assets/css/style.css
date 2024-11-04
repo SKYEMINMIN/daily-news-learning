@@ -1,11 +1,15 @@
 /* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    background-color: #f5f5f5;
     color: #333;
+    background-color: #f5f5f5;
 }
 
 .container {
@@ -18,7 +22,6 @@ body {
 header {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    padding: 1rem 0;
     margin-bottom: 2rem;
 }
 
@@ -28,7 +31,7 @@ header {
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 1rem 20px;
 }
 
 .site-title a {
@@ -38,14 +41,10 @@ header {
     font-weight: bold;
 }
 
-.nav-links {
-    display: flex;
-    gap: 2rem;
-}
-
 .nav-links a {
     color: #333;
     text-decoration: none;
+    margin-left: 2rem;
     padding: 0.5rem 1rem;
     border-radius: 4px;
     transition: all 0.3s ease;
@@ -60,7 +59,7 @@ header {
 .news-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 2rem 20px;
 }
 
 .category-filters {
@@ -77,7 +76,6 @@ header {
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 1rem;
 }
 
 .filter-btn.active {
@@ -89,7 +87,6 @@ header {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
-    margin-top: 2rem;
 }
 
 .article-card {
@@ -104,39 +101,57 @@ header {
     transform: translateY(-5px);
 }
 
-.article-category {
-    display: inline-block;
-    background-color: #2a4494;
-    color: white;
-    padding: 0.2rem 0.8rem;
-    border-radius: 4px;
-    font-size: 0.9rem;
+.article-header {
     margin-bottom: 1rem;
 }
 
-.article-card h2 {
-    margin: 0.5rem 0;
+.article-category {
+    background-color: #2a4494;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.article-title {
+    margin: 1rem 0;
     font-size: 1.2rem;
 }
 
-.article-card h2 a {
+.article-title a {
     color: #333;
     text-decoration: none;
 }
 
-.article-meta {
-    font-size: 0.9rem;
-    color: #666;
-    margin-top: 1rem;
-}
-
-.article-date {
-    margin-right: 1rem;
-}
-
-.article-source a {
+.article-title a:hover {
     color: #2a4494;
-    text-decoration: none;
+}
+
+/* Post styles */
+.post {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.vocabulary-section,
+.discussion-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+/* Footer styles */
+footer {
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 4rem;
+    background-color: #fff;
+    border-top: 1px solid #eee;
 }
 
 /* Responsive design */
@@ -145,7 +160,7 @@ header {
         grid-template-columns: 1fr;
     }
     
-    .category-filters {
-        flex-wrap: wrap;
+    .nav-links {
+        display: none;
     }
 }
