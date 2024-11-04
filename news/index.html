@@ -1,37 +1,21 @@
 ---
 layout: default
-title: News
+title: Daily News Learning
 ---
 
 <div class="container">
-    <header class="page-header">
-        <h1>Daily Learning News</h1>
-        <p class="header-description">Latest articles for language learning and knowledge enhancement</p>
-    </header>
-
-    <div class="category-filters">
-        <button class="filter-btn active" data-category="all">All Categories</button>
-        <button class="filter-btn" data-category="Test">Test</button>
-    </div>
-
     <div class="articles-grid">
         {% for post in site.posts %}
-        <article class="article-card" data-category="{{ post.category }}">
-            <div class="article-card-header">
-                <span class="category-tag">{{ post.category }}</span>
-                <time class="article-date">{{ post.date | date: "%B %-d, %Y" }}</time>
+        <article class="article-card">
+            <div class="article-meta">
+                <span class="category">{{ post.category }}</span>
+                <span class="date">{{ post.date | date: "%B %-d, %Y" }}</span>
             </div>
-            <h2 class="article-card-title">
-                <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-            </h2>
+            <h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
             {% if post.excerpt %}
-            <div class="article-excerpt">
-                {{ post.excerpt | strip_html | truncatewords: 30 }}
-            </div>
+            <p class="excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
             {% endif %}
-            <div class="article-card-footer">
-                <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More →</a>
-            </div>
+            <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More →</a>
         </article>
         {% endfor %}
     </div>

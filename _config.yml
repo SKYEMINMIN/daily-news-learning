@@ -1,20 +1,15 @@
-title: Daily News Learning Hub
-description: Daily news articles for learning
+title: Daily News Learning
 baseurl: "/daily-news-learning"
 url: "https://skyeminmin.github.io"
+markdown: kramdown
 
 # Build settings
-markdown: kramdown
-permalink: /:year/:month/:day/:title/
-
 plugins:
   - jekyll-feed
 
+# Exclude files from processing
 exclude:
   - Gemfile
   - Gemfile.lock
   - node_modules
-  - vendor/bundle/
-  - vendor/cache/
-  - vendor/gems/
-  - vendor/ruby/
+  - vendor
