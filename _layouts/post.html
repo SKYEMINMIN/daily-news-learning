@@ -1,0 +1,44 @@
+---
+layout: default
+---
+<article class="post">
+    <header class="post-header">
+        <span class="post-category">{{ page.category }}</span>
+        <h1 class="post-title">{{ page.title }}</h1>
+        <div class="post-meta">
+            <span class="post-date">{{ page.date | date: "%B %d, %Y" }}</span>
+            <span class="post-source">Source: <a href="{{ page.source_url }}" target="_blank">{{ page.source }}</a></span>
+        </div>
+    </header>
+
+    <div class="post-content">
+        {{ content }}
+    </div>
+
+    {% if page.vocabulary %}
+    <div class="vocabulary-section">
+        <h2>Key Vocabulary</h2>
+        <ul class="vocabulary-list">
+        {% for word in page.vocabulary %}
+            <li>
+                <strong>{{ word.term }}</strong> - {{ word.definition }}
+                {% if word.example %}
+                <p class="example">Example: {{ word.example }}</p>
+                {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if page.discussion_questions %}
+    <div class="discussion-section">
+        <h2>Discussion Questions</h2>
+        <ol class="question-list">
+        {% for question in page.discussion_questions %}
+            <li>{{ question }}</li>
+        {% endfor %}
+        </ol>
+    </div>
+    {% endif %}
+</article>
