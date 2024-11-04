@@ -4,10 +4,10 @@ title: News
 ---
 
 <div class="news-container">
-    <h1>News Testing Page</h1>
+    <h1>Latest News Articles</h1>
     
     <div class="category-filters">
-        <button class="filter-btn active" data-category="all">All</button>
+        <button class="filter-btn active" data-category="all">All Categories</button>
         <button class="filter-btn" data-category="Test">Test</button>
     </div>
 
@@ -21,14 +21,7 @@ title: News
             <h2 class="article-title">
                 <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
             </h2>
-            <div class="article-meta">
-                <span class="article-source">
-                    Source: <a href="{{ post.source_url }}" target="_blank">{{ post.source }}</a>
-                </span>
-            </div>
         </article>
         {% endfor %}
     </div>
 </div>
-
-<script src="{{ site.baseurl }}/assets/js/news.js"></script>
