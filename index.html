@@ -1,0 +1,66 @@
+---
+layout: default
+title: Home
+---
+
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Welcome to Daily News Learning</h1>
+        <p>Improve your language skills through curated news articles and structured learning materials.</p>
+        <a href="{{ site.baseurl }}/news/" class="cta-button">Start Reading →</a>
+    </div>
+</div>
+
+<div class="features-section">
+    <div class="container">
+        <h2 class="section-title">Why Choose Daily News Learning?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📰</div>
+                <h3>Curated Content</h3>
+                <p>Carefully selected news articles suitable for language learners</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Vocabulary Focus</h3>
+                <p>Key vocabulary explanations and examples with each article</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💭</div>
+                <h3>Discussion Questions</h3>
+                <p>Thought-provoking questions to enhance comprehension</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌍</div>
+                <h3>Real-World Context</h3>
+                <p>Learn language through current events and authentic materials</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="latest-news-section">
+    <div class="container">
+        <h2 class="section-title">Latest Articles</h2>
+        <div class="articles-preview">
+            {% for post in site.posts limit:3 %}
+            <article class="article-card">
+                <div class="article-meta">
+                    <span class="category">{{ post.category }}</span>
+                    <time class="date">{{ post.date | date: "%B %-d, %Y" }}</time>
+                </div>
+                <h3 class="article-title">
+                    <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+                </h3>
+                {% if post.excerpt %}
+                <p class="excerpt">{{ post.excerpt }}</p>
+                {% endif %}
+                <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More →</a>
+            </article>
+            {% endfor %}
+        </div>
+        <div class="view-all">
+            <a href="{{ site.baseurl }}/news/" class="view-all-button">View All Articles</a>
+        </div>
+    </div>
+</div>
