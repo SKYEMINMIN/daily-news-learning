@@ -78,3 +78,177 @@ body {
         grid-template-columns: 1fr;
     }
 }
+/* Article page styles */
+.article-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 20px;
+}
+
+.article {
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.article-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.article-meta {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.article-category {
+    background-color: #2a4494;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.article-date {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.article-title {
+    font-size: 2rem;
+    color: #333;
+    margin: 1rem 0;
+    line-height: 1.3;
+}
+
+.article-source {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+.article-source a {
+    color: #2a4494;
+    text-decoration: none;
+}
+
+.article-content {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #333;
+}
+
+.article-content h2 {
+    color: #2a4494;
+    margin: 2rem 0 1rem;
+    font-size: 1.5rem;
+}
+
+.article-content h3 {
+    color: #333;
+    margin: 1.5rem 0 1rem;
+    font-size: 1.3rem;
+}
+
+.article-content p {
+    margin-bottom: 1.5rem;
+}
+
+.article-content ul, .article-content ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+/* Vocabulary section */
+.vocabulary-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+}
+
+.vocabulary-list {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.vocabulary-item {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 6px;
+}
+
+.vocabulary-item h3 {
+    color: #2a4494;
+    margin: 0 0 0.5rem;
+    font-size: 1.2rem;
+}
+
+.definition {
+    margin-bottom: 0.5rem;
+}
+
+.example {
+    color: #666;
+    font-style: italic;
+}
+
+/* Discussion section */
+.discussion-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+}
+
+.discussion-questions {
+    list-style-type: none;
+    padding: 0;
+}
+
+.discussion-questions li {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+}
+
+/* Article footer */
+.article-footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+}
+
+.back-to-news {
+    display: inline-block;
+    color: #2a4494;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.back-to-news:hover {
+    text-decoration: underline;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .article-container {
+        padding: 0 15px;
+    }
+
+    .article {
+        padding: 1.5rem;
+    }
+
+    .article-title {
+        font-size: 1.75rem;
+    }
+
+    .vocabulary-list {
+        grid-template-columns: 1fr;
+    }
+}
