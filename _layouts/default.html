@@ -3,30 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
+    <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
 </head>
 <body>
-    <header>
-        <nav class="main-nav">
-            <div class="site-title">
-                <a href="{{ site.baseurl }}/">Daily News Learning Hub</a>
-            </div>
-            <div class="nav-links">
-                <a href="{{ site.baseurl }}/">Home</a>
-                <a href="{{ site.baseurl }}/news">News</a>
-                <a href="{{ site.baseurl }}/about">About</a>
-            </div>
-        </nav>
-    </header>
+    <nav class="site-nav">
+        <div class="nav-container">
+            <a href="{{ site.baseurl }}/" class="site-title">{{ site.title }}</a>
+            <a href="{{ site.baseurl }}/news/" class="nav-link">News</a>
+        </div>
+    </nav>
 
-    <main>
+    <main class="site-content">
         {{ content }}
     </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; {{ site.time | date: '%Y' }} Daily News Learning Hub. All rights reserved.</p>
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>&copy; {{ site.time | date: '%Y' }} {{ site.title }}. All rights reserved.</p>
         </div>
     </footer>
 </body>

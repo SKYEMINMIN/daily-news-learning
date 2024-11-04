@@ -1,13 +1,26 @@
 title: Daily News Learning
+description: Daily news for language learning
 baseurl: "/daily-news-learning"
 url: "https://skyeminmin.github.io"
-markdown: kramdown
 
 # Build settings
-plugins:
-  - jekyll-feed
+markdown: kramdown
+permalink: /:year/:month/:day/:title/
 
-# Exclude files from processing
+# Collections
+collections:
+  posts:
+    output: true
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+
+# Exclude from processing
 exclude:
   - Gemfile
   - Gemfile.lock
