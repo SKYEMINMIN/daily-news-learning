@@ -6,13 +6,30 @@ title: Daily News Learning
 <header class="site-header">
     <h1 class="site-title">Daily News Learning</h1>
     <p class="site-description">Improve your English through daily news reading</p>
+    <nav class="main-nav">
+        <a href="{{ site.baseurl }}/" class="nav-link active">Home</a>
+        <a href="{{ site.baseurl }}/news" class="nav-link">News</a>
+        <a href="{{ site.baseurl }}/about" class="nav-link">About</a>
+    </nav>
 </header>
 
 <main class="home-content">
+    <section class="welcome-section">
+        <h2>Welcome to Daily News Learning!</h2>
+        <p>Learn English effectively through real-world news articles. Each article comes with:</p>
+        <ul class="feature-list">
+            <li>📰 Current news content</li>
+            <li>📚 Key vocabulary explanations</li>
+            <li>🔍 Grammar points</li>
+            <li>💡 Discussion questions</li>
+        </ul>
+    </section>
+
     <section class="latest-news">
         <h2 class="section-title">Latest News</h2>
+        {% if site.posts.size > 0 %}
         <div class="news-grid">
-            {% for post in site.posts limit:5 %}
+            {% for post in site.posts limit:3 %}
             <article class="news-card">
                 <div class="news-date">{{ post.date | date: "%B %d, %Y" }}</div>
                 <h3 class="news-title">
@@ -20,7 +37,7 @@ title: Daily News Learning
                 </h3>
                 {% if post.excerpt %}
                 <div class="news-excerpt">
-                    {{ post.excerpt | truncate: 100 }}
+                    {{ post.excerpt | truncate: 150 }}
                 </div>
                 {% endif %}
                 <a href="{{ post.url | relative_url }}" class="read-more">Read More →</a>
@@ -28,7 +45,31 @@ title: Daily News Learning
             {% endfor %}
         </div>
         <div class="view-all">
-            <a href="{{ '/news' | relative_url }}" class="button">View All News</a>
+            <a href="{{ '/news' | relative_url }}" class="button">View All Articles</a>
+        </div>
+        {% else %}
+        <p class="no-posts">New articles coming soon!</p>
+        {% endif %}
+    </section>
+
+    <section class="getting-started">
+        <h2 class="section-title">How to Get Started</h2>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Choose an Article</h3>
+                <p>Browse our collection of curated news articles</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Study the Content</h3>
+                <p>Read the article and review vocabulary</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Practice</h3>
+                <p>Complete exercises and discuss</p>
+            </div>
         </div>
     </section>
 </main>
