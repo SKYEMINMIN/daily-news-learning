@@ -4,13 +4,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
-            const category = button.getAttribute('data-category');
-            
-            // Update active button
+            // Remove active class from all buttons
             filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
             button.classList.add('active');
 
-            // Filter articles
+            const category = button.getAttribute('data-category');
+            
             articles.forEach(article => {
                 if (category === 'all' || article.getAttribute('data-category') === category) {
                     article.style.display = 'block';

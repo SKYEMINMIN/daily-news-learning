@@ -1,11 +1,11 @@
 /* Base styles */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.6;
-    color: #333;
-    background-color: #f5f5f5;
     margin: 0;
     padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
 }
 
 .container {
@@ -58,7 +58,7 @@ header {
 
 /* News page styles */
 .news-container {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
 }
@@ -85,10 +85,11 @@ header {
     color: white;
 }
 
-.articles-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+.articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
 }
 
 .article-card {
@@ -100,36 +101,37 @@ header {
 }
 
 .article-card:hover {
-    transform: translateY(-2px);
-}
-
-.article-meta {
-    display: flex;
-    gap: 1rem;
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 0.5rem;
+    transform: translateY(-5px);
 }
 
 .article-category {
+    display: inline-block;
     background-color: #2a4494;
     color: white;
-    padding: 0.2rem 0.5rem;
+    padding: 0.2rem 0.8rem;
     border-radius: 4px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
 }
 
-.article-title {
+.article-card h2 {
     margin: 0.5rem 0;
+    font-size: 1.2rem;
 }
 
-.article-title a {
+.article-card h2 a {
     color: #333;
     text-decoration: none;
 }
 
-.article-source {
+.article-meta {
     font-size: 0.9rem;
     color: #666;
+    margin-top: 1rem;
+}
+
+.article-date {
+    margin-right: 1rem;
 }
 
 .article-source a {
@@ -137,124 +139,13 @@ header {
     text-decoration: none;
 }
 
-/* Post page styles */
-.post {
-    max-width: 800px;
-    margin: 0 auto;
-    background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.post-header {
-    margin-bottom: 2rem;
-}
-
-.vocabulary-section, 
-.discussion-section {
-    margin-top: 2rem;
-    padding: 1.5rem;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-}
-
-.vocabulary-list {
-    list-style: none;
-    padding: 0;
-}
-
-.vocabulary-list li {
-    margin-bottom: 1rem;
-}
-
-.example {
-    color: #666;
-    font-style: italic;
-    margin-left: 1rem;
-}
-/* Home page styles */
-.featured-article {
-    background: white;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.featured-article h3 {
-    margin: 0 0 1rem 0;
-}
-
-.featured-article a {
-    color: #2a4494;
-    text-decoration: none;
-}
-
-.featured-article .article-meta {
-    font-size: 0.9rem;
-    color: #666;
-}
-
-.featured-article .category {
-    background-color: #2a4494;
-    color: white;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    margin-right: 1rem;
-}
-/* Home page specific styles */
-.home-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-.welcome-section {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.welcome-section h1 {
-    font-size: 2.5rem;
-    color: #2a4494;
-    margin-bottom: 1rem;
-}
-
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-}
-
-.feature-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    text-align: center;
-}
-
-.feature-card h3 {
-    color: #2a4494;
-    margin-bottom: 1rem;
-}
-
-/* Article specific styles */
-.article-content {
-    max-width: 800px;
-    margin: 0 auto;
-    background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.vocabulary-section,
-.discussion-section {
-    margin-top: 2rem;
-    padding: 1.5rem;
-    background: #f8f9fa;
-    border-radius: 8px;
+/* Responsive design */
+@media (max-width: 768px) {
+    .articles-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .category-filters {
+        flex-wrap: wrap;
+    }
 }
