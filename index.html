@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Test Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Test</title>
 </head>
 <body>
-    <h1>Test Page - Version 3</h1>
-    <p>Testing site access: <script>document.write(new Date().toLocaleString());</script></p>
+    <h1>Test Page - New Setup</h1>
+    <p>Testing GitHub Pages deployment</p>
+    <p>Last updated: <span id="datetime"></span></p>
+    <script>
+        document.getElementById("datetime").textContent = new Date().toLocaleString();
+    </script>
 </body>
 </html>
