@@ -5,6 +5,7 @@ url: "https://skyeminmin.github.io"
 
 # Build settings
 markdown: kramdown
-theme: minima
+
+# Remove theme setting as we're using custom layout
 plugins:
   - jekyll-feed
