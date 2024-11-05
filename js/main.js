@@ -88,3 +88,18 @@ def main():
 
 if __name__ == "__main__":
     main()
+// 更新 formatDate 函数
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: 'UTC',
+        timeZoneName: 'short'
+    }).format(date);
+}
+
+// 其余代码保持不变...
