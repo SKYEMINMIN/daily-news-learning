@@ -1,74 +1,31 @@
 {
-    "ai": [
-        {
-            "title": "ChatGPT Gets Major Privacy & Data Controls in New Settings Update",
-            "link": "https://www.searchenginejournal.com/chatgpt-privacy-data-controls-settings/494942/"
-        },
-        {
-            "title": "Microsoft to Roll Out AI Chatbot Copilot to All Windows 11 Users",
-            "link": "https://www.theverge.com/2024/2/23/windows-11-copilot-ai-global-rollout"
-        },
-        {
-            "title": "Anthropic Integrates Claude AI Into Notion's Workspace Platform",
-            "link": "https://techcrunch.com/2024/02/22/anthropic-claude-notion-integration/"
-        },
-        {
-            "title": "Google DeepMind Announces Breakthrough in AI Drug Discovery",
-            "link": "https://www.nature.com/articles/d41586-024-00429-6"
-        }
-    ],
-    "entertainment": [
-        {
-            "title": "Taylor Swift's 'The Tortured Poets Department' Breaks Pre-Save Record",
-            "link": "https://variety.com/2024/music/news/taylor-swift-tortured-poets-department-presave-record-1235916163/"
-        },
-        {
-            "title": "'Dune: Part Two' Set for Epic $80M Opening Weekend",
-            "link": "https://deadline.com/2024/02/dune-part-two-opening-weekend-box-office-1235816290/"
-        },
-        {
-            "title": "Netflix Announces 'Squid Game' Season 2 Release Window",
-            "link": "https://www.hollywoodreporter.com/tv/tv-news/squid-game-season-2-release-date-netflix-1235842903/"
-        },
-        {
-            "title": "Marvel's 'Deadpool & Wolverine' Trailer Breaks Viewing Records",
-            "link": "https://variety.com/2024/film/news/deadpool-3-trailer-breaks-viewing-records-1235891742/"
-        }
-    ],
-    "finance": [
-        {
-            "title": "Nvidia's Market Value Surges Past $2 Trillion on AI Boom",
-            "link": "https://www.reuters.com/technology/nvidia-crosses-2-trillion-market-value-ai-boom-2024-02-23/"
-        },
-        {
-            "title": "Bitcoin Surpasses $52,000 as Cryptocurrency Rally Continues",
-            "link": "https://www.cnbc.com/2024/02/23/bitcoin-price-cryptocurrency-rally/"
-        },
-        {
-            "title": "Federal Reserve Minutes Signal Patience on Rate Cuts",
-            "link": "https://www.wsj.com/economy/central-banking/federal-reserve-minutes-signal-patience-on-rate-cuts-6ea7e309"
-        },
-        {
-            "title": "Warren Buffett's Berkshire Hathaway Reports Record Annual Profit",
-            "link": "https://www.ft.com/content/berkshire-hathaway-annual-results-2023"
-        }
-    ],
-    "politics": [
-        {
-            "title": "Biden and Trump Both Visit U.S.-Mexico Border Amid Immigration Debate",
-            "link": "https://www.nytimes.com/2024/02/23/us/politics/biden-trump-border-texas.html"
-        },
-        {
-            "title": "Putin Critic Alexei Navalny's Death Sparks Global Condemnation",
-            "link": "https://www.bbc.com/news/world-europe-68223836"
-        },
-        {
-            "title": "Ukraine Marks Two Years of War as Global Support Wavers",
-            "link": "https://apnews.com/article/russia-ukraine-war-anniversary-casualties-af902393401628c23f83a4088c820086"
-        },
-        {
-            "title": "U.S. House Passes Bill to Avert Government Shutdown",
-            "link": "https://www.reuters.com/world/us/us-congress-races-pass-funding-bill-avert-partial-government-shutdown-2024-02-23/"
-        }
-    ]
+  "metadata": {
+    "last_updated": "2024-11-05T11:41:02.791216+00:00"
+  },
+  "news": {
+    "ai": {
+      "title": "The environmental campaigners fighting against data centres",
+      "url": "https://www.bbc.com/news/articles/cz0mlrx0jxno",
+      "source": "BBC News",
+      "time": "2024-11-04T00:01:32Z"
+    },
+    "entertainment": {
+      "title": "Quincy Jones on gangsters, David Bowie and Picasso",
+      "url": "https://www.bbc.com/news/videos/c4gp7z3d22zo",
+      "source": "BBC News",
+      "time": "2024-11-04T10:48:23Z"
+    },
+    "finance": {
+      "title": "New Tory leader Badenoch starts appointing top team",
+      "url": "https://www.bbc.com/news/articles/cj9n304z0x7o",
+      "source": "BBC News",
+      "time": "2024-11-04T11:01:08Z"
+    },
+    "politics": {
+      "title": "New Tory leader Badenoch starts appointing top team",
+      "url": "https://www.bbc.com/news/articles/cj9n304z0x7o",
+      "source": "BBC News",
+      "time": "2024-11-04T11:01:08Z"
+    }
+  }
 }
