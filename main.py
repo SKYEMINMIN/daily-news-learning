@@ -9,10 +9,8 @@ API_KEY = '70c47808e1fc40f2bb4450e822b5f2fc'
 BASE_URL = 'https://newsapi.org/v2/everything'
 
 def search_news(query):
-    """
-    使用 NewsAPI 获取新闻
-    """
     try:
+        # 添加正确的请求头
         headers = {
             'X-Api-Key': API_KEY,
             'User-Agent': 'Mozilla/5.0'
@@ -25,12 +23,17 @@ def search_news(query):
             'pageSize': 1
         }
         
+        # 不要在params中包含apiKey
         response = requests.get(BASE_URL, headers=headers, params=params)
-        response.raise_for_status()
         
+        # 打印响应状态码和内容（用于调试）
+        print(f"Status Code: {response.status_code}")
+        print(f"Response: {response.text[:200]}...")  # 只打印前200个字符
+        
+        response.raise_for_status()
         data = response.json()
         
-        if data['status'] == 'ok' and data['totalResults'] > 0:
+        if data.get('status') == 'ok' and data.get('articles'):
             article = data['articles'][C_0]()
             return {
                 "title": article['title'],
@@ -38,7 +41,15 @@ def search_news(query):
                 "source": article['source']['name'],
                 "time": article['publishedAt']
             }
-        return None
+            
+    except requests.exceptions.RequestException as e:
+        print(f"Request error for {query}: {e}")
+    except json.JSONDecodeError as e:
+        print(f"JSON decode error: {e}")
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+    return None
+
             
     except Exception as e:
         print(f"Error fetching news for {query}: {e}")
