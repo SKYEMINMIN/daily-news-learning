@@ -3,8 +3,6 @@ from datetime import datetime
 
 def search_news():
     try:
-        news_list = []
-        
         # 使用 search API 获取新闻
         response = requests.get('https://api.example.com/news')  # 替换为实际的新闻 API
         
