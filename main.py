@@ -1,56 +1,39 @@
 import requests
+import json
+import os
 from datetime import datetime
+import pytz
 
-def search_news():
-    try:
-        # 使用提供的搜索函数获取实际新闻
-        search_response = requests.get(
-            'https://api.bing.microsoft.com/v7.0/news/search',
-            params={
-                'q': '今日要闻',
-                'mkt': 'zh-CN',
-                'count': 5
-            })
-        
-        # 提供一些默认新闻作为备用
-        news_list = [
-            {"name": "两会热点话题追踪", 
-             "url": "http://www.news.cn/politics/"},
-            {"name": "新能源汽车产业发展报告发布", 
-             "url": "http://www.news.cn/auto/"},
-            {"name": "科技创新助力经济高质量发展",
-             "url": "http://www.news.cn/tech/"},
-            {"name": "教育改革新政策解读",
-             "url": "http://www.news.cn/edu/"},
-            {"name": "医疗健康产业新发展",
-             "url": "http://www.news.cn/health/"}
-        ]
-        
-        return news_list
-    except Exception as e:
-        print(f"Error in search_news: {str(e)}")
-        return [{"name": "获取新闻失败，请稍后再试", "url": "#"}]
+def search_news(keywords):
+    # 这里需要实现实际的新闻搜索逻辑
+    # 示例返回格式
+    return {
+        "title": f"Sample news about {keywords}",
+        "url": "https://example.com",
+        "source": "Sample Source",
+        "time": datetime.now(pytz.UTC).isoformat()
+    }
 
-def update_html():
-    news = search_news()
-    try:
-        with open('index.html', 'r', encoding='utf-8') as file:
-            html_content = file.read()
-        
-        news_html = "\n".join([f'<li><a href="{item["url"]}" target="_blank">{item["name"]}</a></li>' for item in news])
-        
-        # 使用正确的占位符进行替换
-        updated_html = html_content.replace('[NEWS_CONTENT]', news_html)
-        
-        with open('index.html', 'w', encoding='utf-8') as file:
-            file.write(updated_html)
-        
-        print("HTML updated successfully!")
-        for item in news:
-            print(f"- {item['name']}")
-            
-    except Exception as e:
-        print(f"Error updating HTML: {str(e)}")
+def save_news_json(category, news):
+    # 确保 data 目录存在
+    os.makedirs('data', exist_ok=True)
+    
+    # 保存到对应的 JSON 文件
+    filename = f'data/{category.lower()}.json'
+    with open(filename, 'w', encoding='utf-8') as f:
+        json.dump(news, f, ensure_ascii=False, indent=2)
+
+def main():
+    categories = {
+        'AI': 'artificial intelligence',
+        'Entertainment': 'entertainment',
+        'Finance': 'finance',
+        'Politics': 'politics'
+    }
+    
+    for category, keywords in categories.items():
+        news = search_news(keywords)
+        save_news_json(category, news)
 
 if __name__ == "__main__":
-    update_html()
+    main()
