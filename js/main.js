@@ -13,7 +13,9 @@ function formatDate(dateString) {
 // 更新时间显示
 function updateDateTime() {
     const dateElement = document.getElementById('datetime');
-    dateElement.textContent = formatDate(new Date());
+    if (dateElement) {
+        dateElement.textContent = formatDate(new Date());
+    }
 }
 
 // 创建新闻卡片的HTML
@@ -36,16 +38,18 @@ function createNewsCard(news) {
 }
 
 // 加载新闻数据
-async function loadNews(category) {
+async function loadAllNews() {
     try {
-        console.log(`Loading ${category} news...`);
-        const response = await fetch(`data/${category.toLowerCase()}.json`);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        console.log('Loading news data...');
+        const response = await fetch('data/news.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
-        console.log(`${category} news loaded:`, data);
+        console.log('News data loaded:', data);
         return data;
     } catch (error) {
-        console.error(`Error loading ${category} news:`, error);
+        console.error('Error loading news:', error);
         return null;
     }
 }
@@ -55,21 +59,25 @@ async function initializePage() {
     console.log('Initializing page...');
     updateDateTime();
     
+    const newsData = await loadAllNews();
+    if (!newsData) {
+        console.error('Failed to load news data');
+        return;
+    }
+    
     const categories = ['ai', 'entertainment', 'finance', 'politics'];
     
-    for (const category of categories) {
+    categories.forEach(category => {
         const container = document.getElementById(`${category}-news`);
         if (!container) {
             console.error(`Container for ${category} not found`);
-            continue;
+            return;
         }
         
-        container.innerHTML = '<div class="notion-loading">Loading...</div>';
-        
-        const news = await loadNews(category);
+        const news = newsData[category];
         container.innerHTML = news ? createNewsCard(news) : 
-            '<div class="notion-error">Failed to load news</div>';
-    }
+            '<div class="notion-error">No news available</div>';
+    });
 }
 
 // 当页面加载完成时初始化
