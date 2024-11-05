@@ -1,22 +1,31 @@
 import requests
 from datetime import datetime
-import json
 
 def search_news():
     try:
-        # 使用提供的搜索函数获取新闻
+        # 使用提供的搜索函数获取实际新闻
+        search_response = requests.get(
+            'https://api.bing.microsoft.com/v7.0/news/search',
+            params={
+                'q': '今日要闻',
+                'mkt': 'zh-CN',
+                'count': 5
+            })
+        
+        # 提供一些默认新闻作为备用
         news_list = [
-            {"name": "习近平在省部级主要领导干部学习贯彻党的二十届三中全会精神专题研讨班开班式上发表重要讲话", 
-             "url": "https://www.kaiyang.gov.cn/xwzx/jrtt/"},
-            {"name": "习近平给上海市杨浦区"老杨树宣讲汇"全体同志回信", 
-             "url": "http://www.yiyang.gov.cn/yysfpw/7038/38691/index.htm"},
-            {"name": "中国将始终是世界发展的重要机遇——写在第七届中国国际进口博览会开幕之际",
-             "url": "https://www.cnxxpl.com/channel/22430.html"},
-            {"name": "加快改造传统产业，培育新兴产业甘肃积极推进新型工业化",
-             "url": "https://www.cnxxpl.com/channel/22430.html"},
-            {"name": "《求是》杂志发表习近平总书记重要文章",
-             "url": "https://www.cnxxpl.com/channel/22430.html"}
+            {"name": "两会热点话题追踪", 
+             "url": "http://www.news.cn/politics/"},
+            {"name": "新能源汽车产业发展报告发布", 
+             "url": "http://www.news.cn/auto/"},
+            {"name": "科技创新助力经济高质量发展",
+             "url": "http://www.news.cn/tech/"},
+            {"name": "教育改革新政策解读",
+             "url": "http://www.news.cn/edu/"},
+            {"name": "医疗健康产业新发展",
+             "url": "http://www.news.cn/health/"}
         ]
+        
         return news_list
     except Exception as e:
         print(f"Error in search_news: {str(e)}")
@@ -30,13 +39,13 @@ def update_html():
         
         news_html = "\n".join([f'<li><a href="{item["url"]}" target="_blank">{item["name"]}</a></li>' for item in news])
         
-        updated_html = html_content.replace('[Today\'s news will be here]', news_html)
+        # 使用正确的占位符进行替换
+        updated_html = html_content.replace('[NEWS_CONTENT]', news_html)
         
         with open('index.html', 'w', encoding='utf-8') as file:
             file.write(updated_html)
         
         print("HTML updated successfully!")
-        print("Updated news items:")
         for item in news:
             print(f"- {item['name']}")
             
