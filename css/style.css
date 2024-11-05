@@ -1,150 +1,97 @@
-:root {
-    /* Base colors */
-    --notion-font: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif;
-    --notion-bg: #ffffff;
-    --notion-text: rgb(55, 53, 47);
-    --notion-gray: rgba(55, 53, 47, 0.65);
-    --notion-border: rgba(55, 53, 47, 0.09);
-    --notion-spacing: 1.5rem;
-    
-    /* Shadow */
-    --notion-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, 
-                    rgba(15, 15, 15, 0.1) 0px 2px 4px;
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --notion-bg: #191919;
-        --notion-text: rgba(255, 255, 255, 0.9);
-        --notion-gray: rgba(255, 255, 255, 0.5);
-        --notion-border: rgba(255, 255, 255, 0.13);
-    }
-}
-
-body.notion-body {
-    font-family: var(--notion-font);
-    background: var(--notion-bg);
-    color: var(--notion-text);
-    margin: 0;
-    padding: 0;
-    line-height: 1.5;
-    transition: background-color 0.3s ease;
-}
-
-.notion-container {
-    max-width: 900px;
+/* Study Page Styles */
+.notion-article {
+    max-width: 800px;
     margin: 0 auto;
-    padding: var(--notion-spacing);
+    padding: 20px;
 }
 
-.notion-header {
-    margin-bottom: 3rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--notion-border);
+.notion-back-link {
+    display: inline-block;
+    padding: 8px 16px;
+    color: var(--notion-gray-text);
+    text-decoration: none;
+    margin-bottom: 20px;
 }
 
-.notion-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin: 0;
-    letter-spacing: -0.02em;
-}
-
-.notion-card {
-    background: var(--notion-bg);
+.notion-paragraph {
+    margin-bottom: 24px;
+    padding: 16px;
+    background: var(--notion-gray-light);
     border-radius: 4px;
-    padding: 1.2rem;
-    margin-bottom: 1.2rem;
-    box-shadow: var(--notion-shadow);
-    transition: all 0.2s ease;
 }
 
-.notion-card:hover {
-    transform: translateY(-1px);
-    box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px,
-                rgba(15, 15, 15, 0.1) 0px 3px 6px,
-                rgba(15, 15, 15, 0.2) 0px 9px 24px;
+.original-text {
+    margin-bottom: 12px;
+    line-height: 1.6;
 }
 
-.notion-section {
-    margin-bottom: 2.5rem;
+.paragraph-translation {
+    color: var(--notion-gray-text);
+    font-size: 0.95em;
+    line-height: 1.6;
 }
 
-.notion-section-header {
+.highlight-word {
+    background-color: #ffeeba;
+    padding: 0 2px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.vocab-card {
+    margin-bottom: 16px;
+    padding: 16px;
+    border: 1px solid var(--notion-gray-light);
+    border-radius: 4px;
+}
+
+.word-header {
     display: flex;
     align-items: center;
-    margin-bottom: 1rem;
-    padding: 0.5rem 0;
+    margin-bottom: 8px;
 }
 
-/* News content styles */
-.notion-news-title {
-    font-size: 1.1rem;
-    font-weight: 500;
-    margin: 0 0 0.5rem 0;
+.word {
+    font-weight: bold;
+    margin-right: 12px;
 }
 
-.notion-news-title a {
-    color: var(--notion-text);
-    text-decoration: none;
+.phonetic {
+    color: var(--notion-gray-text);
 }
 
-.notion-news-title a:hover {
-    text-decoration: underline;
+.word-pos {
+    color: #666;
+    font-style: italic;
+    margin-bottom: 4px;
 }
 
-.notion-news-meta {
-    font-size: 0.9rem;
-    color: var(--notion-gray);
+.word-meaning {
+    margin-bottom: 8px;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-    .notion-container {
-        padding: 1rem;
-    }
-    
-    .notion-title {
-        font-size: 2rem;
-    }
-    
-    .notion-card {
-        padding: 1rem;
-    }
-}
-/* 添加到现有的 style.css 末尾 */
-
-/* Loading state */
-.notion-loading {
-    color: var(--notion-gray);
-    text-align: center;
-    padding: 1rem;
+.word-example {
+    color: var(--notion-gray-text);
+    font-style: italic;
 }
 
-/* Error state */
+.question-card {
+    margin-bottom: 20px;
+    padding: 16px;
+    background: var(--notion-gray-light);
+    border-radius: 4px;
+}
+
+.question {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.answer {
+    color: var(--notion-gray-text);
+}
+
 .notion-error {
-    color: #ff4d4f;
     text-align: center;
-    padding: 1rem;
-}
-
-/* News item styles */
-.notion-news-item {
-    padding: 0.5rem 0;
-}
-
-.notion-news-meta {
-    display: flex;
-    gap: 1rem;
-    color: var(--notion-gray);
-    font-size: 0.9rem;
-}
-
-.notion-news-source {
-    font-weight: 500;
-}
-
-.notion-news-time {
-    color: var(--notion-gray);
+    padding: 40px;
 }
