@@ -1,99 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
-    <title>Daily News Learning</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日新闻更新</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            max-width: 900px;
+            font-family: Arial, sans-serif;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 2rem;
-            background: #ffffff;
+            padding: 20px;
         }
-        .header {
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #eee;
-        }
-        .date {
-            color: #666;
-            font-size: 0.9rem;
-        }
-        .category {
-            display: inline-block;
-            padding: 0.2rem 0.8rem;
-            margin: 0.2rem;
-            border-radius: 3px;
-            font-size: 0.9rem;
-        }
-        .ai { background: #f0f7ff; color: #0066cc; }
-        .finance { background: #f0fff4; color: #00802b; }
-        .entertainment { background: #fff0f7; color: #cc0066; }
-        .news-item {
-            margin-bottom: 2rem;
-            padding: 1rem;
-            border-radius: 5px;
-            background: #fafafa;
-        }
-        .news-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        .news-source {
-            font-size: 0.8rem;
-            color: #666;
+        .news-container {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Daily News Learning</h1>
-        <p class="date">Updated: <span id="current-date"></span></p>
-    </div>
-
+    <h1>每日新闻</h1>
     <div class="news-container">
-        <!-- AI News -->
-        <div class="news-item">
-            <span class="category ai">AI</span>
-            <div class="news-title">Daily AI Headlines</div>
-            <div class="news-content">
-                <p>[Today's AI news will be here]</p>
-            </div>
-            <div class="news-source">Source: [Source Name]</div>
-        </div>
-
-        <!-- Finance News -->
-        <div class="news-item">
-            <span class="category finance">Finance</span>
-            <div class="news-title">Daily Finance Headlines</div>
-            <div class="news-content">
-                <p>[Today's finance news will be here]</p>
-            </div>
-            <div class="news-source">Source: [Source Name]</div>
-        </div>
-
-        <!-- Entertainment News -->
-        <div class="news-item">
-            <span class="category entertainment">Entertainment</span>
-            <div class="news-title">Daily Entertainment Headlines</div>
-            <div class="news-content">
-                <p>[Today's entertainment news will be here]</p>
-            </div>
-            <div class="news-source">Source: [Source Name]</div>
-        </div>
+        <ul>
+            [Today's news will be here]
+        </ul>
     </div>
-
+    <footer>
+        <p>最后更新时间: <span id="update-time"></span></p>
+    </footer>
     <script>
-        document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', { 
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
+        document.getElementById('update-time').textContent = new Date().toLocaleString();
     </script>
 </body>
 </html>
