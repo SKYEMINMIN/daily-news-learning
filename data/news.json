@@ -1,31 +1,154 @@
 {
-  "metadata": {
-    "last_updated": "2024-11-05T11:41:39.357428+00:00"
-  },
-  "news": {
-    "ai": {
-      "title": "The environmental campaigners fighting against data centres",
-      "url": "https://www.bbc.com/news/articles/cz0mlrx0jxno",
-      "source": "BBC News",
-      "time": "2024-11-04T00:01:32Z"
-    },
-    "entertainment": {
-      "title": "Quincy Jones on gangsters, David Bowie and Picasso",
-      "url": "https://www.bbc.com/news/videos/c4gp7z3d22zo",
-      "source": "BBC News",
-      "time": "2024-11-04T10:48:23Z"
-    },
-    "finance": {
-      "title": "New Tory leader Badenoch starts appointing top team",
-      "url": "https://www.bbc.com/news/articles/cj9n304z0x7o",
-      "source": "BBC News",
-      "time": "2024-11-04T11:01:08Z"
-    },
-    "politics": {
-      "title": "New Tory leader Badenoch starts appointing top team",
-      "url": "https://www.bbc.com/news/articles/cj9n304z0x7o",
-      "source": "BBC News",
-      "time": "2024-11-04T11:01:08Z"
-    }
-  }
+    "ai": [
+        {
+            "id": "ai-001",
+            "title": "ChatGPT Gets Major Privacy & Data Controls in New Settings Update",
+            "translation": {
+                "title": "ChatGPT推出重大隐私和数据控制设置更新",
+                "content": ["OpenAI在最新更新中为ChatGPT添加了更强大的隐私和数据控制功能。用户现在可以更好地管理他们的对话历史记录，并对其数据的使用方式有更多控制权。", "这些新功能包括选择性历史记录保存、数据使用偏好设置，以及更清晰的隐私政策说明。这些改进旨在增强用户对其个人信息的控制，同时保持服务的高质量。"]
+            },
+            "vocabulary": [
+                {
+                    "word": "privacy",
+                    "translation": "隐私",
+                    "example": "Privacy is a fundamental human right."
+                },
+                {
+                    "word": "controls",
+                    "translation": "控制",
+                    "example": "The new system has better security controls."
+                },
+                {
+                    "word": "settings",
+                    "translation": "设置",
+                    "example": "You can change your privacy settings in the menu."
+                }
+            ],
+            "questions": [
+                {
+                    "question": "What are the main new features added to ChatGPT in this update?",
+                    "answer": "The main new features include enhanced privacy controls, data management options, and clearer privacy policy explanations."
+                },
+                {
+                    "question": "Why did OpenAI make these changes?",
+                    "answer": "OpenAI made these changes to give users more control over their personal information while maintaining service quality."
+                }
+            ],
+            "link": "https://www.searchenginejournal.com/chatgpt-privacy-data-controls-settings/494942/"
+        }
+    ],
+    "entertainment": [
+        {
+            "id": "ent-001",
+            "title": "Taylor Swift's 'The Tortured Poets Department' Breaks Pre-Save Record",
+            "translation": {
+                "title": "泰勒·斯威夫特《受困诗人部》打破预存记录",
+                "content": ["泰勒·斯威夫特即将发行的新专辑《受困诗人部》在Spotify上创下了预存量新纪录。", "这张专辑预计将在今年4月19日发行，已经获得了数百万粉丝的预存支持，展示了斯威夫特持续增长的全球影响力。"]
+            },
+            "vocabulary": [
+                {
+                    "word": "tortured",
+                    "translation": "受折磨的",
+                    "example": "The tortured artist spent years perfecting his craft."
+                },
+                {
+                    "word": "department",
+                    "translation": "部门；系",
+                    "example": "She works in the marketing department."
+                },
+                {
+                    "word": "pre-save",
+                    "translation": "预存",
+                    "example": "Fans can pre-save the album before its release."
+                }
+            ],
+            "questions": [
+                {
+                    "question": "When will Taylor Swift's new album be released?",
+                    "answer": "The album will be released on April 19th, 2024."
+                },
+                {
+                    "question": "What record did the album break?",
+                    "answer": "The album broke the pre-save record on Spotify."
+                }
+            ],
+            "link": "https://variety.com/2024/music/news/taylor-swift-tortured-poets-department-presave-record-1235916163/"
+        }
+    ],
+    "finance": [
+        {
+            "id": "fin-001",
+            "title": "Nvidia's Market Value Surges Past $2 Trillion on AI Boom",
+            "translation": {
+                "title": "英伟达市值在AI热潮推动下突破2万亿美元",
+                "content": ["在人工智能需求持续增长的推动下，芯片制造商英伟达的市值突破2万亿美元大关。", "公司最新的财报显示其AI芯片销售强劲增长，推动股价创下历史新高。这一里程碑使英伟达成为继苹果、微软和沙特阿美之后，全球第四家突破2万亿美元市值的上市公司。"]
+            },
+            "vocabulary": [
+                {
+                    "word": "surge",
+                    "translation": "激增；暴涨",
+                    "example": "The company's stock price surged after the announcement."
+                },
+                {
+                    "word": "trillion",
+                    "translation": "万亿",
+                    "example": "The company's value exceeded two trillion dollars."
+                },
+                {
+                    "word": "boom",
+                    "translation": "繁荣；迅速发展",
+                    "example": "The tech industry is experiencing a massive boom."
+                }
+            ],
+            "questions": [
+                {
+                    "question": "What milestone did Nvidia achieve?",
+                    "answer": "Nvidia's market value surpassed $2 trillion."
+                },
+                {
+                    "question": "What is driving Nvidia's growth?",
+                    "answer": "The growth is driven by strong AI chip sales and increasing demand for artificial intelligence technology."
+                }
+            ],
+            "link": "https://www.reuters.com/technology/nvidia-crosses-2-trillion-market-value-ai-boom-2024-02-23/"
+        }
+    ],
+    "politics": [
+        {
+            "id": "pol-001",
+            "title": "Ukraine Marks Two Years of War as Global Support Wavers",
+            "translation": {
+                "title": "乌克兰战争两周年之际，全球支持出现动摇",
+                "content": ["乌克兰迎来俄罗斯入侵两周年，同时面临着国际支持减弱的挑战。", "随着战争进入第三年，一些西方国家的援助承诺出现延迟，而乌克兰继续呼吁盟友提供更多军事和经济支持。"]
+            },
+            "vocabulary": [
+                {
+                    "word": "waver",
+                    "translation": "动摇；犹豫",
+                    "example": "His support began to waver as costs increased."
+                },
+                {
+                    "word": "invasion",
+                    "translation": "入侵",
+                    "example": "The invasion began two years ago."
+                },
+                {
+                    "word": "allies",
+                    "translation": "盟友",
+                    "example": "The country sought help from its allies."
+                }
+            ],
+            "questions": [
+                {
+                    "question": "What anniversary is Ukraine marking?",
+                    "answer": "Ukraine is marking the second anniversary of Russia's invasion."
+                },
+                {
+                    "question": "What challenge is Ukraine facing with international support?",
+                    "answer": "Ukraine is facing wavering international support, with some Western countries delaying their aid commitments."
+                }
+            ],
+            "link": "https://apnews.com/article/russia-ukraine-war-anniversary-casualties-af902393401628c23f83a4088c820086"
+        }
+    ]
 }
