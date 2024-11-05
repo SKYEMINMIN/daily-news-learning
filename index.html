@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>每日新闻更新</title>
+    <title>每日新闻</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,30 +13,40 @@
         .news-container {
             margin-top: 20px;
         }
-        ul {
+        .news-list {
             list-style-type: none;
             padding: 0;
         }
-        li {
-            margin-bottom: 10px;
+        .news-list li {
+            margin: 10px 0;
             padding: 10px;
             border-bottom: 1px solid #eee;
+        }
+        .news-list a {
+            text-decoration: none;
+            color: #333;
+        }
+        .news-list a:hover {
+            color: #007bff;
+        }
+        .update-time {
+            color: #666;
+            font-size: 0.9em;
         }
     </style>
 </head>
 <body>
-    <h1>每日新闻</h1>
+    <h1>每日新闻更新</h1>
+    <div class="update-time">
+        更新时间：<span id="datetime"></span>
+    </div>
     <div class="news-container">
-        <ul>
-            <li>获取新闻失败: Expecting value: line 1 column 1 (char 0)</li>
-
+        <ul class="news-list">
+            [Today's news will be here]
         </ul>
     </div>
-    <footer>
-        <p>最后更新时间: <span id="update-time"></span></p>
-    </footer>
     <script>
-        document.getElementById('update-time').textContent = new Date().toLocaleString();
+        document.getElementById('datetime').textContent = new Date().toLocaleString('zh-CN');
     </script>
 </body>
 </html>
