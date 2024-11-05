@@ -1,8 +1,13 @@
-// 获取新闻数据的函数
+// 修改 getNews 函数添加调试信息
 async function getNews(category) {
     try {
+        console.log(`Fetching news for ${category}...`);
         const response = await fetch(`data/${category.toLowerCase()}.json`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
+        console.log(`News data for ${category}:`, data);
         return data;
     } catch (error) {
         console.error(`Error loading ${category} news:`, error);
@@ -10,51 +15,18 @@ async function getNews(category) {
     }
 }
 
-// 格式化时间的函数
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-}
-
-// 更新时间显示
-function updateDateTime() {
-    const dateElement = document.getElementById('datetime');
-    const now = new Date();
-    dateElement.textContent = formatDate(now);
-}
-
-// 创建新闻卡片的HTML
-function createNewsCard(news) {
-    return `
-        <div class="notion-news-item">
-            <h3 class="notion-news-title">
-                <a href="${news.url}" target="_blank" rel="noopener noreferrer">
-                    ${news.title}
-                </a>
-            </h3>
-            <div class="notion-news-meta">
-                <span class="notion-news-source">${news.source || 'News Source'}</span>
-                <span class="notion-news-time">${formatDate(news.time)}</span>
-            </div>
-        </div>
-    `;
-}
-
-// 加载每个分类的新闻
+// 修改加载函数添加错误处理
 async function loadCategoryNews() {
     const categories = ['AI', 'Entertainment', 'Finance', 'Politics'];
     
     for (const category of categories) {
         const newsContainer = document.getElementById(`${category.toLowerCase()}-news`);
+        if (!newsContainer) {
+            console.error(`Container for ${category} not found!`);
+            continue;
+        }
         
-        // 添加加载提示
-        newsContainer.innerHTML = '<div class="notion-loading">Loading...</div>';
+        newsContainer.innerHTML = '<div class="notion-loading">Loading news...</div>';
         
         try {
             const news = await getNews(category);
@@ -64,24 +36,22 @@ async function loadCategoryNews() {
                 newsContainer.innerHTML = `
                     <div class="notion-error">
                         No news available for ${category}
-                    </div>
-                `;
+                    </div>`;
             }
         } catch (error) {
+            console.error(`Error processing ${category} news:`, error);
             newsContainer.innerHTML = `
                 <div class="notion-error">
-                    Error loading ${category} news
-                </div>
-            `;
+                    Error loading ${category} news: ${error.message}
+                </div>`;
         }
     }
 }
 
-// 页面加载时初始化
+// 确保 DOM 加载后立即执行
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Page loaded, initializing...');
     updateDateTime();
     loadCategoryNews();
-    
-    // 每分钟更新一次时间
     setInterval(updateDateTime, 60000);
 });
