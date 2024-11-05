@@ -3,24 +3,24 @@
     "title": "Latest AI Developments in 2024",
     "url": "https://example.com/ai",
     "source": "Tech News",
-    "time": "2024-01-20T10:00:00Z"
+    "time": "2024-11-20T10:00:00Z"
   },
   "entertainment": {
     "title": "Entertainment Headlines Today",
     "url": "https://example.com/entertainment",
     "source": "Entertainment Weekly",
-    "time": "2024-01-20T10:00:00Z"
+    "time": "2024-11-20T10:00:00Z"
   },
   "finance": {
     "title": "Global Financial Markets Update",
     "url": "https://example.com/finance",
     "source": "Financial Times",
-    "time": "2024-01-20T10:00:00Z"
+    "time": "2024-11-20T10:00:00Z"
   },
   "politics": {
     "title": "World Politics Report",
     "url": "https://example.com/politics",
     "source": "World News",
-    "time": "2024-01-20T10:00:00Z"
+    "time": "2024-11-20T10:00:00Z"
   }
 }
