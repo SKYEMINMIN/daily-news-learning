@@ -1,89 +1,90 @@
-// 格式化时间的函数
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-}
+import requests
+import json
+import os
+from datetime import datetime
+import pytz
 
-// 更新时间显示
-function updateDateTime() {
-    const dateElement = document.getElementById('datetime');
-    if (dateElement) {
-        dateElement.textContent = formatDate(new Date());
-    }
-}
+# NewsAPI 配置
+API_KEY = '70c47808e1fc40f2bb4450e822b5f2fc'
+BASE_URL = 'https://newsapi.org/v2/everything'
 
-// 创建新闻卡片的HTML
-function createNewsCard(news) {
-    if (!news) return '<div class="notion-error">News data not available</div>';
-    
-    return `
-        <div class="notion-news-item">
-            <h3 class="notion-news-title">
-                <a href="${news.url}" target="_blank" rel="noopener noreferrer">
-                    ${news.title}
-                </a>
-            </h3>
-            <div class="notion-news-meta">
-                <span class="notion-news-source">${news.source}</span> • 
-                <span class="notion-news-time">${formatDate(news.time)}</span>
-            </div>
-        </div>
-    `;
-}
-
-// 加载新闻数据
-async function loadAllNews() {
-    try {
-        console.log('Loading news data...');
-        const response = await fetch('data/news.json');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        console.log('News data loaded:', data);
-        return data;
-    } catch (error) {
-        console.error('Error loading news:', error);
-        return null;
-    }
-}
-
-// 初始化页面
-async function initializePage() {
-    console.log('Initializing page...');
-    updateDateTime();
-    
-    const newsData = await loadAllNews();
-    if (!newsData) {
-        console.error('Failed to load news data');
-        return;
-    }
-    
-    const categories = ['ai', 'entertainment', 'finance', 'politics'];
-    
-    categories.forEach(category => {
-        const container = document.getElementById(`${category}-news`);
-        if (!container) {
-            console.error(`Container for ${category} not found`);
-            return;
+def search_news(category):
+    """
+    使用 NewsAPI 获取特定类别的最新新闻
+    """
+    try:
+        # 构建查询参数
+        params = {
+            'q': category,
+            'apiKey': API_KEY,
+            'language': 'en',
+            'sortBy': 'publishedAt',
+            'pageSize': 1  # 每个分类获取最新的一条新闻
         }
         
-        const news = newsData[category];
-        container.innerHTML = news ? createNewsCard(news) : 
-            '<div class="notion-error">No news available</div>';
-    });
-}
+        # 发送请求
+        response = requests.get(BASE_URL, params=params)
+        response.raise_for_status()  # 检查请求是否成功
+        
+        data = response.json()
+        
+        if data['totalResults'] > 0:
+            article = data['articles'][C_0]()  # 获取第一条新闻
+            return {
+                "title": article['title'],
+                "url": article['url'],
+                "source": article['source']['name'],
+                "time": article['publishedAt']
+            }
+        else:
+            print(f"No news found for category: {category}")
+            return None
+            
+    except Exception as e:
+        print(f"Error fetching {category} news: {e}")
+        return None
 
-// 当页面加载完成时初始化
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('Page loaded');
-    initializePage();
-    // 每分钟更新时间
-    setInterval(updateDateTime, 60000);
-});
+def save_news_json(news_data):
+    """
+    将所有新闻保存到一个JSON文件
+    """
+    try:
+        # 确保data目录存在
+        os.makedirs('data', exist_ok=True)
+        
+        # 添加更新时间戳
+        news_data['last_updated'] = datetime.now(pytz.UTC).isoformat()
+        
+        # 保存到news.json
+        with open('data/news.json', 'w', encoding='utf-8') as f:
+            json.dump(news_data, f, ensure_ascii=False, indent=2)
+            
+        print("News data saved successfully")
+    except Exception as e:
+        print(f"Error saving news data: {e}")
+
+def main():
+    # 定义新闻类别和对应的搜索关键词
+    categories = {
+        'ai': 'artificial intelligence',
+        'entertainment': 'entertainment news',
+        'finance': 'financial news markets',
+        'politics': 'political news'
+    }
+    
+    # 收集所有新闻
+    news_data = {}
+    for category, search_term in categories.items():
+        print(f"Fetching {category} news...")
+        news = search_news(search_term)
+        if news:
+            news_data[category] = news
+    
+    # 保存新闻数据
+    if news_data:
+        save_news_json(news_data)
+    else:
+        print("No news data collected")
+
+if __name__ == "__main__":
+    main()
