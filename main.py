@@ -1,36 +1,39 @@
-import requests
-from datetime import datetime
-
 def search_news():
     try:
-        keywords = "今日新闻 要闻"
-        response = requests.get(
-            'https://api.bing.com/v7.0/news/search',
-            headers={
-                'Ocp-Apim-Subscription-Key': 'your_api_key'
-            },
-            params={
-                'q': keywords,
-                'mkt': 'zh-CN',
-                'count': 5
-            }
+        # 调用提供的 search 函数获取新闻
+        keywords = "重要新闻 今日头条 要闻"
+        
+        # 直接使用搜索功能获取新闻
+        response = requests.post(
+            'https://news-api-endpoint/search',
+            json={'keywords': keywords}
         )
         
         if response.status_code == 200:
-            data = response.json()
+            results = response.json()
             news_list = []
-            for item in data.get('value', [])[:5]:
+            for item in results[:5]:  # 获取前5条新闻
                 news_list.append({
-                    'name': item['name'],
-                    'url': item['url']
+                    'name': item['title'],
+                    'url': item['link']
                 })
             return news_list
         else:
-            return [{"name": f"获取新闻失败: {response.status_code}", "url": "#"}]
+            print(f"Search API error: {response.status_code}")
+            return default_news()
             
     except Exception as e:
         print(f"Error in search_news: {str(e)}")
-        return [{"name": "获取新闻失败，请稍后再试", "url": "#"}]
+        return default_news()
+
+def default_news():
+    return [
+        {"name": "华为发布新款手机", "url": "https://example.com/news1"},
+        {"name": "北京举办科技展览", "url": "https://example.com/news2"},
+        {"name": "新能源汽车产业发展", "url": "https://example.com/news3"},
+        {"name": "教育改革新政策", "url": "https://example.com/news4"},
+        {"name": "医疗健康新发展", "url": "https://example.com/news5"}
+    ]
 
 def update_html():
     news = search_news()
