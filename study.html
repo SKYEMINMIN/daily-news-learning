@@ -4,33 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Learning Page</title>
-    <link rel="stylesheet" href="css/study.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    <div class="learning-container">
-        <!-- 顶部导航 -->
-        <nav class="nav-bar">
-            <a href="index.html" class="back-link">← Back</a>
+<body class="notion-body">
+    <div class="notion-container">
+        <!-- 导航区 -->
+        <nav class="notion-nav">
+            <a href="index.html" class="notion-back">← Back to News</a>
         </nav>
 
-        <!-- 主要内容区 -->
-        <main>
-            <!-- 新闻标题区 -->
-            <header class="news-header">
-                <h1 class="title">
-                    <div class="original">Loading...</div>
-                    <div class="translation">加载中...</div>
-                </h1>
-                <div class="meta">
-                    <span class="date"></span>
-                    <span class="category"></span>
-                </div>
-            </header>
+        <!-- 标题区 -->
+        <header class="notion-header">
+            <div id="original-title" class="notion-title"></div>
+            <div id="translated-title" class="notion-subtitle"></div>
+        </header>
 
-            <!-- 新闻内容区 -->
-            <div class="content">
-                <!-- 内容将通过JavaScript动态加载 -->
-            </div>
+        <!-- 正文学习区 -->
+        <main class="notion-main">
+            <!-- 段落学习区 -->
+            <section class="notion-section">
+                <div class="notion-section-header">
+                    <span class="notion-emoji">📖</span>
+                    <h2 class="notion-section-title">Content Study</h2>
+                </div>
+                <div id="paragraph-container" class="notion-content">
+                    <!-- 段落将通过JS动态加载 -->
+                </div>
+            </section>
+
+            <!-- 词汇学习区 -->
+            <section class="notion-section">
+                <div class="notion-section-header">
+                    <span class="notion-emoji">📚</span>
+                    <h2 class="notion-section-title">Vocabulary</h2>
+                </div>
+                <div id="vocabulary-container" class="notion-vocabulary">
+                    <!-- 词汇表将通过JS动态加载 -->
+                </div>
+            </section>
+
+            <!-- 理解问题区 -->
+            <section class="notion-section">
+                <div class="notion-section-header">
+                    <span class="notion-emoji">💡</span>
+                    <h2 class="notion-section-title">Comprehension</h2>
+                </div>
+                <div id="questions-container" class="notion-questions">
+                    <!-- 问题将通过JS动态加载 -->
+                </div>
+            </section>
         </main>
     </div>
     <script src="js/study.js"></script>
