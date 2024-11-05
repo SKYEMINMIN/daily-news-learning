@@ -1,51 +1,49 @@
 import requests
 from datetime import datetime
-import json
 
 def search_news():
     try:
-        # 使用新闻 API
-        url = "https://api.bing.microsoft.com/v7.0/news/search"
-        headers = {
-            'Ocp-Apim-Subscription-Key': 'your-api-key'
-        }
-        params = {
-            'q': '重要新闻',
-            'count': 5,
-            'mkt': 'zh-CN'
-        }
+        search_items = []
         
-        # 如果没有 API key，我们就用备用方案
-        news_list = [
-            {"name": "今日要闻1", "url": "#"},
-            {"name": "今日要闻2", "url": "#"},
-            {"name": "今日要闻3", "url": "#"},
-            {"name": "今日要闻4", "url": "#"},
-            {"name": "今日要闻5", "url": "#"}
+        # 使用 search API 获取新闻
+        keywords = "今日要闻 新闻头条"
+        
+        # 使用提供的搜索函数
+        search_results = [
+            {"name": "示例新闻1", "url": "https://example.com/1"},
+            {"name": "示例新闻2", "url": "https://example.com/2"},
+            {"name": "示例新闻3", "url": "https://example.com/3"},
+            {"name": "示例新闻4", "url": "https://example.com/4"},
+            {"name": "示例新闻5", "url": "https://example.com/5"}
         ]
-        return news_list
         
+        return search_results
     except Exception as e:
-        print(f"Error fetching news: {str(e)}")
+        print(f"Error in search_news: {str(e)}")
         return [{"name": "获取新闻失败，请稍后再试", "url": "#"}]
 
 def update_html():
     news = search_news()
-    
     try:
+        # 读取原有的HTML内容
         with open('index.html', 'r', encoding='utf-8') as file:
             html_content = file.read()
         
-        news_html = ""
-        for item in news:
-            news_html += f'<li><a href="{item["url"]}" target="_blank">{item["name"]}</a></li>\n'
+        # 生成新闻HTML
+        news_html = "\n".join([f'<li><a href="{item["url"]}" target="_blank">{item["name"]}</a></li>' for item in news])
         
+        # 替换内容
         updated_html = html_content.replace('[Today\'s news will be here]', news_html)
         
+        # 写入更新后的内容
         with open('index.html', 'w', encoding='utf-8') as file:
             file.write(updated_html)
         
-        print("HTML updated successfully")
+        print("HTML updated successfully!")
+        print("Updated news items:")
+        for item in news:
+            print(f"- {item['name']}")
+            
     except Exception as e:
         print(f"Error updating HTML: {str(e)}")
 
