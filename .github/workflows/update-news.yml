@@ -1,8 +1,8 @@
 name: Update Daily News
 on:
   schedule:
-    - cron: '0 */4 * * *'  # 每4小时运行一次
-  workflow_dispatch:      # 允许手动触发
+    - cron: '0 */4 * * *'
+  workflow_dispatch:
 
 jobs:
   update-news:
@@ -10,10 +10,10 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.x'
           
@@ -25,8 +25,8 @@ jobs:
       - name: Run update script
         run: |
           echo "Starting news update script..."
-          python -u main.py  # -u 标志确保Python输出不被缓存
-        continue-on-error: true  # 即使脚本失败也继续执行
+          python -u main.py
+        continue-on-error: true
       
       - name: Debug - Check news.json
         run: |
@@ -44,15 +44,7 @@ jobs:
           
       - name: Commit and push if changed
         run: |
-          echo "Configuring git..."
           git config --global user.name 'GitHub Actions Bot'
           git config --global user.email 'actions@github.com'
-          
-          echo "Checking for changes..."
-          git status
-          
-          echo "Adding news.json..."
           git add data/news.json
-          
-          echo "Committing changes if any..."
           git diff --quiet && git diff --staged --quiet || (git commit -m "Update news data [skip ci]" && git push)
