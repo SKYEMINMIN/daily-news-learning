@@ -1,58 +1,31 @@
 {
-    "ai": [
-        {
-            "title": "Microsoft releases AI-powered reading coach to help students learn",
-            "link": "https://www.theverge.com/2024/2/23/24081614/microsoft-reading-coach-ai-learning",
-            "content": "Microsoft launched an AI reading coach app to help students practice reading, with features like real-time feedback and pronunciation guidance. The free tool aims to improve literacy skills through personalized learning.",
-            "chinese": "微软发布了一款人工智能阅读教练应用程序，帮助学生练习阅读，具有实时反馈和发音指导等功能。这个免费工具旨在通过个性化学习提高识字能力。"
-        },
-        {
-            "title": "OpenAI CEO says AI regulation is needed but warns against over-restriction",
-            "link": "https://www.reuters.com/technology/openai-ceo-says-ai-needs-regulation-warns-against-over-restriction-2024-02-23/",
-            "content": "OpenAI CEO Sam Altman emphasized the need for balanced AI regulation, stating that while oversight is necessary, excessive restrictions could hamper innovation. He advocated for a framework that ensures safety while promoting technological advancement.",
-            "chinese": "OpenAI首席执行官萨姆·阿尔特曼强调了平衡人工智能监管的必要性，他表示虽然监管是必要的，但过度限制可能会阻碍创新。他主张建立一个既确保安全又促进技术进步的框架。"
-        }
-    ],
-    "entertainment": [
-        {
-            "title": "Dune: Part Two receives widespread critical acclaim ahead of release",
-            "link": "https://variety.com/2024/film/reviews/dune-part-two-review-1235891742/",
-            "content": "The highly anticipated sequel to Dune has garnered overwhelming positive reviews from critics, with praise for its visual effects and storytelling. The film is expected to be a major box office success when it opens next week.",
-            "chinese": "备受期待的《沙丘》续集在上映前获得了评论界的广泛好评，其视觉效果和故事叙述受到赞扬。该片将于下周上映，预计将取得重大票房成功。"
-        },
-        {
-            "title": "Taylor Swift becomes first artist to reach 100 million monthly Spotify listeners",
-            "link": "https://www.billboard.com/music/music-news/taylor-swift-100-million-monthly-spotify-listeners-1235584990/",
-            "content": "Taylor Swift has made history as the first artist to achieve 100 million monthly listeners on Spotify, marking another milestone in her record-breaking career.",
-            "chinese": "泰勒·斯威夫特成为史上首位在Spotify上达到1亿月度听众的艺人，这是她职业生涯中又一个破纪录的里程碑。"
-        }
-    ],
-    "finance": [
-        {
-            "title": "Bitcoin surges past $50,000 as cryptocurrency rally continues",
-            "link": "https://www.bloomberg.com/news/articles/2024-02-23/bitcoin-price-surge-50000-cryptocurrency-rally",
-            "content": "Bitcoin crossed the $50,000 mark for the first time in over two years, driven by increased institutional investment and growing mainstream adoption. The cryptocurrency market shows strong momentum.",
-            "chinese": "比特币突破50,000美元大关，这是两年多以来的首次，这一涨势由机构投资增加和主流采用增长推动。加密货币市场显示出强劲势头。"
-        },
-        {
-            "title": "Nvidia becomes world's third most valuable company",
-            "link": "https://www.reuters.com/technology/nvidia-becomes-worlds-third-most-valuable-company-2024-02-23/",
-            "content": "Chip maker Nvidia has surpassed Alphabet to become the world's third most valuable company, with its market value exceeding $2 trillion, driven by the AI boom.",
-            "chinese": "芯片制造商英伟达超越Alphabet成为全球第三大市值公司，其市值超过2万亿美元，这一增长由人工智能热潮推动。"
-        }
-    ],
-    "politics": [
-        {
-            "title": "Ukraine marks two years of conflict with renewed calls for support",
-            "link": "https://www.reuters.com/world/europe/ukraine-marks-two-years-full-scale-war-with-defiance-determination-2024-02-23/",
-            "content": "As Ukraine marks two years since Russia's invasion, President Zelenskyy appeals for continued international support. The country faces significant challenges but maintains its resolve.",
-            "chinese": "在俄罗斯入侵两周年之际，乌克兰总统泽连斯基呼吁国际社会继续提供支持。该国面临重大挑战，但保持着坚定的决心。"
-        },
-        {
-            "title": "G20 finance ministers meet to address global economic challenges",
-            "link": "https://www.ft.com/content/g20-finance-ministers-meeting-2024",
-            "content": "G20 finance ministers gathered to discuss pressing global economic issues, including debt relief, digital currencies, and climate finance. The meeting aims to strengthen international cooperation.",
-            "chinese": "二十国集团财长齐聚一堂，讨论紧迫的全球经济问题，包括债务减免、数字货币和气候融资。此次会议旨在加强国际合作。"
-        }
-    ]
+  "metadata": {
+    "last_updated": "2024-11-05T11:48:48.753710+00:00"
+  },
+  "news": {
+    "ai": {
+      "title": "The environmental campaigners fighting against data centres",
+      "url": "https://www.bbc.com/news/articles/cz0mlrx0jxno",
+      "source": "BBC News",
+      "time": "2024-11-04T00:01:32Z"
+    },
+    "entertainment": {
+      "title": "Quincy Jones on gangsters, David Bowie and Picasso",
+      "url": "https://www.bbc.com/news/videos/c4gp7z3d22zo",
+      "source": "BBC News",
+      "time": "2024-11-04T10:48:23Z"
+    },
+    "finance": {
+      "title": "New Tory leader Badenoch starts appointing top team",
+      "url": "https://www.bbc.com/news/articles/cj9n304z0x7o",
+      "source": "BBC News",
+      "time": "2024-11-04T11:01:08Z"
+    },
+    "politics": {
+      "title": "New Tory leader Badenoch starts appointing top team",
+      "url": "https://www.bbc.com/news/articles/cj9n304z0x7o",
+      "source": "BBC News",
+      "time": "2024-11-04T11:01:08Z"
+    }
+  }
 }
