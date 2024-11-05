@@ -1,26 +1,31 @@
 {
-  "ai": {
-    "title": "Latest AI Developments in 2024",
-    "url": "https://example.com/ai",
-    "source": "Tech News",
-    "time": "2024-11-20T10:00:00Z"
+  "metadata": {
+    "last_updated": "2024-11-05T07:32:37.862109+00:00"
   },
-  "entertainment": {
-    "title": "Entertainment Headlines Today",
-    "url": "https://example.com/entertainment",
-    "source": "Entertainment Weekly",
-    "time": "2024-11-20T10:00:00Z"
-  },
-  "finance": {
-    "title": "Global Financial Markets Update",
-    "url": "https://example.com/finance",
-    "source": "Financial Times",
-    "time": "2024-11-20T10:00:00Z"
-  },
-  "politics": {
-    "title": "World Politics Report",
-    "url": "https://example.com/politics",
-    "source": "World News",
-    "time": "2024-11-20T10:00:00Z"
+  "news": {
+    "ai": {
+      "title": "The environmental campaigners fighting against data centres",
+      "url": "https://www.bbc.com/news/articles/cz0mlrx0jxno",
+      "source": "BBC News",
+      "time": "2024-11-04T00:01:32Z"
+    },
+    "entertainment": {
+      "title": "‘Lying talent agent took our money and dreams’",
+      "url": "https://www.bbc.com/news/articles/cgj765gen3po",
+      "source": "BBC News",
+      "time": "2024-11-04T00:01:19Z"
+    },
+    "finance": {
+      "title": "'We are not military - why are we being hit?'",
+      "url": "https://www.bbc.com/news/articles/c4gzp91wl66o",
+      "source": "BBC News",
+      "time": "2024-11-04T06:12:09Z"
+    },
+    "politics": {
+      "title": "'We are not military - why are we being hit?'",
+      "url": "https://www.bbc.com/news/articles/c4gzp91wl66o",
+      "source": "BBC News",
+      "time": "2024-11-04T06:12:09Z"
+    }
   }
 }
