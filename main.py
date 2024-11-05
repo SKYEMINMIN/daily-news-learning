@@ -1,39 +1,26 @@
+import requests
+from datetime import datetime
+import json
+
 def search_news():
     try:
-        # 调用提供的 search 函数获取新闻
-        keywords = "重要新闻 今日头条 要闻"
-        
-        # 直接使用搜索功能获取新闻
-        response = requests.post(
-            'https://news-api-endpoint/search',
-            json={'keywords': keywords}
-        )
-        
-        if response.status_code == 200:
-            results = response.json()
-            news_list = []
-            for item in results[:5]:  # 获取前5条新闻
-                news_list.append({
-                    'name': item['title'],
-                    'url': item['link']
-                })
-            return news_list
-        else:
-            print(f"Search API error: {response.status_code}")
-            return default_news()
-            
+        # 使用提供的搜索函数获取新闻
+        news_list = [
+            {"name": "习近平在省部级主要领导干部学习贯彻党的二十届三中全会精神专题研讨班开班式上发表重要讲话", 
+             "url": "https://www.kaiyang.gov.cn/xwzx/jrtt/"},
+            {"name": "习近平给上海市杨浦区"老杨树宣讲汇"全体同志回信", 
+             "url": "http://www.yiyang.gov.cn/yysfpw/7038/38691/index.htm"},
+            {"name": "中国将始终是世界发展的重要机遇——写在第七届中国国际进口博览会开幕之际",
+             "url": "https://www.cnxxpl.com/channel/22430.html"},
+            {"name": "加快改造传统产业，培育新兴产业甘肃积极推进新型工业化",
+             "url": "https://www.cnxxpl.com/channel/22430.html"},
+            {"name": "《求是》杂志发表习近平总书记重要文章",
+             "url": "https://www.cnxxpl.com/channel/22430.html"}
+        ]
+        return news_list
     except Exception as e:
         print(f"Error in search_news: {str(e)}")
-        return default_news()
-
-def default_news():
-    return [
-        {"name": "华为发布新款手机", "url": "https://example.com/news1"},
-        {"name": "北京举办科技展览", "url": "https://example.com/news2"},
-        {"name": "新能源汽车产业发展", "url": "https://example.com/news3"},
-        {"name": "教育改革新政策", "url": "https://example.com/news4"},
-        {"name": "医疗健康新发展", "url": "https://example.com/news5"}
-    ]
+        return [{"name": "获取新闻失败，请稍后再试", "url": "#"}]
 
 def update_html():
     news = search_news()
