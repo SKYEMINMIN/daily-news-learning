@@ -1,111 +1,87 @@
-// main.js
-class NewsManager {
-    constructor() {
-        this.categories = ['ai', 'entertainment', 'finance', 'politics'];
-        this.updateDateTime();
+document.addEventListener('DOMContentLoaded', () => {
+    // 更新日期时间显示
+    updateDateTime();
+    // 加载新闻数据
+    loadNews();
+});
+
+// 更新日期时间
+function updateDateTime() {
+    const datetimeElement = document.getElementById('datetime');
+    if (datetimeElement) {
+        datetimeElement.textContent = new Date().toLocaleString();
     }
+    // 每分钟更新一次时间
+    setInterval(updateDateTime, 60000);
+}
 
-    updateDateTime() {
-        const datetimeElement = document.getElementById('datetime');
-        if (datetimeElement) {
-            datetimeElement.textContent = new Date().toLocaleString();
-        }
-    }
-
-    async fetchNews() {
-        try {
-            const response = await fetch('data/news.json');
-            if (!response.ok) {
-                throw new Error('Failed to fetch news data');
-            }
-            return await response.json();
-        } catch (error) {
-            console.error('Error fetching news:', error);
-            return null;
-        }
-    }
-
-    createNewsItem(item, category) {
-        const newsElement = document.createElement('div');
-        newsElement.className = 'notion-news-item';
+// 加载新闻数据
+async function loadNews() {
+    try {
+        const response = await fetch('data/news.json');
+        const data = await response.json();
         
-        // 生成唯一的新闻ID
-        const newsId = `${category}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-        
-        newsElement.innerHTML = `
-            <div class="notion-news-content">
-                <a href="${item.link}" 
-                   target="_blank" 
-                   class="notion-link"
-                   title="${item.title}">
-                    ${item.title}
-                </a>
-                <a href="study.html?id=${newsId}&category=${category}&title=${encodeURIComponent(item.title)}&link=${encodeURIComponent(item.link)}" 
-                   class="notion-study-button">
-                    Study
-                </a>
-            </div>
-        `;
-        
-        return newsElement;
-    }
-
-    displayNewsInCategory(newsData, category) {
-        const containerElement = document.getElementById(`${category}-news`);
-        if (!containerElement || !newsData[category]) return;
-
-        containerElement.innerHTML = ''; // Clear existing content
-        
-        newsData[category].forEach(item => {
-            const newsElement = this.createNewsItem(item, category);
-            containerElement.appendChild(newsElement);
+        // 处理每个分类的新闻
+        Object.keys(data).forEach(category => {
+            displayCategoryNews(category, data[category]);
         });
-    }
-
-    async displayAllNews() {
-        const newsData = await this.fetchNews();
-        if (!newsData) {
-            this.handleError('Failed to load news');
-            return;
-        }
-
-        this.categories.forEach(category => {
-            this.displayNewsInCategory(newsData, category);
-        });
-    }
-
-    handleError(message) {
-        this.categories.forEach(category => {
-            const container = document.getElementById(`${category}-news`);
-            if (container) {
-                container.innerHTML = `
-                    <div class="notion-error">
-                        <p>${message}</p>
-                        <button onclick="newsManager.retryLoad()">Retry</button>
-                    </div>
-                `;
-            }
-        });
-    }
-
-    async retryLoad() {
-        await this.displayAllNews();
-    }
-
-    init() {
-        this.displayAllNews();
-        // 每5分钟更新一次
-        setInterval(() => {
-            this.updateDateTime();
-            this.displayAllNews();
-        }, 300000);
+    } catch (error) {
+        console.error('Error loading news:', error);
+        handleError();
     }
 }
 
-// 创建全局实例
-const newsManager = new NewsManager();
+// 显示分类新闻
+function displayCategoryNews(category, news) {
+    const container = document.getElementById(`${category}-news`);
+    if (!container) return;
 
-// 页面加载完成后初始化
-document.addEventListener('DOMContentLoaded', () => {
-    newsManager.init();
-});
+    // 清空现有内容
+    container.innerHTML = '';
+
+    // 添加新闻项
+    news.forEach(item => {
+        const newsElement = createNewsElement(item, category);
+        container.appendChild(newsElement);
+    });
+}
+
+// 创建新闻元素
+function createNewsElement(item, category) {
+    const div = document.createElement('div');
+    div.className = 'notion-news-item';
+
+    const newsId = `${category}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+    div.innerHTML = `
+        <div class="notion-news-content">
+            <a href="${item.link}" 
+               target="_blank" 
+               class="notion-link">
+                ${item.title}
+            </a>
+            <a href="study.html?id=${newsId}&link=${encodeURIComponent(item.link)}" 
+               class="notion-study-button">
+                Study
+            </a>
+        </div>
+    `;
+
+    return div;
+}
+
+// 错误处理
+function handleError() {
+    const categories = ['ai', 'entertainment', 'finance', 'politics'];
+    categories.forEach(category => {
+        const container = document.getElementById(`${category}-news`);
+        if (container) {
+            container.innerHTML = `
+                <div class="notion-error">
+                    <p>Failed to load news data</p>
+                    <button onclick="location.reload()">Retry</button>
+                </div>
+            `;
+        }
+    });
+}
