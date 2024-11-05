@@ -113,3 +113,38 @@ body.notion-body {
         padding: 1rem;
     }
 }
+/* 添加到现有的 style.css 末尾 */
+
+/* Loading state */
+.notion-loading {
+    color: var(--notion-gray);
+    text-align: center;
+    padding: 1rem;
+}
+
+/* Error state */
+.notion-error {
+    color: #ff4d4f;
+    text-align: center;
+    padding: 1rem;
+}
+
+/* News item styles */
+.notion-news-item {
+    padding: 0.5rem 0;
+}
+
+.notion-news-meta {
+    display: flex;
+    gap: 1rem;
+    color: var(--notion-gray);
+    font-size: 0.9rem;
+}
+
+.notion-news-source {
+    font-weight: 500;
+}
+
+.notion-news-time {
+    color: var(--notion-gray);
+}
