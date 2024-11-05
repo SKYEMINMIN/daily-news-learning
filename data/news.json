@@ -1,31 +1,39 @@
+// news.json 示例结构
 {
-  "metadata": {
-    "last_updated": "2024-11-05T11:04:58.699639+00:00"
-  },
-  "news": {
-    "ai": {
-      "title": "The environmental campaigners fighting against data centres",
-      "url": "https://www.bbc.com/news/articles/cz0mlrx0jxno",
-      "source": "BBC News",
-      "time": "2024-11-04T00:01:32Z"
-    },
-    "entertainment": {
-      "title": "Quincy Jones on gangsters, David Bowie and Picasso",
-      "url": "https://www.bbc.com/news/videos/c4gp7z3d22zo",
-      "source": "BBC News",
-      "time": "2024-11-04T10:48:23Z"
-    },
-    "finance": {
-      "title": "New Tory leader Badenoch starts appointing top team",
-      "url": "https://www.bbc.com/news/articles/cj9n304z0x7o",
-      "source": "BBC News",
-      "time": "2024-11-04T11:01:08Z"
-    },
-    "politics": {
-      "title": "New Tory leader Badenoch starts appointing top team",
-      "url": "https://www.bbc.com/news/articles/cj9n304z0x7o",
-      "source": "BBC News",
-      "time": "2024-11-04T11:01:08Z"
+  "AI": [
+    {
+      "id": "ai-001",
+      "title": "Original English Title",
+      "link": "news-url",
+      "content": "Original news content...",
+      "translation": {
+        "title": "中文标题",
+        "paragraphs": [
+          {
+            "original": "First paragraph...",
+            "translated": "第一段翻译..."
+          }
+          // ... more paragraphs
+        ]
+      },
+      "vocabulary": [
+        {
+          "word": "example",
+          "phonetic": "[ɪɡˈzæmpəl]",
+          "pos": "n.",
+          "meaning": "例子，实例",
+          "example": "This is an example."
+        }
+        // ... more words
+      ],
+      "questions": [
+        {
+          "question": "What is the main topic?",
+          "answer": "The main topic is..."
+        }
+        // ... more questions
+      ]
     }
-  }
+  ],
+  // ... other categories
 }
