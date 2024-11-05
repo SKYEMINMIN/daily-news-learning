@@ -1,56 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>每日新闻</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .news-container {
-            margin-top: 20px;
-        }
-        .news-list {
-            list-style-type: none;
-            padding: 0;
-        }
-        .news-list li {
-            margin: 10px 0;
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        .news-list a {
-            text-decoration: none;
-            color: #333;
-        }
-        .news-list a:hover {
-            color: #007bff;
-        }
-        .update-time {
-            color: #666;
-            font-size: 0.9em;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Daily International News in AI, Entertainment, Finance, and Politics">
+    <title>Daily International News</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 添加favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
 </head>
-<body>
-    <h1>每日新闻更新</h1>
-    <div class="update-time">
-        更新时间：<span id="datetime"></span>
+<body class="notion-body">
+    <div class="notion-container">
+        <header class="notion-header">
+            <h1 class="notion-title">Daily International News</h1>
+            <p class="notion-subtitle">Last Updated: <span id="datetime"></span></p>
+        </header>
+
+        <main class="notion-main">
+            <section class="notion-section">
+                <div class="notion-section-header">
+                    <span class="notion-emoji">🤖</span>
+                    <h2 class="notion-section-title">AI & Technology</h2>
+                </div>
+                <div class="notion-card" id="ai-news"></div>
+            </section>
+
+            <section class="notion-section">
+                <div class="notion-section-header">
+                    <span class="notion-emoji">🎬</span>
+                    <h2 class="notion-section-title">Entertainment</h2>
+                </div>
+                <div class="notion-card" id="entertainment-news"></div>
+            </section>
+
+            <section class="notion-section">
+                <div class="notion-section-header">
+                    <span class="notion-emoji">💰</span>
+                    <h2 class="notion-section-title">Finance</h2>
+                </div>
+                <div class="notion-card" id="finance-news"></div>
+            </section>
+
+            <section class="notion-section">
+                <div class="notion-section-header">
+                    <span class="notion-emoji">🌏</span>
+                    <h2 class="notion-section-title">Politics</h2>
+                </div>
+                <div class="notion-card" id="politics-news"></div>
+            </section>
+        </main>
     </div>
-    <div class="news-container">
-        <ul class="news-list">
-            <li><a href="http://www.news.cn/politics/" target="_blank">两会热点话题追踪</a></li>
-<li><a href="http://www.news.cn/auto/" target="_blank">新能源汽车产业发展报告发布</a></li>
-<li><a href="http://www.news.cn/tech/" target="_blank">科技创新助力经济高质量发展</a></li>
-<li><a href="http://www.news.cn/edu/" target="_blank">教育改革新政策解读</a></li>
-<li><a href="http://www.news.cn/health/" target="_blank">医疗健康产业新发展</a></li>
-        </ul>
-    </div>
-    <script>
-        document.getElementById('datetime').textContent = new Date().toLocaleString('zh-CN');
-    </script>
+    <script src="js/main.js"></script>
 </body>
 </html>
