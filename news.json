@@ -1,6 +1,34 @@
 {
-    "ai": [],
-    "entertainment": [],
-    "finance": [],
-    "politics": []
+    "ai": [
+        {
+            "title": "No ai news available",
+            "link": "",
+            "content": "Currently no news available in this category",
+            "chinese": "当前分类暂无新闻"
+        }
+    ],
+    "entertainment": [
+        {
+            "title": "No entertainment news available",
+            "link": "",
+            "content": "Currently no news available in this category",
+            "chinese": "当前分类暂无新闻"
+        }
+    ],
+    "finance": [
+        {
+            "title": "No finance news available",
+            "link": "",
+            "content": "Currently no news available in this category",
+            "chinese": "当前分类暂无新闻"
+        }
+    ],
+    "politics": [
+        {
+            "title": "No politics news available",
+            "link": "",
+            "content": "Currently no news available in this category",
+            "chinese": "当前分类暂无新闻"
+        }
+    ]
 }
