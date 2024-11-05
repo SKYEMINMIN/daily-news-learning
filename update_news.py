@@ -1,32 +1,38 @@
 import requests
-from bs4 import BeautifulSoup
 from datetime import datetime
-import re
+import json
 
-def get_news_template():
+def get_news():
+    # 使用免费的 News API
+    try:
+        url = "https://api.bing.microsoft.com/v7.0/news/search"
+        headers = {
+            'Ocp-Apim-Subscription-Key': 'YOUR_API_KEY'
+        }
+        response = requests.get(url, headers=headers)
+        news = response.json()
+        return news['value'][:5]  # 获取前5条新闻
+    except Exception as e:
+        return ["无法获取新闻: " + str(e)]
+
+def update_html():
+    news = get_news()
+    
+    # 读取原有的HTML内容
     with open('index.html', 'r', encoding='utf-8') as file:
-        return file.read()
-
-def update_news_content(template):
-    # 这里添加新闻获取逻辑
-    # 使用免费的新闻 API 或网站
-    ai_news = "Latest AI News"
-    finance_news = "Latest Finance News"
-    entertainment_news = "Latest Entertainment News"
+        html_content = file.read()
     
-    # 更新模板中的内容
-    template = re.sub(r'$$Today\'s AI news will be here$$', ai_news, template)
-    template = re.sub(r'$$Today\'s finance news will be here$$', finance_news, template)
-    template = re.sub(r'$$Today\'s entertainment news will be here$$', entertainment_news, template)
+    # 更新新闻内容
+    news_html = ""
+    for item in news:
+        news_html += f"<li>{item['name']}</li>\n"
     
-    return template
-
-def main():
-    template = get_news_template()
-    updated_content = update_news_content(template)
+    # 替换原有内容
+    updated_html = html_content.replace('[Today\'s news will be here]', news_html)
     
+    # 写入更新后的内容
     with open('index.html', 'w', encoding='utf-8') as file:
-        file.write(updated_content)
+        file.write(updated_html)
 
 if __name__ == "__main__":
-    main()
+    update_html()
