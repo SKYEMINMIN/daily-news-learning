@@ -1,13 +1,48 @@
-// 修改 getNews 函数添加调试信息
-async function getNews(category) {
+// 格式化时间的函数
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
+
+// 更新时间显示
+function updateDateTime() {
+    const dateElement = document.getElementById('datetime');
+    dateElement.textContent = formatDate(new Date());
+}
+
+// 创建新闻卡片的HTML
+function createNewsCard(news) {
+    if (!news) return '<div class="notion-error">News data not available</div>';
+    
+    return `
+        <div class="notion-news-item">
+            <h3 class="notion-news-title">
+                <a href="${news.url}" target="_blank" rel="noopener noreferrer">
+                    ${news.title}
+                </a>
+            </h3>
+            <div class="notion-news-meta">
+                <span class="notion-news-source">${news.source}</span> • 
+                <span class="notion-news-time">${formatDate(news.time)}</span>
+            </div>
+        </div>
+    `;
+}
+
+// 加载新闻数据
+async function loadNews(category) {
     try {
-        console.log(`Fetching news for ${category}...`);
+        console.log(`Loading ${category} news...`);
         const response = await fetch(`data/${category.toLowerCase()}.json`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
-        console.log(`News data for ${category}:`, data);
+        console.log(`${category} news loaded:`, data);
         return data;
     } catch (error) {
         console.error(`Error loading ${category} news:`, error);
@@ -15,43 +50,32 @@ async function getNews(category) {
     }
 }
 
-// 修改加载函数添加错误处理
-async function loadCategoryNews() {
-    const categories = ['AI', 'Entertainment', 'Finance', 'Politics'];
+// 初始化页面
+async function initializePage() {
+    console.log('Initializing page...');
+    updateDateTime();
+    
+    const categories = ['ai', 'entertainment', 'finance', 'politics'];
     
     for (const category of categories) {
-        const newsContainer = document.getElementById(`${category.toLowerCase()}-news`);
-        if (!newsContainer) {
-            console.error(`Container for ${category} not found!`);
+        const container = document.getElementById(`${category}-news`);
+        if (!container) {
+            console.error(`Container for ${category} not found`);
             continue;
         }
         
-        newsContainer.innerHTML = '<div class="notion-loading">Loading news...</div>';
+        container.innerHTML = '<div class="notion-loading">Loading...</div>';
         
-        try {
-            const news = await getNews(category);
-            if (news) {
-                newsContainer.innerHTML = createNewsCard(news);
-            } else {
-                newsContainer.innerHTML = `
-                    <div class="notion-error">
-                        No news available for ${category}
-                    </div>`;
-            }
-        } catch (error) {
-            console.error(`Error processing ${category} news:`, error);
-            newsContainer.innerHTML = `
-                <div class="notion-error">
-                    Error loading ${category} news: ${error.message}
-                </div>`;
-        }
+        const news = await loadNews(category);
+        container.innerHTML = news ? createNewsCard(news) : 
+            '<div class="notion-error">Failed to load news</div>';
     }
 }
 
-// 确保 DOM 加载后立即执行
+// 当页面加载完成时初始化
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Page loaded, initializing...');
-    updateDateTime();
-    loadCategoryNews();
+    console.log('Page loaded');
+    initializePage();
+    // 每分钟更新时间
     setInterval(updateDateTime, 60000);
 });
