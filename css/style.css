@@ -52,3 +52,37 @@ header {
     padding: 5px 10px;
     border-radius: 3px;
 }
+
+/* 添加学习链接的样式 */
+.study-link {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 2px 8px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 0.8em;
+}
+
+.study-link:hover {
+    background-color: #45a049;
+}
+
+/* 确保新闻项有足够空间显示两个链接 */
+.news-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.news-title {
+    flex: 1;
+    text-decoration: none;
+    color: #333;
+}
+
+.news-title:hover {
+    color: #666;
+}
