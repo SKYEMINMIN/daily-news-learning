@@ -1,9 +1,9 @@
-import json
 import requests
-from datetime import datetime
+import json
+import os
 import logging
-import sys
-from pathlib import Path
+from datetime import datetime
+from bs4 import BeautifulSoup
 
 # 设置日志
 logging.basicConfig(
@@ -11,142 +11,80 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
         logging.FileHandler('update_news.log'),
-        logging.StreamHandler(sys.stdout)
+        logging.StreamHandler()
     ]
 )
 
-def check_file_structure():
-    """检查必要的文件结构"""
-    required_paths = [
-        'data',
-        'css',
-        'js',
-        'scripts'
-    ]
-    
-    missing_paths = []
-    for path in required_paths:
-        if not Path(path).exists():
-            missing_paths.append(path)
-            logging.error(f"Missing directory: {path}")
-    
-    return len(missing_paths) == 0
-
-def check_api_access(api_key):
-    """测试API访问"""
-    test_url = f"https://newsapi.org/v2/everything?q=test&apiKey={api_key}"
+def fetch_reuters_news():
     try:
-        response = requests.get(test_url)
-        if response.status_code == 200:
-            logging.info("API access successful")
-            return True
-        else:
-            logging.error(f"API access failed with status code: {response.status_code}")
-            return False
-    except Exception as e:
-        logging.error(f"API access error: {str(e)}")
-        return False
+        # Reuters RSS feeds
+        rss_urls = {
+            'Technology': 'https://www.reutersagency.com/feed/?taxonomy=best-topics&post_type=best',
+            'Business': 'https://www.reutersagency.com/feed/?best-topics=business-finance&post_type=best',
+            'Politics': 'https://www.reutersagency.com/feed/?best-topics=political-general&post_type=best'
+        }
 
-def get_news():
-    api_key = '70c47808e1fc40f2bb4450e822b5f2fc'
-    news_data = {"ai": [], "entertainment": [], "finance": [], "politics": []}
-    
-    # 检查文件结构
-    if not check_file_structure():
-        logging.error("File structure check failed")
-        return None
-    
-    # 检查API访问
-    if not check_api_access(api_key):
-        logging.error("API access check failed")
-        return None
+        news_data = []
         
-    urls = {
-        "ai": f"https://newsapi.org/v2/everything?q=artificial+intelligence+OR+AI&language=en&sortBy=publishedAt&apiKey={api_key}",
-        "entertainment": f"https://newsapi.org/v2/top-headlines?category=entertainment&language=en&apiKey={api_key}",
-        "finance": f"https://newsapi.org/v2/top-headlines?category=business&language=en&apiKey={api_key}",
-        "politics": f"https://newsapi.org/v2/top-headlines?category=politics&language=en&apiKey={api_key}"
-    }
-    
-    for category, url in urls.items():
-        try:
-            logging.info(f"Fetching news for category: {category}")
-            response = requests.get(url)
-            
-            if response.status_code != 200:
-                logging.error(f"Failed to fetch {category} news. Status code: {response.status_code}")
-                continue
+        for category, url in rss_urls.items():
+            try:
+                response = requests.get(url, timeout=10)
+                if response.status_code == 200:
+                    soup = BeautifulSoup(response.content, 'xml')
+                    items = soup.find_all('item', limit=3)  # 每个分类获取3条新闻
+                    
+                    for item in items:
+                        news_id = f"news_{len(news_data)}_{datetime.now().strftime('%Y%m%d')}"
+                        content = item.find('description').text if item.find('description') else ''
+                        
+                        news_item = {
+                            'id': news_id,
+                            'category': category,
+                            'title': item.find('title').text if item.find('title') else '',
+                            'url': item.find('link').text if item.find('link') else '',
+                            'content': content
+                        }
+                        news_data.append(news_item)
+                        logging.info(f"Added news item: {news_item['title']}")
                 
-            articles = response.json().get('articles', [])
-            logging.info(f"Found {len(articles)} articles for {category}")
-            
-            for i, article in enumerate(articles[:2]):
-                if article.get('title') and article.get('content'):
-                    article_id = f"{category}-{datetime.now().strftime('%Y%m%d')}-{i+1}"
-                    
-                    news_item = {
-                        "id": article_id,
-                        "title": article['title'],
-                        "link": article['url'],
-                        "content": article['content'],
-                        "category": category,
-                        "timestamp": datetime.now().isoformat()
-                    }
-                    
-                    news_data[category].append(news_item)
-                    logging.info(f"Added article: {article_id}")
-                    
-        except Exception as e:
-            logging.error(f"Error in category {category}: {str(e)}")
-            continue
-    
-    return news_data
+            except Exception as e:
+                logging.error(f"Error fetching {category} news: {str(e)}")
+                continue
 
-def save_news_data(news_data):
-    """保存新闻数据并进行验证"""
-    if news_data is None:
-        logging.error("No news data to save")
-        return False
-        
-    try:
-        # 确保data目录存在
-        Path('data').mkdir(exist_ok=True)
-        
-        # 保存数据
-        with open('data/news.json', 'w', encoding='utf-8') as f:
-            json.dump(news_data, f, ensure_ascii=False, indent=4)
-            
-        # 验证保存的数据
-        with open('data/news.json', 'r', encoding='utf-8') as f:
-            saved_data = json.load(f)
-            
-        if saved_data == news_data:
-            logging.info("News data saved and verified successfully")
-            return True
-        else:
-            logging.error("Data verification failed after saving")
-            return False
-            
+        return news_data
+
     except Exception as e:
-        logging.error(f"Error saving news data: {str(e)}")
+        logging.error(f"Error in fetch_reuters_news: {str(e)}")
+        return []
+
+def save_news(news_data):
+    try:
+        os.makedirs('data', exist_ok=True)
+        with open('data/news.json', 'w', encoding='utf-8') as f:
+            json.dump(news_data, f, ensure_ascii=False, indent=2)
+        logging.info(f"Successfully saved {len(news_data)} news items")
+        return True
+    except Exception as e:
+        logging.error(f"Error saving news: {str(e)}")
         return False
 
 def main():
     logging.info("Starting news update process")
     
-    try:
-        news_data = get_news()
-        if news_data and save_news_data(news_data):
-            logging.info("News update completed successfully")
-            return True
-        else:
-            logging.error("News update failed")
-            return False
-            
-    except Exception as e:
-        logging.error(f"Error in main execution: {str(e)}")
+    # 获取新闻
+    news_data = fetch_reuters_news()
+    
+    if not news_data:
+        logging.error("No news data fetched")
         return False
+    
+    # 保存新闻
+    if not save_news(news_data):
+        logging.error("Failed to save news data")
+        return False
+    
+    logging.info("News update completed successfully")
+    return True
 
 if __name__ == "__main__":
-    success = main()
-    sys.exit(0 if success else 1)
+    main()
