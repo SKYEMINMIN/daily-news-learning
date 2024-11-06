@@ -8,35 +8,37 @@ def fetch_news():
     if not api_key:
         raise Exception("NEWS_API_KEY not found in environment variables")
     
+    # 打印 API key 的前几个字符（安全起见不打印完整的）
+    print(f"Using API key starting with: {api_key[:5]}...")
+    
     url = "https://newsapi.org/v2/top-headlines"
     params = {
-        "country": "us",  # 可以改为其他国家代码
+        "country": "us",
         "apiKey": api_key
     }
     
     try:
+        print(f"Requesting URL: {url}")
         response = requests.get(url, params=params)
-        print(f"API Response Status Code: {response.status_code}")  # 添加调试信息
+        print(f"Response status code: {response.status_code}")
+        print(f"Response headers: {response.headers}")
         
         if response.status_code == 200:
             return response.json()
         else:
-            print(f"API Error Response: {response.text}")  # 添加错误响应内容
-            raise Exception(f"API request failed with status {response.status_code}")
+            error_detail = response.json() if response.text else "No error detail available"
+            print(f"API Error Response: {error_detail}")
+            raise Exception(f"API request failed with status {response.status_code}: {error_detail}")
     except Exception as e:
         print(f"Error in fetch_news: {str(e)}")
         raise
 
 def save_news(news_data):
-    # 确保 data 目录存在
     os.makedirs('data', exist_ok=True)
-    
-    # 生成带日期的文件名
     today = datetime.now().strftime('%Y-%m-%d')
     filename = f'data/news-{today}.json'
     
     try:
-        # 保存新闻数据
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(news_data, f, ensure_ascii=False, indent=2)
         print(f"News data saved to {filename}")
@@ -47,6 +49,7 @@ def save_news(news_data):
 def main():
     try:
         print("Starting news fetch process...")
+        print(f"Current environment variables: {list(os.environ.keys())}")
         news_data = fetch_news()
         
         if news_data and 'articles' in news_data:
