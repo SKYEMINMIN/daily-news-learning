@@ -1,18 +1,16 @@
-# 路径：scripts/update_news.py
-
 import json
 import os
 import logging
 import sys
 from datetime import datetime
 
-# 设置更详细的日志记录
+# 设置日志
 logging.basicConfig(
-    level=logging.DEBUG,  # 改为 DEBUG 级别以获取更多信息
+    level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
         logging.FileHandler('debug.log'),
-        logging.StreamHandler(sys.stdout)  # 确保日志也输出到控制台
+        logging.StreamHandler(sys.stdout)
     ]
 )
 
@@ -107,5 +105,4 @@ if __name__ == "__main__":
     logging.info("Script started")
     success = main()
     logging.info(f"Script completed with success={success}")
-    # 确保错误状态正确传递给 GitHub Actions
     sys.exit(0 if success else 1)
