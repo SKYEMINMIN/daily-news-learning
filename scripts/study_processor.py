@@ -4,7 +4,8 @@ import sys
 import logging
 import time
 import random
-from deep_translator import GoogleTranslator
+import http.client
+import urllib.parse
 
 # 设置日志
 logging.basicConfig(
@@ -16,35 +17,79 @@ logging.basicConfig(
     ]
 )
 
-class StudyProcessor:
+class BaiduTranslator:
     def __init__(self):
-        self.translator = GoogleTranslator(source='en', target='zh-CN')
-        
-    def translate_text(self, text, max_retries=3):
-        """翻译文本，包含重试机制"""
+        self.host = 'api.fanyi.baidu.com'
+        self.path = '/api/trans/vip/translate'
+        # 你的 APP ID
+        self.appid = '20231216001904108'
+        # 你的密钥
+        self.secretKey = 'KYs0dJ6UoqVtq85YGHG2'
+
+    def translate(self, text, from_lang='en', to_lang='zh'):
         if not text:
             return ""
             
-        for attempt in range(max_retries):
-            try:
-                # 添加随机延迟，避免请求过于频繁
-                time.sleep(random.uniform(1, 3))
-                
-                # 处理过长的文本
-                if len(text) > 4500:
-                    parts = [text[i:i+4500] for i in range(0, len(text), 4500)]
-                    translated_parts = []
-                    for part in parts:
-                        time.sleep(random.uniform(1, 2))  # 每个部分之间添加延迟
-                        translated_parts.append(self.translator.translate(part))
-                    return ' '.join(translated_parts)
-                return self.translator.translate(text)
-                
-            except Exception as e:
-                logging.error(f"Translation error (attempt {attempt + 1}): {str(e)}")
-                if attempt == max_retries - 1:  # 最后一次尝试
-                    return "翻译失败"
-                time.sleep(random.uniform(2, 5))  # 失败后等待更长时间
+        time.sleep(1)  # 添加延迟
+        
+        try:
+            salt = str(random.randint(32768, 65536))
+            sign = self.appid + text + salt + self.secretKey
+            sign = sign.encode('utf-8')
+            import hashlib
+            m = hashlib.md5()
+            m.update(sign)
+            sign = m.hexdigest()
+
+            params = {
+                'appid': self.appid,
+                'q': text,
+                'from': from_lang,
+                'to': to_lang,
+                'salt': salt,
+                'sign': sign
+            }
+
+            conn = http.client.HTTPConnection(self.host)
+            conn.request('GET', self.path + '?' + urllib.parse.urlencode(params))
+            response = conn.getresponse()
+            result = json.loads(response.read().decode('utf-8'))
+
+            if 'trans_result' in result:
+                return result['trans_result'][C_0]()['dst']
+            else:
+                logging.error(f"Translation error: {result}")
+                return "翻译失败"
+
+        except Exception as e:
+            logging.error(f"Translation error: {str(e)}")
+            return "翻译失败"
+        finally:
+            if 'conn' in locals():
+                conn.close()
+
+class StudyProcessor:
+    def __init__(self):
+        self.translator = BaiduTranslator()
+        
+    def translate_text(self, text):
+        """翻译文本"""
+        if not text:
+            return ""
+            
+        try:
+            # 处理过长的文本
+            if len(text) > 2000:  # 百度翻译单次请求长度限制
+                parts = [text[i:i+2000] for i in range(0, len(text), 2000)]
+                translated_parts = []
+                for part in parts:
+                    time.sleep(1)  # 每个部分之间添加延迟
+                    translated_parts.append(self.translator.translate(part))
+                return ' '.join(translated_parts)
+            return self.translator.translate(text)
+        except Exception as e:
+            logging.error(f"Translation error: {str(e)}")
+            return "翻译失败"
 
     def get_words(self, text):
         """简单的分词"""
@@ -67,8 +112,8 @@ class StudyProcessor:
             words = self.get_words(text)
             vocab_list = []
             
-            # 只取前5个词，减少翻译请求次数
-            for word in words[:5]:
+            # 只取前3个词
+            for word in words[:3]:
                 chinese = self.translate_text(word)
                 if chinese != "翻译失败":
                     vocab_list.append({
@@ -104,8 +149,8 @@ class StudyProcessor:
             sentences = self.split_sentences(text)
             questions = []
             
-            # 只处理前2个句子，减少处理量
-            for sent in sentences[:2]:
+            # 只处理第一个句子
+            for sent in sentences[:1]:
                 words = self.get_words(sent)
                 if words:
                     word_to_blank = words[C_0]()
@@ -128,8 +173,8 @@ class StudyProcessor:
             if not content:
                 return None
 
-            # 只处理前两个段落，减少处理量
-            paragraphs = [p.strip() for p in content.split('\n\n') if p.strip()][:2]
+            # 只处理第一个段落
+            paragraphs = [p.strip() for p in content.split('\n\n') if p.strip()][:1]
             processed_paragraphs = []
             
             for para in paragraphs:
@@ -181,8 +226,8 @@ def main():
         success_count = 0
         total_count = len(news_data)
         
-        # 只处理前3条新闻，避免超出限制
-        for news_item in news_data[:3]:
+        # 只处理前2条新闻
+        for news_item in news_data[:2]:
             try:
                 study_content = processor.process_news(news_item)
                 if study_content:
