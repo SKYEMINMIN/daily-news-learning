@@ -17,13 +17,13 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4  # 更新到 v4
+      uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         fetch-depth: 0
     
     - name: Set up Python
-      uses: actions/setup-python@v5  # 更新到 v5
+      uses: actions/setup-python@v5
       with:
         python-version: '3.x'
     
@@ -74,11 +74,16 @@ jobs:
         git branch --show-current
         echo "Git config:"
         git config --list
+        
+    - name: Configure Git
+      run: |
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+        git remote set-url origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+        git remote -v
     
     - name: Commit files
       run: |
-        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
         echo "Checking for changes..."
         git status
         git add -A
@@ -90,15 +95,13 @@ jobs:
           echo "Changes committed"
         fi
     
-    - name: Push changes with detailed logging
+    - name: Push changes
       run: |
-        echo "Attempting to push changes..."
         git push origin HEAD || {
-          echo "Push failed. Debugging information:"
-          git remote -v
-          git branch
-          git status
-          exit 1
+          echo "Push failed, trying with force..."
+          git fetch origin
+          git reset --hard origin/main
+          git add -A
+          git commit -m "Auto update news [skip ci]"
+          git push origin HEAD
         }
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
