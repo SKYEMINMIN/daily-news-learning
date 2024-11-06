@@ -160,3 +160,30 @@
   }
 ]
 2024-11-06 03:16:12,997 - INFO - Script completed with success=True
+2024-11-06 03:17:06,073 - INFO - Script started
+2024-11-06 03:17:06,073 - INFO - Starting news update process...
+2024-11-06 03:17:06,073 - INFO - Generating demo news...
+2024-11-06 03:17:06,073 - INFO - Attempting to save news data...
+2024-11-06 03:17:06,074 - INFO - Creating necessary directories...
+2024-11-06 03:17:06,074 - INFO - Saving to data/news.json
+2024-11-06 03:17:06,074 - INFO - Successfully saved 2 news items
+2024-11-06 03:17:06,074 - INFO - File size: 518 bytes
+2024-11-06 03:17:06,074 - INFO - News update completed successfully
+2024-11-06 03:17:06,074 - INFO - Contents of news.json:
+2024-11-06 03:17:06,074 - INFO - [
+  {
+    "id": "demo_1_20241106",
+    "category": "Technology",
+    "title": "Demo Technology Article",
+    "url": "https://example.com/tech",
+    "content": "This is a demonstration technology article.\n\nIt contains multiple paragraphs for testing purposes."
+  },
+  {
+    "id": "demo_2_20241106",
+    "category": "Business",
+    "title": "Demo Business Article",
+    "url": "https://example.com/business",
+    "content": "This is a demonstration business article.\n\nIt shows how the content structure works."
+  }
+]
+2024-11-06 03:17:06,074 - INFO - Script completed with success=True
