@@ -74,3 +74,5 @@
 2024-11-06 02:26:01,956 - INFO - Added article: politics-20241106-2
 2024-11-06 02:26:01,957 - INFO - News data saved and verified successfully
 2024-11-06 02:26:01,957 - INFO - News update completed successfully
+2024-11-06 02:35:05,560 - INFO - Starting news update process
+2024-11-06 02:35:06,397 - ERROR - No news data fetched
