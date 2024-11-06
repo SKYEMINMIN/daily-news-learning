@@ -12,7 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
     
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -40,28 +44,65 @@ jobs:
         python scripts/study_processor.py
       continue-on-error: true
     
-    - name: Debug directory structure
+    - name: Check for errors
       run: |
-        echo "Current directory structure:"
-        ls -R
-        
-    - name: Debug news data
-      run: |
-        echo "Content of data/news.json:"
-        cat data/news.json || echo "File not found"
+        if [ -f update_news.log ]; then
+          echo "=== Update Log ==="
+          cat update_news.log
+          if grep -i "error" update_news.log; then
+            echo "Errors found in the update process"
+            exit 1
+          fi
+        fi
     
+    - name: Validate news.json
+      run: |
+        if [ -f data/news.json ]; then
+          python -c "import json; json.load(open('data/news.json'))"
+          echo "news.json is valid JSON"
+        else
+          echo "news.json not found"
+          exit 1
+        fi
+    
+    - name: Debug Git status
+      run: |
+        echo "Git status:"
+        git status
+        echo "Git remote:"
+        git remote -v
+        echo "Current branch:"
+        git branch --show-current
+        echo "Git config:"
+        git config --list
+        
     - name: Configure Git
       run: |
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
     
     - name: Commit files
       run: |
+        echo "Checking for changes..."
+        git status
         git add -A
-        git diff --staged --quiet || git commit -m "Auto update news [skip ci]"
+        git status
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "Auto update news [skip ci]"
+          echo "Changes committed"
+        fi
     
     - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
+      run: |
+        echo "Attempting to push changes..."
+        git push origin HEAD || {
+          echo "Push failed. Debugging information:"
+          git remote -v
+          git branch
+          git status
+          exit 1
+        }
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
