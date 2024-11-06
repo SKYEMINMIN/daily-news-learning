@@ -15,54 +15,63 @@ def fetch_news():
             "token": api_key,
             "lang": "en",
             "country": "us",
-            "max": 5  # 减少请求数量到5条
+            "max": 5  # 减少到5条新闻
         }
         
-        # 添加重试逻辑
-        max_retries = 3
-        for attempt in range(max_retries):
+        print(f"Fetching news from Gnews API...")
+        response = requests.get(url, params=params)
+        print(f"Response status: {response.status_code}")
+        print(f"Response content type: {response.headers.get('content-type', '')}")
+        
+        if response.status_code == 200:
             try:
-                print(f"Attempt {attempt + 1}: Fetching news from Gnews API...")
-                response = requests.get(url, params=params, timeout=30)
-                print(f"Response status: {response.status_code}")
-                print(f"Response headers: {response.headers}")
-                print(f"Response body: {response.text[:500]}...")  # 打印响应内容的前500个字符
+                data = response.json()
+                print(f"Articles found: {len(data.get('articles', []))}")
                 
-                if response.status_code == 200:
-                    data = response.json()
-                    if not data.get('articles'):
-                        print("No articles found in response")
+                # 检查响应结构
+                if 'articles' not in data:
+                    print(f"Unexpected response structure: {data}")
+                    raise Exception("Invalid API response format")
+
+                formatted_data = {
+                    "status": "ok",
+                    "articles": []
+                }
+
+                for article in data['articles']:
+                    try:
+                        formatted_article = {
+                            "title": article.get("title", "No title"),
+                            "description": article.get("description", "No description"),
+                            "url": article.get("url", ""),
+                            "urlToImage": article.get("image", ""),
+                            "publishedAt": article.get("publishedAt", ""),
+                            "source": {
+                                "name": article.get("source", {}).get("name", "Unknown Source")
+                            }
+                        }
+                        formatted_data["articles"].append(formatted_article)
+                    except Exception as e:
+                        print(f"Error formatting article: {e}")
                         continue
-                        
-                    formatted_data = {
-                        "status": "ok",
-                        "articles": [{
-                            "title": article["title"],
-                            "description": article["description"],
-                            "url": article["url"],
-                            "urlToImage": article.get("image"),
-                            "publishedAt": article["publishedAt"],
-                            "source": {"name": article["source"]["name"]}
-                        } for article in data["articles"]]
-                    }
-                    return formatted_data
-                elif response.status_code == 429:  # Rate limit
-                    print("Rate limit hit, waiting before retry...")
-                    time.sleep(60)  # 等待60秒
-                    continue
-                else:
-                    print(f"Error response: {response.text}")
-                    if attempt == max_retries - 1:
-                        raise Exception(f"API request failed with status {response.status_code}")
-                    time.sleep(5)  # 等待5秒后重试
-                    
-            except requests.exceptions.RequestException as e:
-                print(f"Request error: {str(e)}")
-                if attempt == max_retries - 1:
-                    raise
-                time.sleep(5)
-                
-        raise Exception("Failed to fetch news after all retries")
+
+                if not formatted_data["articles"]:
+                    raise Exception("No articles could be processed")
+
+                return formatted_data
+            except json.JSONDecodeError as e:
+                print(f"JSON decode error: {e}")
+                print(f"Raw response: {response.text[:500]}...")
+                raise
+        else:
+            error_message = f"API request failed with status {response.status_code}"
+            try:
+                error_details = response.json()
+                error_message += f": {error_details}"
+            except:
+                error_message += f": {response.text}"
+            print(error_message)
+            raise Exception(error_message)
             
     except Exception as e:
         print(f"Error in fetch_news: {str(e)}")
@@ -86,7 +95,7 @@ def main():
         print("Starting news fetch process...")
         news_data = fetch_news()
         
-        if news_data and 'articles' in news_data:
+        if news_data and news_data.get('articles'):
             print(f"Retrieved {len(news_data['articles'])} articles")
             save_news(news_data)
             print("News update completed successfully!")
