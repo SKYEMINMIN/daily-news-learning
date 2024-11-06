@@ -4,8 +4,7 @@ import sys
 import logging
 import time
 import random
-import http.client
-import urllib.parse
+import requests
 
 # 设置日志
 logging.basicConfig(
@@ -17,60 +16,43 @@ logging.basicConfig(
     ]
 )
 
-class BaiduTranslator:
+class SimpleTranslator:
     def __init__(self):
-        self.host = 'api.fanyi.baidu.com'
-        self.path = '/api/trans/vip/translate'
-        # 你的 APP ID
-        self.appid = '20231216001904108'
-        # 你的密钥
-        self.secretKey = 'KYs0dJ6UoqVtq85YGHG2'
-
-    def translate(self, text, from_lang='en', to_lang='zh'):
+        self.base_url = "http://translate.googleapis.com/translate_a/single"
+        
+    def translate(self, text, from_lang='en', to_lang='zh-CN'):
         if not text:
             return ""
             
-        time.sleep(1)  # 添加延迟
-        
         try:
-            salt = str(random.randint(32768, 65536))
-            sign = self.appid + text + salt + self.secretKey
-            sign = sign.encode('utf-8')
-            import hashlib
-            m = hashlib.md5()
-            m.update(sign)
-            sign = m.hexdigest()
-
             params = {
-                'appid': self.appid,
-                'q': text,
-                'from': from_lang,
-                'to': to_lang,
-                'salt': salt,
-                'sign': sign
+                'client': 'gtx',
+                'sl': from_lang,
+                'tl': to_lang,
+                'dt': 't',
+                'q': text
             }
-
-            conn = http.client.HTTPConnection(self.host)
-            conn.request('GET', self.path + '?' + urllib.parse.urlencode(params))
-            response = conn.getresponse()
-            result = json.loads(response.read().decode('utf-8'))
-
-            if 'trans_result' in result:
-                return result['trans_result'][C_0]()['dst']
-            else:
-                logging.error(f"Translation error: {result}")
-                return "翻译失败"
-
+            
+            # 添加随机延迟
+            time.sleep(random.uniform(1, 2))
+            
+            response = requests.get(self.base_url, params=params)
+            if response.status_code == 200:
+                try:
+                    result = response.json()
+                    if result and len(result) > 0 and len(result[C_0]()) > 0:
+                        return result[C_0]()[C_0]()[C_0]()
+                except:
+                    pass
+            return "翻译失败"
+            
         except Exception as e:
             logging.error(f"Translation error: {str(e)}")
             return "翻译失败"
-        finally:
-            if 'conn' in locals():
-                conn.close()
 
 class StudyProcessor:
     def __init__(self):
-        self.translator = BaiduTranslator()
+        self.translator = SimpleTranslator()
         
     def translate_text(self, text):
         """翻译文本"""
@@ -79,8 +61,8 @@ class StudyProcessor:
             
         try:
             # 处理过长的文本
-            if len(text) > 2000:  # 百度翻译单次请求长度限制
-                parts = [text[i:i+2000] for i in range(0, len(text), 2000)]
+            if len(text) > 1000:  # 限制长度
+                parts = [text[i:i+1000] for i in range(0, len(text), 1000)]
                 translated_parts = []
                 for part in parts:
                     time.sleep(1)  # 每个部分之间添加延迟
