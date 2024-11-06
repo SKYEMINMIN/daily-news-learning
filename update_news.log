@@ -76,3 +76,5 @@
 2024-11-06 02:26:01,957 - INFO - News update completed successfully
 2024-11-06 02:35:05,560 - INFO - Starting news update process
 2024-11-06 02:35:06,397 - ERROR - No news data fetched
+2024-11-06 02:49:15,503 - INFO - Starting news update process
+2024-11-06 02:49:15,767 - ERROR - No news data fetched
