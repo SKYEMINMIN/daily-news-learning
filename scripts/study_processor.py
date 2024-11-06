@@ -2,6 +2,8 @@ import json
 import os
 import sys
 import logging
+import time
+import random
 from deep_translator import GoogleTranslator
 
 # 设置日志
@@ -18,20 +20,31 @@ class StudyProcessor:
     def __init__(self):
         self.translator = GoogleTranslator(source='en', target='zh-CN')
         
-    def translate_text(self, text):
-        """翻译文本"""
-        try:
-            # 处理过长的文本，分段翻译
-            if len(text) > 4500:  # Google Translate 限制
-                parts = [text[i:i+4500] for i in range(0, len(text), 4500)]
-                translated_parts = []
-                for part in parts:
-                    translated_parts.append(self.translator.translate(part))
-                return ' '.join(translated_parts)
-            return self.translator.translate(text)
-        except Exception as e:
-            logging.error(f"Translation error: {str(e)}")
-            return "翻译失败"
+    def translate_text(self, text, max_retries=3):
+        """翻译文本，包含重试机制"""
+        if not text:
+            return ""
+            
+        for attempt in range(max_retries):
+            try:
+                # 添加随机延迟，避免请求过于频繁
+                time.sleep(random.uniform(1, 3))
+                
+                # 处理过长的文本
+                if len(text) > 4500:
+                    parts = [text[i:i+4500] for i in range(0, len(text), 4500)]
+                    translated_parts = []
+                    for part in parts:
+                        time.sleep(random.uniform(1, 2))  # 每个部分之间添加延迟
+                        translated_parts.append(self.translator.translate(part))
+                    return ' '.join(translated_parts)
+                return self.translator.translate(text)
+                
+            except Exception as e:
+                logging.error(f"Translation error (attempt {attempt + 1}): {str(e)}")
+                if attempt == max_retries - 1:  # 最后一次尝试
+                    return "翻译失败"
+                time.sleep(random.uniform(2, 5))  # 失败后等待更长时间
 
     def get_words(self, text):
         """简单的分词"""
@@ -42,7 +55,7 @@ class StudyProcessor:
             # 分词并过滤
             words = [word.strip().lower() for word in text.split() 
                     if len(word.strip()) > 3 
-                    and word.strip().isalnum()]  # 确保只包含字母和数字
+                    and word.strip().isalnum()]
             return list(set(words))  # 去重
         except Exception as e:
             logging.error(f"Word extraction error: {str(e)}")
@@ -54,13 +67,14 @@ class StudyProcessor:
             words = self.get_words(text)
             vocab_list = []
             
-            # 只取前10个词
-            for word in words[:10]:
+            # 只取前5个词，减少翻译请求次数
+            for word in words[:5]:
                 chinese = self.translate_text(word)
-                vocab_list.append({
-                    'word': word,
-                    'translation': chinese,
-                })
+                if chinese != "翻译失败":
+                    vocab_list.append({
+                        'word': word,
+                        'translation': chinese,
+                    })
             
             return vocab_list
         except Exception as e:
@@ -77,7 +91,7 @@ class StudyProcessor:
             sentences = []
             for s in text.split('.'):
                 s = s.strip()
-                if s:  # 只添加非空句子
+                if s:
                     sentences.append(s + '.')
             return sentences
         except Exception as e:
@@ -90,12 +104,12 @@ class StudyProcessor:
             sentences = self.split_sentences(text)
             questions = []
             
-            for sent in sentences[:3]:  # 只处理前3个句子
+            # 只处理前2个句子，减少处理量
+            for sent in sentences[:2]:
                 words = self.get_words(sent)
                 if words:
-                    # 为每个句子创建一个简单的填空题
                     word_to_blank = words[C_0]()
-                    blank_sent = sent.lower().replace(word_to_blank, '_____', 1)  # 只替换第一次出现
+                    blank_sent = sent.lower().replace(word_to_blank, '_____', 1)
                     questions.append({
                         'type': 'fill-in',
                         'question': blank_sent,
@@ -114,12 +128,12 @@ class StudyProcessor:
             if not content:
                 return None
 
-            # 按双换行符分割段落
-            paragraphs = [p.strip() for p in content.split('\n\n') if p.strip()]
+            # 只处理前两个段落，减少处理量
+            paragraphs = [p.strip() for p in content.split('\n\n') if p.strip()][:2]
             processed_paragraphs = []
             
             for para in paragraphs:
-                if len(para) > 10:  # 只处理长度超过10的段落
+                if len(para) > 10:
                     processed_para = {
                         'english': para,
                         'chinese': self.translate_text(para),
@@ -167,7 +181,8 @@ def main():
         success_count = 0
         total_count = len(news_data)
         
-        for news_item in news_data:
+        # 只处理前3条新闻，避免超出限制
+        for news_item in news_data[:3]:
             try:
                 study_content = processor.process_news(news_item)
                 if study_content:
