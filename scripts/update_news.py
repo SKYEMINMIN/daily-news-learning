@@ -2,107 +2,122 @@ import json
 import os
 import sys
 import logging
-from datetime import datetime
+import requests
+from datetime import datetime, timezone, timedelta
 
-# 设置日志
+# 配置日志
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('debug.log'),
-        logging.StreamHandler(sys.stdout)
+        logging.FileHandler('update_news.log'),
+        logging.StreamHandler()
     ]
 )
 
-def get_demo_news():
-    """生成演示新闻数据"""
-    current_date = datetime.now().strftime('%Y%m%d')
-    return [
-        {
-            "id": f"demo_1_{current_date}",
-            "category": "Technology",
-            "title": "Demo Technology Article",
-            "url": "https://example.com/tech",
-            "content": "This is a demonstration technology article.\n\nIt contains multiple paragraphs for testing purposes."
-        },
-        {
-            "id": f"demo_2_{current_date}",
-            "category": "Business",
-            "title": "Demo Business Article",
-            "url": "https://example.com/business",
-            "content": "This is a demonstration business article.\n\nIt shows how the content structure works."
+def fetch_news():
+    """从 NewsAPI 获取新闻"""
+    try:
+        # NewsAPI endpoint 和 API key
+        url = "https://newsapi.org/v2/top-headlines"
+        api_key = "8156377f05e547f587b7bb470cece80e"  # 这是你的 API key
+        
+        # 设置请求参数
+        params = {
+            "apiKey": api_key,
+            "language": "en",
+            "country": "us",
+            "pageSize": 5  # 限制获取的新闻数量
         }
-    ]
-
-def ensure_directories():
-    """确保必要的目录存在"""
-    try:
-        logging.info("Creating necessary directories...")
-        os.makedirs('data', exist_ok=True)
-        os.makedirs('data/study', exist_ok=True)
-        return True
+        
+        response = requests.get(url, params=params)
+        response.raise_for_status()  # 检查请求是否成功
+        
+        return response.json()
     except Exception as e:
-        logging.error(f"Error creating directories: {str(e)}")
-        return False
+        logging.error(f"Error fetching news: {str(e)}")
+        return None
 
-def save_news(news_data):
-    """保存新闻数据"""
+def process_news(news_data):
+    """处理新闻数据"""
+    if not news_data or "articles" not in news_data:
+        return []
+        
+    processed_news = []
+    
+    for article in news_data["articles"]:
+        # 跳过没有内容的文章
+        if not article.get("content"):
+            continue
+            
+        # 生成唯一ID（使用时间戳和标题的组合）
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
+        title_part = article.get("title", "")[:30].replace(" ", "-").lower()
+        article_id = f"{timestamp}-{title_part}"
+        
+        processed_article = {
+            "id": article_id,
+            "title": article.get("title", ""),
+            "content": article.get("content", ""),
+            "url": article.get("url", ""),
+            "publishedAt": article.get("publishedAt", ""),
+            "source": article.get("source", {}).get("name", "Unknown")
+        }
+        
+        processed_news.append(processed_article)
+    
+    return processed_news
+
+def save_news(news_list):
+    """保存新闻到文件"""
     try:
-        logging.info("Attempting to save news data...")
-        
         # 确保目录存在
-        if not ensure_directories():
-            return False
+        os.makedirs('data', exist_ok=True)
+        
+        # 读取现有的新闻（如果存在）
+        existing_news = []
+        if os.path.exists('data/news.json'):
+            with open('data/news.json', 'r', encoding='utf-8') as f:
+                existing_news = json.load(f)
+        
+        # 合并新旧新闻，保持最近的10条
+        all_news = news_list + existing_news
+        all_news = all_news[:10]  # 只保留最新的10条新闻
+        
+        # 保存到文件
+        with open('data/news.json', 'w', encoding='utf-8') as f:
+            json.dump(all_news, f, ensure_ascii=False, indent=2)
             
-        file_path = 'data/news.json'
-        logging.info(f"Saving to {file_path}")
-        
-        with open(file_path, 'w', encoding='utf-8') as f:
-            json.dump(news_data, f, ensure_ascii=False, indent=2)
-            
-        logging.info(f"Successfully saved {len(news_data)} news items")
-        
-        # 验证保存的文件
-        if os.path.exists(file_path):
-            logging.info(f"File size: {os.path.getsize(file_path)} bytes")
-        
+        logging.info(f"Successfully saved {len(news_list)} new news items")
         return True
+        
     except Exception as e:
         logging.error(f"Error saving news: {str(e)}")
         return False
 
 def main():
     try:
-        logging.info("Starting news update process...")
-        
-        # 生成演示新闻
-        logging.info("Generating demo news...")
-        news_data = get_demo_news()
-        
-        # 保存新闻
-        if save_news(news_data):
-            logging.info("News update completed successfully")
-            
-            # 显示文件内容作为调试信息
-            try:
-                with open('data/news.json', 'r', encoding='utf-8') as f:
-                    logging.info("Contents of news.json:")
-                    logging.info(f.read())
-            except Exception as e:
-                logging.error(f"Error reading saved file: {str(e)}")
-                
-            return True
-        else:
-            logging.error("Failed to save news data")
+        # 获取新闻
+        news_data = fetch_news()
+        if not news_data:
+            logging.error("Failed to fetch news")
             return False
             
+        # 处理新闻
+        processed_news = process_news(news_data)
+        if not processed_news:
+            logging.error("No valid news to process")
+            return False
+            
+        # 保存新闻
+        success = save_news(processed_news)
+        
+        return success
+        
     except Exception as e:
         logging.error(f"Error in main: {str(e)}")
-        logging.exception("Detailed error information:")
         return False
 
 if __name__ == "__main__":
-    logging.info("Script started")
     success = main()
-    logging.info(f"Script completed with success={success}")
     sys.exit(0 if success else 1)
