@@ -4,31 +4,42 @@ import requests
 from datetime import datetime
 
 def fetch_news():
-    api_key = os.environ.get('NEWS_API_KEY')
-    if not api_key:
-        raise Exception("NEWS_API_KEY not found in environment variables")
-    
-    # 打印 API key 的前几个字符（安全起见不打印完整的）
-    print(f"Using API key starting with: {api_key[:5]}...")
-    
-    url = "https://newsapi.org/v2/top-headlines"
-    params = {
-        "country": "us",
-        "apiKey": api_key
-    }
-    
     try:
-        print(f"Requesting URL: {url}")
+        api_key = os.environ.get('NEWS_API_KEY')  # 我们暂时使用同样的环境变量名
+        if not api_key:
+            raise Exception("API key not found in environment variables")
+
+        url = "https://gnews.io/api/v4/top-headlines"
+        params = {
+            "lang": "en",      # 英文新闻
+            "country": "us",   # 美国新闻
+            "max": 10,         # 获取10条新闻
+            "apikey": api_key
+        }
+        
+        print(f"Fetching news from Gnews API...")
         response = requests.get(url, params=params)
-        print(f"Response status code: {response.status_code}")
-        print(f"Response headers: {response.headers}")
+        print(f"Response status: {response.status_code}")
         
         if response.status_code == 200:
-            return response.json()
+            data = response.json()
+            # 转换为与原格式兼容的结构
+            formatted_data = {
+                "status": "ok",
+                "articles": [{
+                    "title": article["title"],
+                    "description": article["description"],
+                    "url": article["url"],
+                    "urlToImage": article.get("image"),
+                    "publishedAt": article["publishedAt"],
+                    "source": {"name": article["source"]["name"]}
+                } for article in data["articles"]]
+            }
+            return formatted_data
         else:
-            error_detail = response.json() if response.text else "No error detail available"
-            print(f"API Error Response: {error_detail}")
-            raise Exception(f"API request failed with status {response.status_code}: {error_detail}")
+            print(f"Error response: {response.text}")
+            raise Exception(f"API request failed with status {response.status_code}")
+            
     except Exception as e:
         print(f"Error in fetch_news: {str(e)}")
         raise
@@ -49,7 +60,6 @@ def save_news(news_data):
 def main():
     try:
         print("Starting news fetch process...")
-        print(f"Current environment variables: {list(os.environ.keys())}")
         news_data = fetch_news()
         
         if news_data and 'articles' in news_data:
