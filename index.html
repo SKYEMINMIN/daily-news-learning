@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,31 +7,105 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <h1>Daily News Learning Platform</h1>
-    </header>
-    
-    <main>
-        <div class="categories">
-            <div class="category" id="ai">
+    <div class="container">
+        <header>
+            <h1>Daily News Learning</h1>
+            <p>每日英语新闻学习平台</p>
+        </header>
+
+        <main>
+            <section id="ai-tech" class="news-section">
                 <h2>AI & Technology</h2>
                 <div class="news-list"></div>
-            </div>
-            <div class="category" id="entertainment">
+            </section>
+
+            <section id="entertainment" class="news-section">
                 <h2>Entertainment</h2>
                 <div class="news-list"></div>
-            </div>
-            <div class="category" id="finance">
+            </section>
+
+            <section id="finance" class="news-section">
                 <h2>Finance</h2>
                 <div class="news-list"></div>
-            </div>
-            <div class="category" id="politics">
+            </section>
+
+            <section id="politics" class="news-section">
                 <h2>Politics</h2>
                 <div class="news-list"></div>
-            </div>
-        </div>
-    </main>
+            </section>
+        </main>
 
-    <script src="js/main.js"></script>
+        <footer>
+            <p>更新时间：<span id="update-time"></span></p>
+        </footer>
+    </div>
+
+    <script>
+        // 加载新闻数据
+        async function loadNews() {
+            try {
+                const response = await fetch('data/news.json');
+                const newsData = await response.json();
+                displayNews(newsData);
+                updateTime();
+            } catch (error) {
+                console.error('Error loading news:', error);
+            }
+        }
+
+        // 显示新闻
+        function displayNews(newsData) {
+            const categories = {
+                'AI & Technology': 'ai-tech',
+                'Entertainment': 'entertainment',
+                'Finance': 'finance',
+                'Politics': 'politics'
+            };
+
+            newsData.forEach(newsItem => {
+                const sectionId = categories[newsItem.category];
+                if (sectionId) {
+                    const newsSection = document.querySelector(`#${sectionId} .news-list`);
+                    const newsElement = createNewsElement(newsItem);
+                    newsSection.appendChild(newsElement);
+                }
+            });
+        }
+
+        // 创建新闻元素
+        function createNewsElement(newsItem) {
+            const newsDiv = document.createElement('div');
+            newsDiv.className = 'news-item';
+            
+            // 创建新闻标题链接
+            const titleLink = document.createElement('a');
+            titleLink.href = newsItem.url;
+            titleLink.target = '_blank';
+            titleLink.className = 'news-title';
+            titleLink.textContent = newsItem.title;
+            
+            // 创建学习模式链接
+            const studyLink = document.createElement('a');
+            studyLink.href = `templates/study.html?id=${newsItem.id}`;
+            studyLink.className = 'study-link';
+            studyLink.textContent = '学习模式';
+            
+            // 添加到新闻div
+            newsDiv.appendChild(titleLink);
+            newsDiv.appendChild(studyLink);
+            
+            return newsDiv;
+        }
+
+        // 更新时间显示
+        function updateTime() {
+            const timeElement = document.getElementById('update-time');
+            const now = new Date();
+            timeElement.textContent = now.toLocaleString();
+        }
+
+        // 页面加载时执行
+        document.addEventListener('DOMContentLoaded', loadNews);
+    </script>
 </body>
 </html>
