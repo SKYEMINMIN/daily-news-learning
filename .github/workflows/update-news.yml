@@ -2,8 +2,8 @@ name: Update News
 
 on:
   schedule:
-    - cron: '0 22 * * *'  # UTC 22:00 (北京时间早6点)
-  workflow_dispatch:  # 允许手动触发
+    - cron: '0 22 * * *'
+  workflow_dispatch:
 
 jobs:
   update-news:
@@ -25,21 +25,44 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests
         pip install nltk
-        pip install translators
     
-    - name: Create data directory
-      run: mkdir -p data
+    - name: Check directory structure
+      run: |
+        mkdir -p data css js scripts
+        ls -la
     
     - name: Run update script
       run: |
         python scripts/update_news.py
+      continue-on-error: true
+    
+    - name: Check for errors
+      run: |
+        if [ -f update_news.log ]; then
+          echo "=== Update Log ==="
+          cat update_news.log
+          if grep -i "error" update_news.log; then
+            echo "Errors found in the update process"
+            exit 1
+          fi
+        fi
+    
+    - name: Validate news.json
+      run: |
+        if [ -f data/news.json ]; then
+          python -c "import json; json.load(open('data/news.json'))"
+          echo "news.json is valid JSON"
+        else
+          echo "news.json not found"
+          exit 1
+        fi
     
     - name: Commit files
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git add -A
-        git commit -m "Auto update news" -a || exit 0
+        git diff --quiet && git diff --staged --quiet || git commit -m "Auto update news"
     
     - name: Push changes
       uses: ad-m/github-push-action@master
