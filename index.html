@@ -3,53 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Daily International News in AI, Entertainment, Finance, and Politics">
-    <title>Daily International News</title>
+    <title>Daily News Learning</title>
     <link rel="stylesheet" href="css/style.css">
-    <!-- 添加favicon -->
-    <link rel="icon" type="image/png" href="favicon.png">
 </head>
-<body class="notion-body">
-    <div class="notion-container">
-        <header class="notion-header">
-            <h1 class="notion-title">Daily International News</h1>
-            <p class="notion-subtitle">Last Updated: <span id="datetime"></span></p>
-        </header>
+<body>
+    <header>
+        <h1>Daily News Learning Platform</h1>
+    </header>
+    
+    <main>
+        <div class="categories">
+            <div class="category" id="ai">
+                <h2>AI & Technology</h2>
+                <div class="news-list"></div>
+            </div>
+            <div class="category" id="entertainment">
+                <h2>Entertainment</h2>
+                <div class="news-list"></div>
+            </div>
+            <div class="category" id="finance">
+                <h2>Finance</h2>
+                <div class="news-list"></div>
+            </div>
+            <div class="category" id="politics">
+                <h2>Politics</h2>
+                <div class="news-list"></div>
+            </div>
+        </div>
+    </main>
 
-        <main class="notion-main">
-            <section class="notion-section">
-                <div class="notion-section-header">
-                    <span class="notion-emoji">🤖</span>
-                    <h2 class="notion-section-title">AI & Technology</h2>
-                </div>
-                <div class="notion-card" id="ai-news"></div>
-            </section>
-
-            <section class="notion-section">
-                <div class="notion-section-header">
-                    <span class="notion-emoji">🎬</span>
-                    <h2 class="notion-section-title">Entertainment</h2>
-                </div>
-                <div class="notion-card" id="entertainment-news"></div>
-            </section>
-
-            <section class="notion-section">
-                <div class="notion-section-header">
-                    <span class="notion-emoji">💰</span>
-                    <h2 class="notion-section-title">Finance</h2>
-                </div>
-                <div class="notion-card" id="finance-news"></div>
-            </section>
-
-            <section class="notion-section">
-                <div class="notion-section-header">
-                    <span class="notion-emoji">🌏</span>
-                    <h2 class="notion-section-title">Politics</h2>
-                </div>
-                <div class="notion-card" id="politics-news"></div>
-            </section>
-        </main>
-    </div>
     <script src="js/main.js"></script>
 </body>
 </html>
