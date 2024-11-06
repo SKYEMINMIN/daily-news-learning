@@ -1,149 +1,174 @@
+# 路径：scripts/study_processor.py
+
 import json
 import os
-from deep_translator import GoogleTranslator
+import logging
 import nltk
-from nltk.corpus import words, wordnet
+from deep_translator import GoogleTranslator
 from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.tag import pos_tag
+from nltk.corpus import wordnet
+
+# 设置日志
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('study_processor.log'),
+        logging.StreamHandler()
+    ]
+)
+
+# 下载必要的NLTK数据
+nltk.download('punkt')
+nltk.download('words')
+nltk.download('wordnet')
+nltk.download('averaged_perceptron_tagger')
 
 class StudyProcessor:
     def __init__(self):
-        # 下载必要的NLTK数据
-        nltk.download('punkt')
-        nltk.download('words')
-        nltk.download('wordnet')
-        nltk.download('averaged_perceptron_tagger')
-        
-        # 初始化翻译器
         self.translator = GoogleTranslator(source='en', target='zh-CN')
         
-        # 加载英语常用词集合
-        self.english_words = set(words.words())
-        
     def translate_text(self, text):
-        """使用Google Translate API进行翻译"""
+        """翻译文本"""
         try:
             return self.translator.translate(text)
-        except:
+        except Exception as e:
+            logging.error(f"Translation error: {str(e)}")
             return "翻译失败"
-    
-    def get_word_info(self, word):
-        """获取单词信息"""
-        syns = wordnet.synsets(word)
-        if not syns:
-            return None
+
+    def generate_vocabulary(self, text):
+        """生成词汇表"""
+        try:
+            words = word_tokenize(text.lower())
+            tagged = pos_tag(words)
+            vocab_list = []
             
-        pos_map = {
-            'n': '名词',
-            'v': '动词',
-            'a': '形容词',
-            'r': '副词',
-            's': '形容词卫星'
-        }
-        
-        word_info = {
-            'word': word,
-            'pos': pos_map.get(syns[C_0]().pos(), '未知'),
-            'translation': self.translate_text(word)
-        }
-        return word_info
-    
-    def process_paragraph(self, paragraph):
-        """处理单个段落"""
-        # 分词
-        words = word_tokenize(paragraph)
-        
-        # 获取重要单词
-        important_words = []
-        for word in words:
-            # 只处理字母组成的单词
-            if not word.isalpha():
-                continue
-            # 排除常见简单词
-            if word.lower() not in self.english_words or len(word) <= 3:
-                continue
+            for word, tag in tagged:
+                if tag.startswith(('NN', 'VB', 'JJ', 'RB')) and len(word) > 3:
+                    chinese = self.translate_text(word)
+                    vocab_list.append({
+                        'word': word,
+                        'translation': chinese,
+                        'pos': tag
+                    })
             
-            word_info = self.get_word_info(word.lower())
-            if word_info:
-                important_words.append(word_info)
-        
-        return {
-            'english': paragraph,
-            'chinese': self.translate_text(paragraph),
-            'vocabulary': important_words
-        }
-    
-    def generate_questions(self, content):
-        """生成简单的理解问题"""
-        sentences = sent_tokenize(content)
-        questions = []
-        
-        # 生成3个基本问题
-        if sentences:
-            questions.append({
-                'question': "What is the main topic of this article?",
-                'answer': "This article mainly discusses " + self.translate_text(sentences[C_0]())
-            })
-        
-        if len(sentences) > 1:
-            questions.append({
-                'question': "What is one key point mentioned in the article?",
-                'answer': "One key point is " + self.translate_text(sentences[C_1]())
-            })
-        
-        questions.append({
-            'question': "Why is this news significant?",
-            'answer': "This news is significant because it affects/shows/demonstrates..."
-        })
-        
-        return questions
-    
-    def process_news(self, news_item):
-        """处理新闻内容"""
-        # 分段
-        paragraphs = news_item['content'].split('\n\n')
-        
-        # 处理每个段落
-        processed_paragraphs = []
-        all_vocabulary = []
-        
-        for para in paragraphs:
-            if not para.strip():
-                continue
+            return vocab_list[:10]  # 返回前10个词
+        except Exception as e:
+            logging.error(f"Vocabulary generation error: {str(e)}")
+            return []
+
+    def generate_questions(self, text):
+        """生成简单问题"""
+        try:
+            sentences = sent_tokenize(text)
+            questions = []
+            
+            for sent in sentences[:3]:  # 只处理前3个句子
+                # 生成填空题
+                words = word_tokenize(sent)
+                tagged = pos_tag(words)
                 
-            processed = self.process_paragraph(para)
-            processed_paragraphs.append(processed)
-            all_vocabulary.extend(processed['vocabulary'])
-        
-        # 生成理解问题
-        questions = self.generate_questions(news_item['content'])
-        
-        # 创建学习内容
-        study_content = {
-            'title': news_item['title'],
-            'paragraphs': processed_paragraphs,
-            'vocabulary': list({v['word']: v for v in all_vocabulary}.values()),  # 去重
-            'questions': questions
-        }
-        
-        return study_content
-    
-    def save_study_content(self, news_id, study_content):
+                for i, (word, tag) in enumerate(tagged):
+                    if tag.startswith(('NN', 'VB')) and len(word) > 3:
+                        blank_sent = ' '.join(words[:i] + ['_____'] + words[i+1:])
+                        questions.append({
+                            'type': 'fill-in',
+                            'question': blank_sent,
+                            'answer': word
+                        })
+                        break  # 每个句子只生成一个问题
+            
+            return questions
+        except Exception as e:
+            logging.error(f"Question generation error: {str(e)}")
+            return []
+
+    def process_news(self, news_item):
+        """处理单条新闻"""
+        try:
+            # 确保新闻内容存在
+            if not news_item.get('content'):
+                logging.error(f"No content found for news item: {news_item.get('id', 'unknown')}")
+                return None
+
+            content = news_item['content']
+            
+            # 按段落分割内容
+            paragraphs = content.split('\n\n')
+            
+            # 处理每个段落
+            processed_paragraphs = []
+            for para in paragraphs:
+                if para.strip():  # 忽略空段落
+                    processed_para = {
+                        'english': para.strip(),
+                        'chinese': self.translate_text(para.strip()),
+                        'vocabulary': self.generate_vocabulary(para),
+                        'questions': self.generate_questions(para)
+                    }
+                    processed_paragraphs.append(processed_para)
+            
+            return {
+                'id': news_item['id'],
+                'title': news_item['title'],
+                'paragraphs': processed_paragraphs
+            }
+            
+        except Exception as e:
+            logging.error(f"Error processing news item: {str(e)}")
+            return None
+
+    def save_study_content(self, news_id, content):
         """保存学习内容"""
-        os.makedirs('data/study', exist_ok=True)
-        with open(f'data/study/{news_id}.json', 'w', encoding='utf-8') as f:
-            json.dump(study_content, f, ensure_ascii=False, indent=2)
+        try:
+            if content is None:
+                logging.error(f"No content to save for news ID: {news_id}")
+                return
+                
+            # 确保目录存在
+            os.makedirs('data/study', exist_ok=True)
+            
+            # 保存文件
+            file_path = f'data/study/{news_id}.json'
+            with open(file_path, 'w', encoding='utf-8') as f:
+                json.dump(content, f, ensure_ascii=False, indent=2)
+                
+            logging.info(f"Successfully saved study content for {news_id}")
+            
+        except Exception as e:
+            logging.error(f"Error saving study content: {str(e)}")
 
 def main():
-    # 读取新闻数据
-    with open('data/news.json', 'r', encoding='utf-8') as f:
-        news_data = json.load(f)
-    
-    processor = StudyProcessor()
-    
-    # 处理每条新闻
-    for news in news_data:
-        study_content = processor.process_news(news)
-        processor.save_study_content(news['id'], study_content)
+    try:
+        # 确保news.json存在
+        if not os.path.exists('data/news.json'):
+            logging.error("news.json not found")
+            return
+            
+        # 读取新闻数据
+        with open('data/news.json', 'r', encoding='utf-8') as f:
+            news_data = json.load(f)
+        
+        if not news_data:
+            logging.error("No news data found")
+            return
+            
+        processor = StudyProcessor()
+        
+        # 处理每条新闻
+        for news in news_data:
+            try:
+                study_content = processor.process_news(news)
+                if study_content:
+                    processor.save_study_content(news['id'], study_content)
+                    logging.info(f"Successfully processed news {news['id']}")
+            except Exception as e:
+                logging.error(f"Error processing news {news.get('id', 'unknown')}: {str(e)}")
+                continue
+                
+    except Exception as e:
+        logging.error(f"Error in main: {str(e)}")
 
 if __name__ == "__main__":
     main()
