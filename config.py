@@ -20,7 +20,8 @@ class NewsProcessor:
         """从 NewsAPI 获取新闻"""
         try:
             url = "https://newsapi.org/v2/top-headlines"
-            api_key = "70c47808e1fc40f2bb4450e822b5f2fc"
+            api_key = os.environ.get('NEWS_API_KEY', '')
+
             
             params = {
                 "apiKey": api_key,
