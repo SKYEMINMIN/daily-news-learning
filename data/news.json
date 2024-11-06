@@ -1,31 +1,6 @@
 {
-  "metadata": {
-    "last_updated": "2024-11-05T12:14:47.781661+00:00"
-  },
-  "news": {
-    "ai": {
-      "title": "The environmental campaigners fighting against data centres",
-      "url": "https://www.bbc.com/news/articles/cz0mlrx0jxno",
-      "source": "BBC News",
-      "time": "2024-11-04T00:01:32Z"
-    },
-    "entertainment": {
-      "title": "Selena Gomez was 'more nervous than ever' for new musical role",
-      "url": "https://www.bbc.com/news/articles/c62987ve81zo",
-      "source": "BBC News",
-      "time": "2024-11-04T11:50:53Z"
-    },
-    "finance": {
-      "title": "TikTok sued in France over harmful content that allegedly led to two suicides | CNN Business",
-      "url": "https://www.cnn.com/2024/11/04/tech/tiktok-sued-harmful-content-children-france/index.html",
-      "source": "CNN",
-      "time": "2024-11-04T12:10:15Z"
-    },
-    "politics": {
-      "title": "New Tory leader Badenoch starts appointing top team",
-      "url": "https://www.bbc.com/news/articles/cj9n304z0x7o",
-      "source": "BBC News",
-      "time": "2024-11-04T11:01:08Z"
-    }
-  }
+    "ai": [],
+    "entertainment": [],
+    "finance": [],
+    "politics": []
 }
