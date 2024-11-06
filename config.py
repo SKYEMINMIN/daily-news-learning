@@ -20,7 +20,11 @@ class NewsProcessor:
         """从 NewsAPI 获取新闻"""
         try:
             url = "https://newsapi.org/v2/top-headlines"
-            api_key = os.environ.get('NEWS_API_KEY', '')
+            api_key = os.environ.get('NEWS_API_KEY')
+            if not api_key:
+                logging.error("NEWS_API_KEY not found in environment variables")
+                return None
+
 
             
             params = {
