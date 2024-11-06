@@ -1,75 +1,54 @@
-# 路径：.github/workflows/update-news.yml
-
 name: Update News
 
 on:
   schedule:
-    - cron: '0 6 * * *'
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+    - cron: '0 0 * * *'  # 每天运行
+  workflow_dispatch:      # 允许手动触发
 
 jobs:
   update-news:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v2
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        fetch-depth: 0
-    
+        fetch-depth: 1
+        
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
-    
+        python-version: '3.8'
+        
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests beautifulsoup4 lxml
-        pip install nltk deep-translator
-    
-    - name: Create directories
+        pip install requests==2.31.0
+        pip install nltk==3.8.1
+        pip install deep-translator==1.11.4
+        
+    - name: Create Directories
       run: |
+        mkdir -p data
         mkdir -p data/study
-        mkdir -p scripts
-        ls -la
-    
-    - name: Run update script with debug
+        
+    - name: Update news
       run: |
-        echo "Starting update script..."
-        python -V
         python scripts/update_news.py
-        echo "Update script finished"
-        ls -la data/
-        cat data/news.json || echo "news.json not found"
-      continue-on-error: true
-    
-    - name: Run study processor with debug
+        
+    - name: Process study materials
       run: |
-        echo "Starting study processor..."
         python scripts/study_processor.py
-        echo "Study processor finished"
-        ls -la data/study/
-      continue-on-error: true
-    
+        
     - name: Configure Git
       run: |
-        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-    
-    - name: Check Git Status
-      run: |
-        git status
-    
+        
     - name: Commit and Push
       run: |
         git add -A
         git commit -m "Auto update news [skip ci]" || echo "No changes to commit"
         git push || {
-          echo "Push failed, fetching latest changes..."
           git fetch origin
           git reset --hard origin/main
           git add -A
