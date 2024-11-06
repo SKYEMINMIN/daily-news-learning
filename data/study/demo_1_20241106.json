@@ -1,0 +1,18 @@
+{
+  "id": "demo_1_20241106",
+  "title": "Demo Technology Article",
+  "paragraphs": [
+    {
+      "english": "This is a demonstration technology article.",
+      "chinese": "这是一篇演示技术文章。",
+      "vocabulary": [],
+      "questions": []
+    },
+    {
+      "english": "It contains multiple paragraphs for testing purposes.",
+      "chinese": "它包含多个用于测试目的的段落。",
+      "vocabulary": [],
+      "questions": []
+    }
+  ]
+}

@@ -1,66 +1,16 @@
-{
-    "ai": [
-        {
-            "id": "ai-20241106-1",
-            "title": "OpenAI is making moves toward becoming a for-profit company",
-            "link": "https://www.businessinsider.com/openai-one-step-closer-becoming-profit-company-report-2024-11",
-            "content": "OpenAI is one step closer to changing its governance structure from nonprofit to for-profit.\r\nThe AI startup is in preliminary talks withCalifornia's attorney general's officeabout the process of bec… [+2563 chars]",
-            "category": "ai",
-            "timestamp": "2024-11-06T02:26:01.687448"
-        },
-        {
-            "id": "ai-20241106-2",
-            "title": "Scientists use AI to help track penguins in Antarctica",
-            "link": "https://www.thestar.com.my/tech/tech-news/2024/11/05/scientists-use-ai-to-help-track-penguins-in-antarctica",
-            "content": "Adélie penguins can be indicators of environmental variations. Studying them in their natural environment makes it possible to monitor the impact of climate change on Antarctica, a region that is not… [+2114 chars]",
-            "category": "ai",
-            "timestamp": "2024-11-06T02:26:01.687557"
-        }
-    ],
-    "entertainment": [
-        {
-            "id": "entertainment-20241106-1",
-            "title": "Kourtney Kardashian Shares Photos of Baby Rocky's First Birthday Party Celebrations - E! NEWS",
-            "link": "https://www.eonline.com/news/1409520/kourtney-kardashian-shares-photos-of-baby-rockys-first-birthday-party-celebrations",
-            "content": "Kourtney Kardashian sure knows how to throw a party.\r\nAs the Kardashians star and husband Travis Barker celebrated their son Rocky Thirteen Barker turning 12 months, she gave fans a glimpse of what a… [+910 chars]",
-            "category": "entertainment",
-            "timestamp": "2024-11-06T02:26:01.762482"
-        },
-        {
-            "id": "entertainment-20241106-2",
-            "title": "James Van Der Beek’s wife shares heartfelt message of support after his colorectal cancer diagnosis - New York Post ",
-            "link": "https://nypost.com/2024/11/04/entertainment/james-van-der-beeks-wife-shares-heartfelt-message-amid-his-cancer-diagnosis/",
-            "content": "James Van Der Beek’s wife, Kimberly Van Der Beek, is showing her support after the actor revealed he’s been diagnosed with colorectal cancer and issued a public apology to his loved ones after claimi… [+3562 chars]",
-            "category": "entertainment",
-            "timestamp": "2024-11-06T02:26:01.762609"
-        }
-    ],
-    "finance": [
-        {
-            "id": "finance-20241106-2",
-            "title": "Stock futures are little changed as Wall Street readies for presidential election: Live updates - CNBC",
-            "link": "https://www.cnbc.com/2024/11/04/stock-market-today-live-updates.html",
-            "content": "Stock futures were flat in overnight trading ahead of Tuesday's high-stakes U.S. presidential election.\r\nFutures tied to the Dow Jones Industrial Average slipped 17 points. S&amp;P 500 futures and Na… [+1838 chars]",
-            "category": "finance",
-            "timestamp": "2024-11-06T02:26:01.831375"
-        }
-    ],
-    "politics": [
-        {
-            "id": "politics-20241106-1",
-            "title": "Vice President Kamala Harris holds campaign rally at Carrie Blast Furnaces - WTAE Pittsburgh",
-            "link": "https://www.wtae.com/article/kamala-harris-rally-pittsburgh-carrie-furnaces/62802339",
-            "content": "RANKIN, Pa. —Vice President Kamala Harris returned to the Pittsburgh area for a campaign rally at Carrie Blast Furnaces in Rankin on Monday night.\r\nAccording to the \"Vote for Freedom Rally\" website, … [+1480 chars]",
-            "category": "politics",
-            "timestamp": "2024-11-06T02:26:01.956313"
-        },
-        {
-            "id": "politics-20241106-2",
-            "title": "Joe Rogan endorses Trump on eve of Election Day - Axios",
-            "link": "https://www.axios.com/2024/11/05/joe-rogan-endorses-trump-on-eve-of-election-day",
-            "content": "Joe Rogan endorsed former President Trump for president on Monday evening.\r\nWhy it matters: The podcaster's endorsement of the GOP presidential nominee on the eve of Election Day could be a major boo… [+1168 chars]",
-            "category": "politics",
-            "timestamp": "2024-11-06T02:26:01.956409"
-        }
-    ]
-}
+[
+  {
+    "id": "demo_1_20241106",
+    "category": "Technology",
+    "title": "Demo Technology Article",
+    "url": "https://example.com/tech",
+    "content": "This is a demonstration technology article.\n\nIt contains multiple paragraphs for testing purposes."
+  },
+  {
+    "id": "demo_2_20241106",
+    "category": "Business",
+    "title": "Demo Business Article",
+    "url": "https://example.com/business",
+    "content": "This is a demonstration business article.\n\nIt shows how the content structure works."
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "id": "demo_2_20241106",
+  "title": "Demo Business Article",
+  "paragraphs": [
+    {
+      "english": "This is a demonstration business article.",
+      "chinese": "这是一篇示范商业文章。",
+      "vocabulary": [],
+      "questions": []
+    },
+    {
+      "english": "It shows how the content structure works.",
+      "chinese": "它展示了内容结构如何运作。",
+      "vocabulary": [],
+      "questions": []
+    }
+  ]
+}
