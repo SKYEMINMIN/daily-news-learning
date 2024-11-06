@@ -1,97 +1,54 @@
-/* Study Page Styles */
-.notion-article {
-    max-width: 800px;
-    margin: 0 auto;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
     padding: 20px;
 }
 
-.notion-back-link {
-    display: inline-block;
-    padding: 8px 16px;
-    color: var(--notion-gray-text);
-    text-decoration: none;
-    margin-bottom: 20px;
-}
-
-.notion-paragraph {
-    margin-bottom: 24px;
-    padding: 16px;
-    background: var(--notion-gray-light);
-    border-radius: 4px;
-}
-
-.original-text {
-    margin-bottom: 12px;
-    line-height: 1.6;
-}
-
-.paragraph-translation {
-    color: var(--notion-gray-text);
-    font-size: 0.95em;
-    line-height: 1.6;
-}
-
-.highlight-word {
-    background-color: #ffeeba;
-    padding: 0 2px;
-    border-radius: 2px;
-    cursor: pointer;
-}
-
-.vocab-card {
-    margin-bottom: 16px;
-    padding: 16px;
-    border: 1px solid var(--notion-gray-light);
-    border-radius: 4px;
-}
-
-.word-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
-}
-
-.word {
-    font-weight: bold;
-    margin-right: 12px;
-}
-
-.phonetic {
-    color: var(--notion-gray-text);
-}
-
-.word-pos {
-    color: #666;
-    font-style: italic;
-    margin-bottom: 4px;
-}
-
-.word-meaning {
-    margin-bottom: 8px;
-}
-
-.word-example {
-    color: var(--notion-gray-text);
-    font-style: italic;
-}
-
-.question-card {
-    margin-bottom: 20px;
-    padding: 16px;
-    background: var(--notion-gray-light);
-    border-radius: 4px;
-}
-
-.question {
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.answer {
-    color: var(--notion-gray-text);
-}
-
-.notion-error {
+header {
     text-align: center;
-    padding: 40px;
+    margin-bottom: 30px;
+}
+
+.categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.category {
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.news-item {
+    background: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.news-links {
+    margin-top: 10px;
+}
+
+.news-links a {
+    display: inline-block;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.learn-link {
+    background: #28a745;
+    color: white !important;
+    padding: 5px 10px;
+    border-radius: 3px;
 }
