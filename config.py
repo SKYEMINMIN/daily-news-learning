@@ -5,7 +5,7 @@ from datetime import datetime
 
 def fetch_news():
     try:
-        api_key = os.environ.get('NEWS_API_KEY')  # 我们暂时使用同样的环境变量名
+        api_key = os.environ.get('NEWS_API_KEY')
         if not api_key:
             raise Exception("API key not found in environment variables")
 
@@ -14,7 +14,7 @@ def fetch_news():
             "lang": "en",      # 英文新闻
             "country": "us",   # 美国新闻
             "max": 10,         # 获取10条新闻
-            "apikey": api_key
+            "token": api_key   # 改这里：从 apikey 改为 token
         }
         
         print(f"Fetching news from Gnews API...")
@@ -23,7 +23,6 @@ def fetch_news():
         
         if response.status_code == 200:
             data = response.json()
-            # 转换为与原格式兼容的结构
             formatted_data = {
                 "status": "ok",
                 "articles": [{
