@@ -1,5 +1,11 @@
 name: Update News
 
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  actions: write
+
 on:
   schedule:
     - cron: '0 22 * * *'
@@ -10,9 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
       with:
-        persist-credentials: false
+        token: ${{ secrets.GITHUB_TOKEN }}
         fetch-depth: 0
     
     - name: Set up Python
@@ -57,46 +64,6 @@ jobs:
           exit 1
         fi
     
-    - name: Commit files
-      run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git add -A
-        git diff --quiet && git diff --staged --quiet || git commit -m "Auto update news"
-    
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
-
-name: Update News
-
-# 添加明确的权限声明
-permissions:
-  contents: write
-  pull-requests: write
-  issues: write
-  actions: write
-
-on:
-  schedule:
-    - cron: '0 22 * * *'
-  workflow_dispatch:
-
-jobs:
-  update-news:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}  # 明确指定 token
-        fetch-depth: 0
-    
-    # ... (之前的其他步骤保持不变) ...
-
     - name: Debug Git status
       run: |
         echo "Git status:"
