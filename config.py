@@ -10,10 +10,10 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('update.log'),
         logging.StreamHandler()
     ]
 )
+
 
 class NewsProcessor:
     def fetch_news(self):
