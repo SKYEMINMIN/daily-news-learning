@@ -2,11 +2,20 @@ import json
 import os
 import sys
 import logging
+import ssl
 import nltk
 from deep_translator import GoogleTranslator
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.tag import pos_tag
 from nltk.corpus import wordnet
+
+# 设置SSL上下文
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
 
 # 设置日志
 logging.basicConfig(
@@ -18,11 +27,17 @@ logging.basicConfig(
     ]
 )
 
-# 下载必要的NLTK数据
-nltk.download('punkt')
-nltk.download('words')
-nltk.download('wordnet')
-nltk.download('averaged_perceptron_tagger')
+def download_nltk_data():
+    """下载NLTK需要的数据"""
+    try:
+        nltk.download('punkt', quiet=True)
+        nltk.download('words', quiet=True)
+        nltk.download('wordnet', quiet=True)
+        nltk.download('averaged_perceptron_tagger', quiet=True)
+        return True
+    except Exception as e:
+        logging.error(f"Error downloading NLTK data: {str(e)}")
+        return False
 
 class StudyProcessor:
     def __init__(self):
@@ -149,6 +164,11 @@ class StudyProcessor:
 
 def main():
     try:
+        # 下载NLTK数据
+        if not download_nltk_data():
+            logging.error("Failed to download NLTK data")
+            return False
+
         # 确保news.json存在
         if not os.path.exists('data/news.json'):
             logging.error("news.json not found")
