@@ -25,6 +25,10 @@ jobs:
         pip install requests==2.31.0
         pip install nltk==3.8.1
         pip install deep-translator==1.11.4
+        python -c "import nltk; nltk.download('punkt', download_dir='/usr/local/nltk_data')"
+        python -c "import nltk; nltk.download('averaged_perceptron_tagger', download_dir='/usr/local/nltk_data')"
+        python -c "import nltk; nltk.download('words', download_dir='/usr/local/nltk_data')"
+        python -c "import nltk; nltk.download('wordnet', download_dir='/usr/local/nltk_data')"
         
     - name: Create Directories
       run: |
