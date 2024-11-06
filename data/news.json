@@ -2,19 +2,19 @@
     "ai": [
         {
             "id": "ai-20241106-1",
+            "title": "OpenAI is making moves toward becoming a for-profit company",
+            "link": "https://www.businessinsider.com/openai-one-step-closer-becoming-profit-company-report-2024-11",
+            "content": "OpenAI is one step closer to changing its governance structure from nonprofit to for-profit.\r\nThe AI startup is in preliminary talks withCalifornia's attorney general's officeabout the process of bec… [+2563 chars]",
+            "category": "ai",
+            "timestamp": "2024-11-06T02:24:30.615498"
+        },
+        {
+            "id": "ai-20241106-2",
             "title": "Scientists use AI to help track penguins in Antarctica",
             "link": "https://www.thestar.com.my/tech/tech-news/2024/11/05/scientists-use-ai-to-help-track-penguins-in-antarctica",
             "content": "Adélie penguins can be indicators of environmental variations. Studying them in their natural environment makes it possible to monitor the impact of climate change on Antarctica, a region that is not… [+2114 chars]",
             "category": "ai",
-            "timestamp": "2024-11-06T02:01:41.676139"
-        },
-        {
-            "id": "ai-20241106-2",
-            "title": "Intel was kicked off a Dow Jones index after 25 years and replaced by NVIDIA",
-            "link": "https://www.tweaktown.com/news/101494/intel-was-kicked-off-dow-jones-index-after-25-years-and-replaced-by-nvidia/index.html",
-            "content": "TL;DR: Intel's stock is down 51% in 2024, and the company has been removed from the Dow Jones Industrial Average after 25 years, with NVIDIA taking its place. NVIDIA's rise is driven by the growing d… [+1656 chars]",
-            "category": "ai",
-            "timestamp": "2024-11-06T02:01:41.676226"
+            "timestamp": "2024-11-06T02:24:30.615593"
         }
     ],
     "entertainment": [
@@ -24,7 +24,7 @@
             "link": "https://www.eonline.com/news/1409520/kourtney-kardashian-shares-photos-of-baby-rockys-first-birthday-party-celebrations",
             "content": "Kourtney Kardashian sure knows how to throw a party.\r\nAs the Kardashians star and husband Travis Barker celebrated their son Rocky Thirteen Barker turning 12 months, she gave fans a glimpse of what a… [+910 chars]",
             "category": "entertainment",
-            "timestamp": "2024-11-06T02:01:41.873899"
+            "timestamp": "2024-11-06T02:24:30.753850"
         },
         {
             "id": "entertainment-20241106-2",
@@ -32,7 +32,7 @@
             "link": "https://nypost.com/2024/11/04/entertainment/james-van-der-beeks-wife-shares-heartfelt-message-amid-his-cancer-diagnosis/",
             "content": "James Van Der Beek’s wife, Kimberly Van Der Beek, is showing her support after the actor revealed he’s been diagnosed with colorectal cancer and issued a public apology to his loved ones after claimi… [+3562 chars]",
             "category": "entertainment",
-            "timestamp": "2024-11-06T02:01:41.873990"
+            "timestamp": "2024-11-06T02:24:30.753923"
         }
     ],
     "finance": [
@@ -42,7 +42,7 @@
             "link": "https://www.cnbc.com/2024/11/04/stock-market-today-live-updates.html",
             "content": "Stock futures were flat in overnight trading ahead of Tuesday's high-stakes U.S. presidential election.\r\nFutures tied to the Dow Jones Industrial Average slipped 17 points. S&amp;P 500 futures and Na… [+1838 chars]",
             "category": "finance",
-            "timestamp": "2024-11-06T02:01:42.125979"
+            "timestamp": "2024-11-06T02:24:31.188268"
         }
     ],
     "politics": [
@@ -52,7 +52,7 @@
             "link": "https://www.wtae.com/article/kamala-harris-rally-pittsburgh-carrie-furnaces/62802339",
             "content": "RANKIN, Pa. —Vice President Kamala Harris returned to the Pittsburgh area for a campaign rally at Carrie Blast Furnaces in Rankin on Monday night.\r\nAccording to the \"Vote for Freedom Rally\" website, … [+1480 chars]",
             "category": "politics",
-            "timestamp": "2024-11-06T02:01:42.359651"
+            "timestamp": "2024-11-06T02:24:31.321962"
         },
         {
             "id": "politics-20241106-2",
@@ -60,7 +60,7 @@
             "link": "https://www.axios.com/2024/11/05/joe-rogan-endorses-trump-on-eve-of-election-day",
             "content": "Joe Rogan endorsed former President Trump for president on Monday evening.\r\nWhy it matters: The podcaster's endorsement of the GOP presidential nominee on the eve of Election Day could be a major boo… [+1168 chars]",
             "category": "politics",
-            "timestamp": "2024-11-06T02:01:42.359726"
+            "timestamp": "2024-11-06T02:24:31.322039"
         }
     ]
 }
