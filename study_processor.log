@@ -190,3 +190,193 @@
 
 2024-11-06 03:03:28,652 - INFO - Successfully saved study content for demo_2_20241106
 2024-11-06 03:03:28,652 - INFO - Successfully processed news demo_2_20241106
+2024-11-06 03:07:20,534 - INFO - Processing news item: demo_1_20241106
+2024-11-06 03:07:20,641 - ERROR - Vocabulary generation error: 
+**********************************************************************
+  Resource [93mpunkt_tab[0m not found.
+  Please use the NLTK Downloader to obtain the resource:
+
+  [31m>>> import nltk
+  >>> nltk.download('punkt_tab')
+  [0m
+  For more information see: https://www.nltk.org/data.html
+
+  Attempted to load [93mtokenizers/punkt_tab/english/[0m
+
+  Searched in:
+    - '/home/runner/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/share/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/lib/nltk_data'
+    - '/usr/share/nltk_data'
+    - '/usr/local/share/nltk_data'
+    - '/usr/lib/nltk_data'
+    - '/usr/local/lib/nltk_data'
+**********************************************************************
+
+2024-11-06 03:07:20,642 - ERROR - Question generation error: 
+**********************************************************************
+  Resource [93mpunkt_tab[0m not found.
+  Please use the NLTK Downloader to obtain the resource:
+
+  [31m>>> import nltk
+  >>> nltk.download('punkt_tab')
+  [0m
+  For more information see: https://www.nltk.org/data.html
+
+  Attempted to load [93mtokenizers/punkt_tab/english/[0m
+
+  Searched in:
+    - '/home/runner/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/share/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/lib/nltk_data'
+    - '/usr/share/nltk_data'
+    - '/usr/local/share/nltk_data'
+    - '/usr/lib/nltk_data'
+    - '/usr/local/lib/nltk_data'
+**********************************************************************
+
+2024-11-06 03:07:20,726 - ERROR - Vocabulary generation error: 
+**********************************************************************
+  Resource [93mpunkt_tab[0m not found.
+  Please use the NLTK Downloader to obtain the resource:
+
+  [31m>>> import nltk
+  >>> nltk.download('punkt_tab')
+  [0m
+  For more information see: https://www.nltk.org/data.html
+
+  Attempted to load [93mtokenizers/punkt_tab/english/[0m
+
+  Searched in:
+    - '/home/runner/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/share/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/lib/nltk_data'
+    - '/usr/share/nltk_data'
+    - '/usr/local/share/nltk_data'
+    - '/usr/lib/nltk_data'
+    - '/usr/local/lib/nltk_data'
+**********************************************************************
+
+2024-11-06 03:07:20,726 - ERROR - Question generation error: 
+**********************************************************************
+  Resource [93mpunkt_tab[0m not found.
+  Please use the NLTK Downloader to obtain the resource:
+
+  [31m>>> import nltk
+  >>> nltk.download('punkt_tab')
+  [0m
+  For more information see: https://www.nltk.org/data.html
+
+  Attempted to load [93mtokenizers/punkt_tab/english/[0m
+
+  Searched in:
+    - '/home/runner/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/share/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/lib/nltk_data'
+    - '/usr/share/nltk_data'
+    - '/usr/local/share/nltk_data'
+    - '/usr/lib/nltk_data'
+    - '/usr/local/lib/nltk_data'
+**********************************************************************
+
+2024-11-06 03:07:20,727 - INFO - Successfully saved study content for demo_1_20241106
+2024-11-06 03:07:20,727 - INFO - Successfully processed news demo_1_20241106
+2024-11-06 03:07:20,727 - INFO - Processing news item: demo_2_20241106
+2024-11-06 03:07:20,823 - ERROR - Vocabulary generation error: 
+**********************************************************************
+  Resource [93mpunkt_tab[0m not found.
+  Please use the NLTK Downloader to obtain the resource:
+
+  [31m>>> import nltk
+  >>> nltk.download('punkt_tab')
+  [0m
+  For more information see: https://www.nltk.org/data.html
+
+  Attempted to load [93mtokenizers/punkt_tab/english/[0m
+
+  Searched in:
+    - '/home/runner/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/share/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/lib/nltk_data'
+    - '/usr/share/nltk_data'
+    - '/usr/local/share/nltk_data'
+    - '/usr/lib/nltk_data'
+    - '/usr/local/lib/nltk_data'
+**********************************************************************
+
+2024-11-06 03:07:20,824 - ERROR - Question generation error: 
+**********************************************************************
+  Resource [93mpunkt_tab[0m not found.
+  Please use the NLTK Downloader to obtain the resource:
+
+  [31m>>> import nltk
+  >>> nltk.download('punkt_tab')
+  [0m
+  For more information see: https://www.nltk.org/data.html
+
+  Attempted to load [93mtokenizers/punkt_tab/english/[0m
+
+  Searched in:
+    - '/home/runner/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/share/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/lib/nltk_data'
+    - '/usr/share/nltk_data'
+    - '/usr/local/share/nltk_data'
+    - '/usr/lib/nltk_data'
+    - '/usr/local/lib/nltk_data'
+**********************************************************************
+
+2024-11-06 03:07:20,902 - ERROR - Vocabulary generation error: 
+**********************************************************************
+  Resource [93mpunkt_tab[0m not found.
+  Please use the NLTK Downloader to obtain the resource:
+
+  [31m>>> import nltk
+  >>> nltk.download('punkt_tab')
+  [0m
+  For more information see: https://www.nltk.org/data.html
+
+  Attempted to load [93mtokenizers/punkt_tab/english/[0m
+
+  Searched in:
+    - '/home/runner/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/share/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/lib/nltk_data'
+    - '/usr/share/nltk_data'
+    - '/usr/local/share/nltk_data'
+    - '/usr/lib/nltk_data'
+    - '/usr/local/lib/nltk_data'
+**********************************************************************
+
+2024-11-06 03:07:20,902 - ERROR - Question generation error: 
+**********************************************************************
+  Resource [93mpunkt_tab[0m not found.
+  Please use the NLTK Downloader to obtain the resource:
+
+  [31m>>> import nltk
+  >>> nltk.download('punkt_tab')
+  [0m
+  For more information see: https://www.nltk.org/data.html
+
+  Attempted to load [93mtokenizers/punkt_tab/english/[0m
+
+  Searched in:
+    - '/home/runner/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/share/nltk_data'
+    - '/opt/hostedtoolcache/Python/3.12.7/x64/lib/nltk_data'
+    - '/usr/share/nltk_data'
+    - '/usr/local/share/nltk_data'
+    - '/usr/lib/nltk_data'
+    - '/usr/local/lib/nltk_data'
+**********************************************************************
+
+2024-11-06 03:07:20,903 - INFO - Successfully saved study content for demo_2_20241106
+2024-11-06 03:07:20,903 - INFO - Successfully processed news demo_2_20241106
