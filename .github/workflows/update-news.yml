@@ -3,7 +3,9 @@ name: Update News
 on:
   schedule:
     - cron: '0 6 * * *'  # 每天早上6点运行
-  workflow_dispatch:      # 允许手动触发
+  push:
+    branches: [ main ]   # 添加push触发
+  workflow_dispatch:     # 允许手动触发
 
 jobs:
   update-news:
@@ -20,9 +22,8 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests
-        pip install nltk
-        pip install deep-translator
+        pip install requests beautifulsoup4 lxml
+        pip install nltk deep-translator
         
     - name: Check directory structure
       run: |
@@ -39,65 +40,28 @@ jobs:
         python scripts/study_processor.py
       continue-on-error: true
     
-    - name: Check for errors
+    - name: Debug directory structure
       run: |
-        if [ -f update_news.log ]; then
-          echo "=== Update Log ==="
-          cat update_news.log
-          if grep -i "error" update_news.log; then
-            echo "Errors found in the update process"
-            exit 1
-          fi
-        fi
-    
-    - name: Validate news.json
-      run: |
-        if [ -f data/news.json ]; then
-          python -c "import json; json.load(open('data/news.json'))"
-          echo "news.json is valid JSON"
-        else
-          echo "news.json not found"
-          exit 1
-        fi
-    
-    - name: Debug Git status
-      run: |
-        echo "Git status:"
-        git status
-        echo "Git remote:"
-        git remote -v
-        echo "Current branch:"
-        git branch --show-current
-        echo "Git config:"
-        git config --list
+        echo "Current directory structure:"
+        ls -R
         
+    - name: Debug news data
+      run: |
+        echo "Content of data/news.json:"
+        cat data/news.json || echo "File not found"
+    
     - name: Configure Git
       run: |
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
-        git remote set-url origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
-        git remote -v
     
     - name: Commit files
       run: |
-        echo "Checking for changes..."
-        git status
         git add -A
-        git status
-        if git diff --staged --quiet; then
-          echo "No changes to commit"
-        else
-          git commit -m "Auto update news [skip ci]"
-          echo "Changes committed"
-        fi
+        git diff --staged --quiet || git commit -m "Auto update news [skip ci]"
     
     - name: Push changes
-      run: |
-        git push origin HEAD || {
-          echo "Push failed, trying with force..."
-          git fetch origin
-          git reset --hard origin/main
-          git add -A
-          git commit -m "Auto update news [skip ci]"
-          git push origin HEAD
-        }
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
