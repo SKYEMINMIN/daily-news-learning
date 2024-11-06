@@ -1,111 +1,134 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily News Learning</title>
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .news-item {
+            margin-bottom: 30px;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .news-item h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.4em;
+        }
+
+        .news-item a {
+            color: #2c3e50;
+            text-decoration: none;
+        }
+
+        .news-item a:hover {
+            color: #3498db;
+        }
+
+        .news-meta {
+            font-size: 0.9em;
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .news-description {
+            color: #444;
+        }
+
+        #error-message {
+            color: red;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .date-display {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Daily News Learning</h1>
-            <p>每日英语新闻学习平台</p>
-        </header>
-
-        <main>
-            <section id="ai-tech" class="news-section">
-                <h2>AI & Technology</h2>
-                <div class="news-list"></div>
-            </section>
-
-            <section id="entertainment" class="news-section">
-                <h2>Entertainment</h2>
-                <div class="news-list"></div>
-            </section>
-
-            <section id="finance" class="news-section">
-                <h2>Finance</h2>
-                <div class="news-list"></div>
-            </section>
-
-            <section id="politics" class="news-section">
-                <h2>Politics</h2>
-                <div class="news-list"></div>
-            </section>
-        </main>
-
-        <footer>
-            <p>更新时间：<span id="update-time"></span></p>
-        </footer>
-    </div>
+    <h1>Daily News Learning</h1>
+    <div class="date-display" id="current-date"></div>
+    <div id="news-container"></div>
 
     <script>
-        // 加载新闻数据
+        // 显示当前日期
+        const dateDisplay = document.getElementById('current-date');
+        const today = new Date().toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+        dateDisplay.textContent = today;
+
         async function loadNews() {
             try {
-                const response = await fetch('data/news.json');
-                const newsData = await response.json();
-                displayNews(newsData);
-                updateTime();
-            } catch (error) {
-                console.error('Error loading news:', error);
+                const date = new Date().toISOString().split('T')[C_0]();
+                const response = await fetch(`data/news-${date}.json`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                const container = document.getElementById('news-container');
+                
+                if (data.articles && data.articles.length > 0) {
+                    data.articles.forEach(article => {
+                        const div = document.createElement('div');
+                        div.className = 'news-item';
+                        
+                        // 格式化发布时间
+                        const publishedAt = article.publishedAt ? 
+                            new Date(article.publishedAt).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            }) : '';
+
+                        div.innerHTML = `
+                            <h2><a href="${article.url}" target="_blank">${article.title}</a></h2>
+                            <div class="news-meta">
+                                ${article.source?.name ? `<span>Source: ${article.source.name}</span>` : ''}
+                                ${publishedAt ? `<span> • ${publishedAt}</span>` : ''}
+                            </div>
+                            ${article.description ? `<p class="news-description">${article.description}</p>` : ''}
+                            ${article.urlToImage ? `<img src="${article.urlToImage}" alt="${article.title}" style="max-width: 100%; height: auto;">` : ''}
+                        `;
+                        container.appendChild(div);
+                    });
+                } else {
+                    container.innerHTML = '<div id="error-message">No news articles available.</div>';
+                }
+            } catch (e) {
+                console.error('Error loading news:', e);
+                document.getElementById('news-container').innerHTML = 
+                    '<div id="error-message">Error loading news. Please try again later.</div>';
             }
         }
 
-        // 显示新闻
-        function displayNews(newsData) {
-            const categories = {
-                'AI & Technology': 'ai-tech',
-                'Entertainment': 'entertainment',
-                'Finance': 'finance',
-                'Politics': 'politics'
-            };
-
-            newsData.forEach(newsItem => {
-                const sectionId = categories[newsItem.category];
-                if (sectionId) {
-                    const newsSection = document.querySelector(`#${sectionId} .news-list`);
-                    const newsElement = createNewsElement(newsItem);
-                    newsSection.appendChild(newsElement);
-                }
-            });
-        }
-
-        // 创建新闻元素
-        function createNewsElement(newsItem) {
-            const newsDiv = document.createElement('div');
-            newsDiv.className = 'news-item';
-            
-            // 创建新闻标题链接
-            const titleLink = document.createElement('a');
-            titleLink.href = newsItem.url;
-            titleLink.target = '_blank';
-            titleLink.className = 'news-title';
-            titleLink.textContent = newsItem.title;
-            
-            // 创建学习模式链接
-            const studyLink = document.createElement('a');
-            studyLink.href = `templates/study.html?id=${newsItem.id}`;
-            studyLink.className = 'study-link';
-            studyLink.textContent = '学习模式';
-            
-            // 添加到新闻div
-            newsDiv.appendChild(titleLink);
-            newsDiv.appendChild(studyLink);
-            
-            return newsDiv;
-        }
-
-        // 更新时间显示
-        function updateTime() {
-            const timeElement = document.getElementById('update-time');
-            const now = new Date();
-            timeElement.textContent = now.toLocaleString();
-        }
-
-        // 页面加载时执行
-        document.addEventListener('DOMContentLoaded', loadNews);
+        // 加载新闻
+        loadNews();
     </script>
 </body>
 </html>
