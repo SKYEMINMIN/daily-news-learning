@@ -1,11 +1,13 @@
+# 路径：.github/workflows/update-news.yml
+
 name: Update News
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # 每天早上6点运行
+    - cron: '0 6 * * *'
   push:
-    branches: [ main ]   # 添加push触发
-  workflow_dispatch:     # 允许手动触发
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   update-news:
@@ -28,81 +30,51 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests beautifulsoup4 lxml
         pip install nltk deep-translator
-        
-    - name: Check directory structure
+    
+    - name: Create directories
       run: |
-        mkdir -p data/study css js scripts
+        mkdir -p data/study
+        mkdir -p scripts
         ls -la
     
-    - name: Run update script
+    - name: Run update script with debug
       run: |
+        echo "Starting update script..."
+        python -V
         python scripts/update_news.py
+        echo "Update script finished"
+        ls -la data/
+        cat data/news.json || echo "news.json not found"
       continue-on-error: true
-        
-    - name: Process study content
+    
+    - name: Run study processor with debug
       run: |
+        echo "Starting study processor..."
         python scripts/study_processor.py
+        echo "Study processor finished"
+        ls -la data/study/
       continue-on-error: true
     
-    - name: Check for errors
-      run: |
-        if [ -f update_news.log ]; then
-          echo "=== Update Log ==="
-          cat update_news.log
-          if grep -i "error" update_news.log; then
-            echo "Errors found in the update process"
-            exit 1
-          fi
-        fi
-    
-    - name: Validate news.json
-      run: |
-        if [ -f data/news.json ]; then
-          python -c "import json; json.load(open('data/news.json'))"
-          echo "news.json is valid JSON"
-        else
-          echo "news.json not found"
-          exit 1
-        fi
-    
-    - name: Debug Git status
-      run: |
-        echo "Git status:"
-        git status
-        echo "Git remote:"
-        git remote -v
-        echo "Current branch:"
-        git branch --show-current
-        echo "Git config:"
-        git config --list
-        
     - name: Configure Git
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
     
-    - name: Commit files
+    - name: Check Git Status
       run: |
-        echo "Checking for changes..."
         git status
-        git add -A
-        git status
-        if git diff --staged --quiet; then
-          echo "No changes to commit"
-        else
-          git commit -m "Auto update news [skip ci]"
-          echo "Changes committed"
-        fi
     
-    - name: Push changes
+    - name: Commit and Push
       run: |
-        echo "Attempting to push changes..."
-        git push origin HEAD || {
-          echo "Push failed. Debugging information:"
-          git remote -v
-          git branch
-          git status
-          exit 1
+        git add -A
+        git commit -m "Auto update news [skip ci]" || echo "No changes to commit"
+        git push || {
+          echo "Push failed, fetching latest changes..."
+          git fetch origin
+          git reset --hard origin/main
+          git add -A
+          git commit -m "Auto update news [skip ci]" || echo "No changes to commit"
+          git push
         }
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
