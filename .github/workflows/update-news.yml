@@ -32,6 +32,9 @@ jobs:
     - name: Update and Process News
       run: |
         python config.py
+      env:
+        NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
+
         
     - name: Configure Git
       run: |
