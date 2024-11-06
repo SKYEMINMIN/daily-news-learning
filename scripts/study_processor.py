@@ -1,5 +1,3 @@
-# 路径：scripts/study_processor.py
-
 import json
 import os
 import logging
@@ -87,13 +85,22 @@ class StudyProcessor:
     def process_news(self, news_item):
         """处理单条新闻"""
         try:
-            # 确保新闻内容存在
-            if not news_item.get('content'):
+            # 验证输入数据
+            if not isinstance(news_item, dict):
+                logging.error(f"Invalid news item type: {type(news_item)}")
+                return None
+
+            # 获取并验证内容
+            content = news_item.get('content')
+            if not content:
                 logging.error(f"No content found for news item: {news_item.get('id', 'unknown')}")
                 return None
 
-            content = news_item['content']
-            
+            # 确保内容是字符串
+            if not isinstance(content, str):
+                logging.error(f"Invalid content type: {type(content)}")
+                return None
+
             # 按段落分割内容
             paragraphs = content.split('\n\n')
             
@@ -110,8 +117,8 @@ class StudyProcessor:
                     processed_paragraphs.append(processed_para)
             
             return {
-                'id': news_item['id'],
-                'title': news_item['title'],
+                'id': news_item.get('id', 'unknown'),
+                'title': news_item.get('title', ''),
                 'paragraphs': processed_paragraphs
             }
             
@@ -144,31 +151,39 @@ def main():
         # 确保news.json存在
         if not os.path.exists('data/news.json'):
             logging.error("news.json not found")
-            return
-            
+            return False
+
         # 读取新闻数据
         with open('data/news.json', 'r', encoding='utf-8') as f:
             news_data = json.load(f)
-        
-        if not news_data:
-            logging.error("No news data found")
-            return
-            
+
+        if not isinstance(news_data, list):
+            logging.error("News data is not in the expected format")
+            return False
+
         processor = StudyProcessor()
-        
-        # 处理每条新闻
-        for news in news_data:
-            try:
-                study_content = processor.process_news(news)
-                if study_content:
-                    processor.save_study_content(news['id'], study_content)
-                    logging.info(f"Successfully processed news {news['id']}")
-            except Exception as e:
-                logging.error(f"Error processing news {news.get('id', 'unknown')}: {str(e)}")
+
+        for news_item in news_data:
+            if not isinstance(news_item, dict):
+                logging.error(f"Invalid news item format: {news_item}")
                 continue
-                
+
+            try:
+                logging.info(f"Processing news item: {news_item.get('id', 'unknown')}")
+                study_content = processor.process_news(news_item)
+                if study_content:
+                    processor.save_study_content(news_item.get('id', 'unknown'), study_content)
+                    logging.info(f"Successfully processed news {news_item.get('id', 'unknown')}")
+            except Exception as e:
+                logging.error(f"Error processing news {news_item.get('id', 'unknown')}: {str(e)}")
+                continue
+
     except Exception as e:
         logging.error(f"Error in main: {str(e)}")
+        return False
+
+    return True
 
 if __name__ == "__main__":
-    main()
+    success = main()
+    sys.exit(0 if success else 1)
