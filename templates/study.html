@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新闻学习</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .paragraph {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .english {
+            margin-bottom: 10px;
+        }
+        .chinese {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .vocabulary {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f0f7ff;
+            border-radius: 5px;
+        }
+        .word-item {
+            margin-bottom: 10px;
+        }
+        .questions {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #fff3f3;
+            border-radius: 5px;
+        }
+        .highlighted {
+            background-color: #ffeb3b;
+            padding: 0 2px;
+            border-radius: 3px;
+        }
+        .word-details {
+            font-size: 0.9em;
+            color: #444;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="study-content">
+        <!-- 内容将通过JavaScript动态加载 -->
+    </div>
+
+    <script>
+        // 获取URL参数中的新闻ID
+        const urlParams = new URLSearchParams(window.location.search);
+        const newsId = urlParams.get('id');
+
+        // 加载学习内容
+        async function loadStudyContent() {
+            try {
+                const response = await fetch(`../data/study/${newsId}.json`);
+                const data = await response.json();
+                displayContent(data);
+            } catch (error) {
+                console.error('Error loading study content:', error);
+            }
+        }
+
+        // 显示内容
+        function displayContent(data) {
+            const container = document.getElementById('study-content');
+            
+            // 标题
+            container.innerHTML = `<h1>${data.title}</h1>`;
+            
+            // 段落
+            data.paragraphs.forEach(para => {
+                const paraHtml = `
+                    <div class="paragraph">
+                        <div class="english">${highlightVocabulary(para.english, data.vocabulary)}</div>
+                        <div class="chinese">${para.chinese}</div>
+                    </div>
+                `;
+                container.innerHTML += paraHtml;
+            });
+            
+            // 词汇表
+            const vocabHtml = `
+                <div class="vocabulary">
+                    <h2>重点词汇</h2>
+                    ${data.vocabulary.map(word => `
+                        <div class="word-item">
+                            <strong>${word.word}</strong>
+                            <div class="word-details">
+                                词性：${word.pos}<br>
+                                翻译：${word.translation}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            container.innerHTML += vocabHtml;
+            
+            // 理解问题
+            const questionsHtml = `
+                <div class="questions">
+                    <h2>理解问题</h2>
+                    ${data.questions.map((q, index) => `
+                        <div class="question-item">
+                            <p><strong>Q${index + 1}:</strong> ${q.question}</p>
+                            <p><em>参考答案：</em> ${q.answer}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            container.innerHTML += questionsHtml;
+        }
+
+        // 高亮词汇
+        function highlightVocabulary(text, vocabulary) {
+            let highlighted = text;
+            vocabulary.forEach(word => {
+                const regex = new RegExp(`\\b${word.word}\\b`, 'gi');
+                highlighted = highlighted.replace(regex, `<span class="highlighted" title="${word.translation}">$&</span>`);
+            });
+            return highlighted;
+        }
+
+        // 加载内容
+        loadStudyContent();
+    </script>
+</body>
+</html>
