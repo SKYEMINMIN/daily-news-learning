@@ -15,8 +15,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0    # 改为 0 以获取完整历史
-        persist-credentials: true  # 确保保持认证信息
+        fetch-depth: 0
+        persist-credentials: true
     
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -28,7 +28,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests
+        pip install requests gnews
     
     - name: Run update script
       env:
@@ -36,7 +36,7 @@ jobs:
       run: |
         echo "Python version:"
         python --version
-        python config.py
+        python config.py  # 改回 config.py
     
     - name: Commit and push if changed
       run: |
