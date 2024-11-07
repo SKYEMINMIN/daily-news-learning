@@ -28,7 +28,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests json2html  # 添加了 json2html 依赖
+        pip install requests json2html pandas gnewsclient  # 添加了 gnewsclient
     
     - name: Run update script
       env:
