@@ -18,25 +18,11 @@ def fetch_news():
             'max': 10
         }
         
-        print(f"Making request to GNews API...")
         response = requests.get(url, params=params, timeout=30)
+        data = response.json()
         
-        print(f"Response status code: {response.status_code}")
-        print(f"Response headers: {dict(response.headers)}")
-        
-        try:
-            data = response.json()
-            print(f"Response data keys: {data.keys() if isinstance(data, dict) else 'Not a dict'}")
-        except json.JSONDecodeError:
-            print(f"Failed to decode JSON. Response text: {response.text[:500]}")
-            return []
-
-        if 'errors' in data:
-            print(f"API returned errors: {data['errors']}")
-            return []
-            
         if 'articles' not in data:
-            print(f"No articles found in response. Response data: {data}")
+            print("No articles found in response")
             return []
             
         processed_articles = []
@@ -48,23 +34,11 @@ def fetch_news():
                 'source': article.get('source', {}).get('name', 'GNews')
             }
             processed_articles.append(processed_article)
-        
-        if not processed_articles:
-            print("No articles were processed")
-        else:
-            print(f"Successfully processed {len(processed_articles)} articles")
             
         return processed_articles
         
-    except requests.exceptions.RequestException as e:
-        print(f"Request failed: {str(e)}")
-        if 'response' in locals():
-            print(f"Error response: {response.text[:500]}")
-        return []
     except Exception as e:
-        print(f"Unexpected error: {str(e)}")
-        if 'response' in locals():
-            print(f"Error response: {response.text[:500]}")
+        print(f"Error fetching news: {e}")
         return []
 
 def generate_report(articles):
@@ -72,7 +46,6 @@ def generate_report(articles):
     if not articles:
         return "<p>No articles found</p>"
     
-    # 创建HTML表格头部
     html_content = """
     <html>
     <head>
@@ -83,8 +56,6 @@ def generate_report(articles):
             th, td { padding: 8px; text-align: left; border: 1px solid #ddd; }
             th { background-color: #f2f2f2; }
             tr:nth-child(even) { background-color: #f9f9f9; }
-            .title { font-weight: bold; }
-            .date { color: #666; }
         </style>
     </head>
     <body>
@@ -92,14 +63,9 @@ def generate_report(articles):
         <p>生成时间: """ + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + """</p>
     """
     
-    # 转换为DataFrame并生成HTML表格
     df = pd.DataFrame(articles)
-    # 将链接转换为可点击的HTML链接
     df['link'] = df['link'].apply(lambda x: f'<a href="{x}" target="_blank">阅读全文</a>')
-    # 格式化发布时间
     df['published'] = pd.to_datetime(df['published']).dt.strftime('%Y-%m-%d %H:%M:%S')
-    
-    # 重命名列
     df.columns = ['标题', '链接', '发布时间', '来源']
     
     html_content += df.to_html(index=False, escape=False)
@@ -112,31 +78,19 @@ def generate_report(articles):
 
 def save_report(html_content):
     """Save the HTML report to a file"""
-    try:
-        # 使用 GitHub Actions 工作目录
-        workspace = os.getenv('GITHUB_WORKSPACE', os.getcwd())
-        print(f"Workspace directory: {workspace}")
-        
-        timestamp = datetime.now().strftime("%Y%m%d")
-        filename = os.path.join(workspace, f"news_report_{timestamp}.html")
-        
-        print(f"Attempting to save file: {filename}")
-        with open(filename, 'w', encoding='utf-8') as f:
-            f.write(html_content)
-        
-        print(f"Report saved as {filename}")
-        return filename
-    except Exception as e:
-        print(f"Error saving report: {e}")
-        print(f"Current working directory: {os.getcwd()}")
-        print(f"Directory contents: {os.listdir('.')}")
-        raise
+    timestamp = datetime.now().strftime("%Y%m%d")
+    filename = f"news_report_{timestamp}.html"
+    
+    with open(filename, 'w', encoding='utf-8') as f:
+        f.write(html_content)
+    
+    return filename
 
 def main():
     articles = fetch_news()
     html_report = generate_report(articles)
     filename = save_report(html_report)
-    print(f"Report generation completed. File saved as: {filename}")
+    print(f"Report saved as: {filename}")
 
 if __name__ == "__main__":
     main()
