@@ -3,7 +3,7 @@ import json
 import requests
 import pandas as pd
 from datetime import datetime
-from json2html import json2html
+
 
 def fetch_news():
     try:
