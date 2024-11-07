@@ -30,7 +30,7 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install --upgrade certifi
         python -m pip install requests urllib3
-        pip install gnews pandas json2html feedparser beautifulsoup4
+        pip install gnewsclient pandas json2html feedparser beautifulsoup4
         pip install --upgrade requests
     
     - name: Update certificates
@@ -40,7 +40,6 @@ jobs:
     
     - name: Run update script
       env:
-        GNEWS_API_KEY: ${{ secrets.GNEWS_API_KEY }}
         PYTHONWARNINGS: "ignore:Unverified HTTPS request"
         REQUESTS_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt
         SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
