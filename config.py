@@ -113,28 +113,18 @@ def generate_report(articles):
 def save_report(html_content):
     """Save the HTML report to a file"""
     try:
-        # 使用相对于工作目录的路径
-        reports_dir = os.path.join(os.getcwd(), 'reports')
-        os.makedirs(reports_dir, exist_ok=True)
-        print(f"Created/verified reports directory at: {reports_dir}")
+        # 使用 GitHub Actions 工作目录
+        workspace = os.getenv('GITHUB_WORKSPACE', os.getcwd())
+        print(f"Workspace directory: {workspace}")
         
         timestamp = datetime.now().strftime("%Y%m%d")
-        filename = os.path.join(reports_dir, f"news_report_{timestamp}.html")
+        filename = os.path.join(workspace, f"news_report_{timestamp}.html")
         
+        print(f"Attempting to save file: {filename}")
         with open(filename, 'w', encoding='utf-8') as f:
             f.write(html_content)
         
         print(f"Report saved as {filename}")
-        return filename
-    except PermissionError as e:
-        print(f"Permission error while creating directory or file: {e}")
-        # 如果创建目录失败，尝试直接在当前目录保存
-        timestamp = datetime.now().strftime("%Y%m%d")
-        filename = f"news_report_{timestamp}.html"
-        print(f"Attempting to save in current directory: {os.getcwd()}")
-        with open(filename, 'w', encoding='utf-8') as f:
-            f.write(html_content)
-        print(f"Saved report in current directory: {filename}")
         return filename
     except Exception as e:
         print(f"Error saving report: {e}")
