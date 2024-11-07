@@ -1,3 +1,3 @@
-python-json2html
+
 requests
 pandas
