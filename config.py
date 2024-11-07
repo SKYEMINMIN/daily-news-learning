@@ -9,17 +9,16 @@ def fetch_news():
     try:
         api_key = os.getenv('NEWS_API_KEY')
         if not api_key:
-            raise ValueError("NEWS_API_KEY environment variable is not set")
-
-        # 使用新闻搜索端点而不是 top-headlines
-        url = 'https://gnews.io/api/v4/search'
+            raise ValueError("Missing NEWS_API_KEY environment variable")
+            
+        url = 'https://gnews.io/api/v4/top-headlines'
         params = {
-            'apikey': api_key,
-            'q': 'china',  # 添加必需的查询参数
+            'apikey': api_key,  # 使用正确的参数名
             'lang': 'zh',
             'country': 'cn',
             'max': 10
         }
+
         
         print(f"Making request to GNews API...")
         response = requests.get(url, params=params, timeout=30)
