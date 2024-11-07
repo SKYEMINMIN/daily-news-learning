@@ -1,4 +1,4 @@
-name: Daily Update
+name: daily-update.yml
 
 on:
   schedule:
