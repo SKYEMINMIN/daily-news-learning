@@ -28,7 +28,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests gnews
+        pip install requests  # 移除了错误的 gnews 包
     
     - name: Run update script
       env:
@@ -36,7 +36,7 @@ jobs:
       run: |
         echo "Python version:"
         python --version
-        python config.py  # 改回 config.py
+        python config.py
     
     - name: Commit and push if changed
       run: |
