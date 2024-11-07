@@ -9,14 +9,21 @@ def fetch_news():
     try:
         # GNews.io API配置
         api_key = os.getenv('NEWS_API_KEY', 'dc6b340bb21432e40ed552ac70befd79')
-        url = f'https://gnews.io/api/v4/search?token={api_key}&lang=zh&country=cn&max=10&q=top&sortby=publishedAt'
+        url = 'https://gnews.io/api/v4/search'
+        params = {
+            'token': api_key,
+            'lang': 'zh',
+            'country': 'cn',
+            'n': 10,  # 正确的参数名是 n，而不是 max
+            'q': '热点',  # 使用中文关键词可能更合适
+            'sortby': 'publishedAt'
+        }
         
         # 发送请求获取数据
-        response = requests.get(url, timeout=30)
+        response = requests.get(url, params=params, timeout=30)
         
         # 打印响应以便调试
         print(f"API Response Status: {response.status_code}")
-        print(f"API Response URL: {response.url}")  # 打印实际请求的URL（隐藏token）
         print(f"API Response: {response.text[:500]}")
         
         data = response.json()
@@ -31,13 +38,12 @@ def fetch_news():
                     'source': article.get('source', {}).get('name', 'GNews')
                 }
                 processed_articles.append(processed_article)
-            return processed_articles
-        else:
-            print(f"No articles found in response: {data}")
-            return []
+        
+        return processed_articles
     
     except Exception as e:
         print(f"Error fetching news: {str(e)}")
+        print(f"Full API response: {response.text if 'response' in locals() else 'No response'}")
         return []
 
 def save_to_json(data, filename):
