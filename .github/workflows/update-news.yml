@@ -28,15 +28,9 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install --upgrade certifi
-        python -m pip install requests urllib3
-        pip install gnewsclient pandas json2html feedparser beautifulsoup4
+        python -m pip install requests urllib3 pandas json2html
+        python -m pip install GoogleNews
         pip install --upgrade requests
-    
-    - name: Update certificates
-      run: |
-        python -m pip install --upgrade certifi
-        python -c "import certifi; print(certifi.where())"
     
     - name: Run update script
       env:
@@ -44,8 +38,6 @@ jobs:
         REQUESTS_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt
         SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
       run: |
-        echo "Python version:"
-        python --version
         python config.py
     
     - name: Check for changes
