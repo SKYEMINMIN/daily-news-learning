@@ -9,14 +9,12 @@ def fetch_news():
     try:
         # GNews.io API配置
         api_key = os.getenv('NEWS_API_KEY', 'dc6b340bb21432e40ed552ac70befd79')
-        url = 'https://gnews.io/api/v4/search'
+        url = 'https://gnews.io/api/v4/top-headlines'  # 修改为 top-headlines 端点
         params = {
             'token': api_key,
             'lang': 'zh',
             'country': 'cn',
-            'n': 10,  # 正确的参数名是 n，而不是 max
-            'q': '热点',  # 使用中文关键词可能更合适
-            'sortby': 'publishedAt'
+            'max': 10
         }
         
         # 发送请求获取数据
