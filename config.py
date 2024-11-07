@@ -1,8 +1,7 @@
 import os
 import json
 import requests
-import time
-from datetime import datetime
+from datetime import datetime, timezone
 
 def fetch_news():
     try:
@@ -15,69 +14,62 @@ def fetch_news():
             "token": api_key,
             "lang": "en",
             "country": "us",
-            "max": 5  # 减少到5条新闻
+            "max": 10,
+            "topic": "world"  # 专注国际新闻
         }
         
-        print(f"Fetching news from Gnews API...")
+        print("Fetching news from Gnews API...")
         response = requests.get(url, params=params)
         print(f"Response status: {response.status_code}")
-        print(f"Response content type: {response.headers.get('content-type', '')}")
         
         if response.status_code == 200:
-            try:
-                data = response.json()
-                print(f"Articles found: {len(data.get('articles', []))}")
-                
-                # 检查响应结构
-                if 'articles' not in data:
-                    print(f"Unexpected response structure: {data}")
-                    raise Exception("Invalid API response format")
+            data = response.json()
+            formatted_data = {
+                "status": "ok",
+                "articles": []
+            }
 
-                formatted_data = {
-                    "status": "ok",
-                    "articles": []
-                }
+            for article in data.get('articles', []):
+                if _is_valid_article(article):
+                    formatted_data["articles"].append(_format_article(article))
 
-                for article in data['articles']:
-                    try:
-                        formatted_article = {
-                            "title": article.get("title", "No title"),
-                            "description": article.get("description", "No description"),
-                            "url": article.get("url", ""),
-                            "urlToImage": article.get("image", ""),
-                            "publishedAt": article.get("publishedAt", ""),
-                            "source": {
-                                "name": article.get("source", {}).get("name", "Unknown Source")
-                            }
-                        }
-                        formatted_data["articles"].append(formatted_article)
-                    except Exception as e:
-                        print(f"Error formatting article: {e}")
-                        continue
+            if not formatted_data["articles"]:
+                raise Exception("No valid articles found")
 
-                if not formatted_data["articles"]:
-                    raise Exception("No articles could be processed")
-
-                return formatted_data
-            except json.JSONDecodeError as e:
-                print(f"JSON decode error: {e}")
-                print(f"Raw response: {response.text[:500]}...")
-                raise
+            return formatted_data
         else:
-            error_message = f"API request failed with status {response.status_code}"
-            try:
-                error_details = response.json()
-                error_message += f": {error_details}"
-            except:
-                error_message += f": {response.text}"
-            print(error_message)
-            raise Exception(error_message)
+            print(f"Error response: {response.text}")
+            raise Exception(f"API request failed with status {response.status_code}")
             
     except Exception as e:
         print(f"Error in fetch_news: {str(e)}")
         raise
 
+def _is_valid_article(article):
+    """验证文章的有效性"""
+    return all([
+        article.get('title'),
+        article.get('description'),
+        article.get('url'),
+        len(article.get('description', '')) > 100,
+        not any(word in article['title'].lower() for word in ['removed', '[removed]'])
+    ])
+
+def _format_article(article):
+    """格式化文章数据"""
+    return {
+        "title": article["title"],
+        "description": article["description"],
+        "url": article["url"],
+        "urlToImage": article.get("image", ""),
+        "publishedAt": article["publishedAt"],
+        "source": {
+            "name": article.get("source", {}).get("name", "Unknown Source")
+        }
+    }
+
 def save_news(news_data):
+    """保存新闻数据到JSON文件"""
     os.makedirs('data', exist_ok=True)
     today = datetime.now().strftime('%Y-%m-%d')
     filename = f'data/news-{today}.json'
@@ -95,8 +87,8 @@ def main():
         print("Starting news fetch process...")
         news_data = fetch_news()
         
-        if news_data and news_data.get('articles'):
-            print(f"Retrieved {len(news_data['articles'])} articles")
+        if news_data and news_data["articles"]:
+            print(f"Retrieved {len(news_data['articles'])} valid articles")
             save_news(news_data)
             print("News update completed successfully!")
         else:
