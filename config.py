@@ -8,14 +8,20 @@ from json2html import json2html
 def fetch_news():
     try:
         # GNews.io API配置
-        api_key = os.getenv('NEWS_API_KEY', 'dc6b340bb21432e40ed552ac70befd79')
+        api_key = os.getenv('NEWS_API_KEY')
+        if not api_key:
+            raise ValueError("NEWS_API_KEY environment variable is not set")
+            
         url = 'https://gnews.io/api/v4/top-headlines'
         params = {
-            'apikey': api_key,  # 改回使用 apikey
+            'apikey': api_key,
             'lang': 'zh',
             'country': 'cn',
             'max': 10
         }
+        
+        # 其余代码保持不变...
+
         
         # 打印请求URL（隐藏API密钥）
         print(f"Requesting URL: {url} with params: {params}")
