@@ -27,7 +27,7 @@ jobs:
     
     - name: Run update script
       env:
-        GNEWS_API_KEY: dc6b340bb21432e40ed552ac70befd79
+        NEWS_API_KEY: dc6b340bb21432e40ed552ac70befd79
       run: |
         python config.py
     
