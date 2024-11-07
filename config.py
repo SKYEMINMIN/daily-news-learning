@@ -1,5 +1,4 @@
 import os
-import json
 import requests
 import pandas as pd
 from datetime import datetime
@@ -22,17 +21,15 @@ def fetch_news():
         response = requests.get(url, params=params, timeout=30)
         data = response.json()
         
-        if 'articles' not in data:
-            return []
-        
         articles = []
-        for article in data['articles']:
-            articles.append({
-                'title': article.get('title', ''),
-                'link': article.get('url', ''),
-                'published': article.get('publishedAt', ''),
-                'source': article.get('source', {}).get('name', 'GNews')
-            })
+        if 'articles' in data:
+            for article in data['articles']:
+                articles.append({
+                    'title': article.get('title', ''),
+                    'url': article.get('url', ''),
+                    'publishedAt': article.get('publishedAt', ''),
+                    'source': article.get('source', {}).get('name', 'Unknown')
+                })
         
         return articles
     
@@ -40,68 +37,65 @@ def fetch_news():
         print(f"Error fetching news: {e}")
         return []
 
-def save_files(articles):
-    """保存所有文件格式"""
+def save_as_html(articles):
+    """保存为HTML文件"""
     try:
-        # 保存 JSON
-        with open('news.json', 'w', encoding='utf-8') as f:
-            json.dump(articles, f, ensure_ascii=False, indent=2)
-
-        # 保存 CSV
+        # 创建DataFrame
         df = pd.DataFrame(articles)
-        df.to_csv('news.csv', index=False, encoding='utf-8')
-
-        # 生成 HTML
-        html_content = """
+        
+        # 如果DataFrame为空，添加列名
+        if df.empty:
+            df = pd.DataFrame(columns=['title', 'url', 'publishedAt', 'source'])
+        
+        # 格式化数据
+        df['url'] = df['url'].apply(lambda x: f'<a href="{x}" target="_blank">Link</a>')
+        df['publishedAt'] = pd.to_datetime(df['publishedAt']).dt.strftime('%Y-%m-%d %H:%M:%S')
+        
+        # 重命名列
+        df.columns = ['Title', 'Link', 'Published', 'Source']
+        
+        # 生成HTML
+        html_content = f"""
+        <!DOCTYPE html>
         <html>
         <head>
             <meta charset="utf-8">
-            <title>Daily News Report</title>
+            <title>News Report</title>
             <style>
-                body { font-family: Arial, sans-serif; margin: 20px; }
-                table { border-collapse: collapse; width: 100%; }
-                th, td { padding: 8px; text-align: left; border: 1px solid #ddd; }
-                th { background-color: #f2f2f2; }
-                tr:nth-child(even) { background-color: #f9f9f9; }
-                a { color: #0066cc; text-decoration: none; }
-                a:hover { text-decoration: underline; }
+                body {{ font-family: Arial, sans-serif; padding: 20px; }}
+                table {{ border-collapse: collapse; width: 100%; }}
+                th, td {{ border: 1px solid #ddd; padding: 8px; text-align: left; }}
+                th {{ background-color: #f2f2f2; }}
             </style>
         </head>
         <body>
-            <h1>每日新闻摘要</h1>
-            <p>生成时间: """ + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + """</p>
-        """
-        
-        df['link'] = df['link'].apply(lambda x: f'<a href="{x}" target="_blank">阅读全文</a>')
-        df['published'] = pd.to_datetime(df['published']).dt.strftime('%Y-%m-%d %H:%M:%S')
-        df.columns = ['标题', '链接', '发布时间', '来源']
-        
-        html_content += df.to_html(index=False, escape=False)
-        html_content += """
+            <h1>Daily News Report</h1>
+            <p>Generated at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
+            {df.to_html(index=False, escape=False)}
         </body>
         </html>
         """
-
+        
+        # 保存文件
         with open('news.html', 'w', encoding='utf-8') as f:
             f.write(html_content)
-
-        print("Successfully saved all files")
+        
+        print("HTML file saved successfully")
         
     except Exception as e:
-        print(f"Error saving files: {e}")
-        print(f"Current working directory: {os.getcwd()}")
+        print(f"Error saving HTML: {e}")
         raise
 
 def main():
-    print("Starting news fetch...")
-    articles = fetch_news()
-    print(f"Fetched {len(articles)} articles")
+    print("Starting news collection process...")
     
-    if articles:
-        save_files(articles)
-        print("News data saved successfully")
-    else:
-        print("No articles to save")
+    # 获取新闻
+    articles = fetch_news()
+    print(f"Retrieved {len(articles)} articles")
+    
+    # 保存HTML
+    save_as_html(articles)
+    print("Process completed")
 
 if __name__ == "__main__":
     main()
