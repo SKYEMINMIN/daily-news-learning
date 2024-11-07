@@ -28,7 +28,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests  # 移除了错误的 gnews 包
+        pip install requests json2html  # 添加了 json2html 依赖
     
     - name: Run update script
       env:
