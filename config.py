@@ -1,41 +1,42 @@
-import os
-import requests
-import pandas as pd
-from datetime import datetime
+import os  
+import requests  
+import pandas as pd  
+from datetime import datetime  
 
-def fetch_news():
-    """获取新闻数据"""
-    try:
-        api_key = os.getenv('NEWS_API_KEY')
-        if not api_key:
-            raise ValueError("Missing NEWS_API_KEY environment variable")
+def fetch_news():  
+    """获取新闻数据"""  
+    try:  
+        api_key = os.getenv('NEWS_API_KEY')  
+        if not api_key:  
+            raise ValueError("Missing NEWS_API_KEY environment variable")  
         
-        url = 'https://gnews.io/api/v4/top-headlines'
-        params = {
-            'apikey': api_key,
-            'lang': 'zh',
-            'country': 'cn',
-            'max': 10
-        }
+        url = 'https://gnews.io/api/v4/top-headlines'  
+        params = {  
+            'token': api_key,  
+            'lang': 'zh',  
+            'country': 'cn',  
+            'max': 10  
+        }  
         
-        response = requests.get(url, params=params, timeout=30)
-        data = response.json()
+        response = requests.get(url, params=params, timeout=30)  
+        response.raise_for_status()  
+        data = response.json()  
         
-        articles = []
-        if 'articles' in data:
-            for article in data['articles']:
-                articles.append({
-                    'title': article.get('title', ''),
-                    'url': article.get('url', ''),
-                    'publishedAt': article.get('publishedAt', ''),
-                    'source': article.get('source', {}).get('name', 'Unknown')
-                })
+        articles = []  
+        if 'articles' in data:  
+            for article in data['articles']:  
+                articles.append({  
+                    'title': article.get('title', ''),  
+                    'url': article.get('url', ''),  
+                    'publishedAt': article.get('publishedAt', ''),  
+                    'source': article.get('source', {}).get('name', 'Unknown')  
+                })  
         
-        return articles
+        return articles  
     
-    except Exception as e:
-        print(f"Error fetching news: {e}")
-        return []
+    except Exception as e:  
+        print(f"Error fetching news: {e}")  
+        return []  
 
 def save_as_html(articles):  
     """保存为HTML文件"""  
@@ -84,17 +85,18 @@ def save_as_html(articles):
         
     except Exception as e:  
         print(f"Error saving HTML: {e}")  
-        raise
-def main():
-    print("Starting news collection process...")
-    
-    # 获取新闻
-    articles = fetch_news()
-    print(f"Retrieved {len(articles)} articles")
-    
-    # 保存HTML
-    save_as_html(articles)
-    print("Process completed")
+        raise  
 
-if __name__ == "__main__":
+def main():  
+    print("Starting news collection process...")  
+    
+    # 获取新闻  
+    articles = fetch_news()  
+    print(f"Retrieved {len(articles)} articles")  
+    
+    # 保存HTML  
+    save_as_html(articles)  
+    print("Process completed")  
+
+if __name__ == "__main__":  
     main()
