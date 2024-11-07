@@ -9,22 +9,36 @@ def fetch_news():
         if not api_key:
             raise Exception("API key not found in environment variables")
 
+        print(f"API Key (first 4 chars): {api_key[:4]}...")  # 仅打印前4个字符，安全起见
+
         # GNews API 配置
         url = "https://gnews.io/api/v4/search"
         params = {
-            "token": api_key,  # GNews 使用 token 而不是 apiKey
-            "q": "world",      # 搜索关键词
-            "lang": "en",      # 英语新闻
-            "max": 10          # 最大条数
+            "token": api_key,
+            "q": "world",
+            "lang": "en",
+            "max": 10,
+            "in": "title,description"  # 在标题和描述中搜索
         }
         
         print("Fetching news from GNews API...")
         print(f"Request URL: {url}")
-        print(f"Using params: {params}")
+        # 打印参数时隐藏 token
+        safe_params = params.copy()
+        safe_params['token'] = '****'
+        print(f"Using params: {safe_params}")
         
-        response = requests.get(url, params=params)
+        headers = {
+            'Accept': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+        
+        response = requests.get(url, params=params, headers=headers, timeout=30)
         print(f"Response status: {response.status_code}")
-        print(f"Response headers: {dict(response.headers)}")
+        
+        # 打印完整的响应内容用于调试
+        print("Response content:")
+        print(response.text)
         
         if response.status_code == 200:
             data = response.json()
@@ -52,6 +66,10 @@ def fetch_news():
                 return None
                 
             return formatted_data
+        elif response.status_code == 403:
+            raise Exception("API key authentication failed. Please check your API key.")
+        elif response.status_code == 429:
+            raise Exception("API rate limit exceeded. Please try again later.")
         else:
             error_message = f"API request failed with status {response.status_code}"
             try:
@@ -74,13 +92,16 @@ def fetch_news():
 def _is_valid_article(article):
     """验证文章的有效性"""
     try:
-        return all([
+        has_required = all([
             article.get('title'),
             article.get('description'),
             article.get('url'),
-            len(article.get('description', '')) > 50,
             article.get('publishedAt')
         ])
+        if not has_required:
+            print(f"Article missing required fields: {article}")
+            return False
+        return True
     except Exception as e:
         print(f"Error validating article: {str(e)}")
         return False
@@ -89,8 +110,8 @@ def _format_article(article):
     """格式化文章数据，适配 GNews 的数据结构"""
     try:
         return {
-            "title": article.get("title", ""),
-            "description": article.get("description", ""),
+            "title": article.get("title", "").strip(),
+            "description": article.get("description", "").strip(),
             "url": article.get("url", ""),
             "image": article.get("image", ""),
             "publishedAt": article.get("publishedAt", ""),
@@ -113,9 +134,17 @@ def save_news(news_data):
             json.dump(news_data, f, ensure_ascii=False, indent=2)
         print(f"News data saved to {filename}")
         
-        # 打印保存的文件大小
+        # 打印保存的文件大小和内容预览
         file_size = os.path.getsize(filename)
         print(f"Saved file size: {file_size} bytes")
+        
+        # 读取并打印保存的内容预览
+        with open(filename, 'r', encoding='utf-8') as f:
+            saved_data = json.load(f)
+            print(f"Saved {len(saved_data.get('articles', []))} articles")
+            if saved_data.get('articles'):
+                print("First article preview:")
+                print(json.dumps(saved_data['articles'][C_0](), indent=2)[:200])
         
     except Exception as e:
         print(f"Error saving news data: {str(e)}")
@@ -134,7 +163,6 @@ def main():
             print("News update completed successfully!")
         else:
             print("No valid news data to save")
-            # 创建空的数据文件以避免工作流失败
             empty_data = {
                 "status": "no_content",
                 "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
