@@ -24,20 +24,13 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install feedparser pandas json2html requests
-        pip install pandas
-        pip install json2html
-        pip install requests urllib3
-        pip install gnews
-        pip install --upgrade certifi
     
     - name: Run update script
       run: |
         python config.py
     
-    - name: Commit and push if changed
-      run: |
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
-        git add .
-        git diff --quiet && git diff --staged --quiet || git commit -m "Update news data"
-        git push
+    - name: Git Auto Commit
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "Update news data"
+        file_pattern: 'news.*'
