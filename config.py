@@ -6,47 +6,39 @@ import urllib3
 import pandas as pd
 from datetime import datetime
 from json2html import json2html
+from gnewsclient import gnewsclient
 
 # SSL验证配置
 ssl._create_default_https_context = ssl._create_unverified_context
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 requests.packages.urllib3.disable_warnings()
 
-# 获取API密钥
-API_KEY = os.environ.get('GNEWS_API_KEY')
-
 def fetch_news():
-    # GNews API配置
-    url = "https://gnews.io/api/v4/top-headlines"
-    params = {
-        'token': API_KEY,
-        'lang': 'zh',  # 中文新闻
-        'country': 'cn',  # 中国新闻
-        'max': 10  # 获取10条新闻
-    }
-
     try:
-        response = requests.get(url, params=params, verify=False)
-        response.raise_for_status()  # 检查请求是否成功
-        news_data = response.json()
+        # 创建新闻客户端
+        client = gnewsclient.NewsClient(
+            language='zh',  # 中文新闻
+            location='china',  # 中国新闻
+            max_results=10  # 获取10条新闻
+        )
         
-        # 提取所需的新闻信息
-        articles = news_data.get('articles', [])
+        # 获取新闻
+        news_list = client.get_news()
+        
+        # 处理新闻数据
         processed_articles = []
-        
-        for article in articles:
+        for article in news_list:
             processed_article = {
-                'title': article.get('title'),
-                'description': article.get('description'),
-                'url': article.get('url'),
-                'publishedAt': article.get('publishedAt'),
-                'source': article.get('source', {}).get('name')
+                'title': article['title'],
+                'link': article['link'],
+                'published': article.get('published', ''),
+                'source': article.get('source', '')
             }
             processed_articles.append(processed_article)
         
         return processed_articles
     
-    except requests.exceptions.RequestException as e:
+    except Exception as e:
         print(f"Error fetching news: {e}")
         return []
 
