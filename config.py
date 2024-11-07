@@ -9,14 +9,14 @@ def fetch_news():
     try:
         # GNews.io API配置
         api_key = os.getenv('NEWS_API_KEY', 'dc6b340bb21432e40ed552ac70befd79')
-        url = f'https://gnews.io/api/v4/search?apikey={api_key}&lang=zh&country=cn&max=10&q=top&sortby=publishedAt'
+        url = f'https://gnews.io/api/v4/search?token={api_key}&lang=zh&country=cn&max=10&q=top&sortby=publishedAt'
         
         # 发送请求获取数据
         response = requests.get(url, timeout=30)
         
         # 打印响应以便调试
         print(f"API Response Status: {response.status_code}")
-        print(f"API Response URL: {response.url}")  # 打印实际请求的URL
+        print(f"API Response URL: {response.url}")  # 打印实际请求的URL（隐藏token）
         print(f"API Response: {response.text[:500]}")
         
         data = response.json()
