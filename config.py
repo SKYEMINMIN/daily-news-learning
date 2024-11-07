@@ -6,9 +6,7 @@ from datetime import datetime
 def fetch_news():  
     """获取新闻数据"""  
     try:  
-        api_key = os.getenv('NEWS_API_KEY')  
-        if not api_key:  
-            raise ValueError("Missing NEWS_API_KEY environment variable")  
+        api_key = 'dc6b340bb21432e40ed552ac70befd79'  
         
         url = 'https://gnews.io/api/v4/top-headlines'  
         params = {  
@@ -36,7 +34,7 @@ def fetch_news():
     
     except Exception as e:  
         print(f"Error fetching news: {e}")  
-        return []  
+        return []
 
 def save_as_html(articles):  
     """保存为HTML文件"""  
