@@ -9,20 +9,27 @@ def fetch_news():
     try:
         # GNews.io API配置
         api_key = os.getenv('NEWS_API_KEY', 'dc6b340bb21432e40ed552ac70befd79')
-        url = 'https://gnews.io/api/v4/top-headlines'  # 修改为 top-headlines 端点
+        url = 'https://gnews.io/api/v4/top-headlines'
         params = {
-            'token': api_key,
+            'apikey': api_key,  # 改回使用 apikey
             'lang': 'zh',
             'country': 'cn',
             'max': 10
         }
+        
+        # 打印请求URL（隐藏API密钥）
+        print(f"Requesting URL: {url} with params: {params}")
         
         # 发送请求获取数据
         response = requests.get(url, params=params, timeout=30)
         
         # 打印响应以便调试
         print(f"API Response Status: {response.status_code}")
+        print(f"API Response Headers: {dict(response.headers)}")
         print(f"API Response: {response.text[:500]}")
+        
+        # 检查响应状态码
+        response.raise_for_status()
         
         data = response.json()
         
@@ -36,12 +43,20 @@ def fetch_news():
                     'source': article.get('source', {}).get('name', 'GNews')
                 }
                 processed_articles.append(processed_article)
-        
-        return processed_articles
+            return processed_articles
+        else:
+            print(f"Response data structure: {data.keys() if isinstance(data, dict) else 'Not a dict'}")
+            return []
     
+    except requests.exceptions.RequestException as e:
+        print(f"Request error: {str(e)}")
+        if 'response' in locals():
+            print(f"Error response: {response.text}")
+        return []
     except Exception as e:
-        print(f"Error fetching news: {str(e)}")
-        print(f"Full API response: {response.text if 'response' in locals() else 'No response'}")
+        print(f"General error: {str(e)}")
+        if 'response' in locals():
+            print(f"Error response: {response.text}")
         return []
 
 def save_to_json(data, filename):
