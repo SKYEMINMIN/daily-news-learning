@@ -8,17 +8,24 @@ from json2html import json2html
 def fetch_news():
     try:
         # GNews.io API配置
-        api_key = os.getenv('GNEWS_API_KEY', 'dc6b340bb21432e40ed552ac70befd79')
-        url = 'https://gnews.io/api/v4/top-headlines'
+        api_key = os.getenv('NEWS_API_KEY', 'dc6b340bb21432e40ed552ac70befd79')
+        url = 'https://gnews.io/api/v4/search'
         params = {
-            'token': api_key,
-            'lang': 'zh',  # 中文新闻
-            'country': 'cn',  # 中国地区
-            'max': 10  # 获取10条新闻
+            'apikey': api_key,
+            'lang': 'zh',
+            'country': 'cn',
+            'max': 10,
+            'q': 'top',
+            'sortby': 'publishedAt'
         }
         
         # 发送请求获取数据
-        response = requests.get(url, params=params, timeout=10)
+        response = requests.get(url, params=params, timeout=30)
+        
+        # 打印响应以便调试
+        print(f"API Response Status: {response.status_code}")
+        print(f"API Response: {response.text[:500]}")
+        
         data = response.json()
         
         processed_articles = []
@@ -35,7 +42,7 @@ def fetch_news():
         return processed_articles
     
     except Exception as e:
-        print(f"Error fetching news: {e}")
+        print(f"Error fetching news: {str(e)}")
         return []
 
 def save_to_json(data, filename):
