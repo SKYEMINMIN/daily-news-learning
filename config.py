@@ -1,25 +1,29 @@
-name: daily-update.yml
+name: Update News
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # 每天运行
-  workflow_dispatch:      # 允许手动触发
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
   update:
     runs-on: ubuntu-latest
     permissions:
-      contents: write     # 明确指定写入权限
+      contents: write
 
     steps:
-    - uses: actions/checkout@v4    # checkout 目前最新稳定版是 v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0    # 改为 0 以获取完整历史
+        persist-credentials: true  # 确保保持认证信息
     
     - name: Set up Python
-      uses: actions/setup-python@v5   # 更新到 v5
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.12'    # 使用最新的 Python 3.12
-        cache: 'pip'              # 启用 pip 缓存
-        check-latest: true        # 检查最新的补丁版本
+        python-version: '3.12'
+        cache: 'pip'
+        check-latest: true
     
     - name: Install dependencies
       run: |
@@ -41,7 +45,7 @@ jobs:
         git add -A
         timestamp=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
         git commit -m "Update news data: ${timestamp}" || exit 0
-        git push
+        git push origin main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
