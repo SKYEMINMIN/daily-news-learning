@@ -1,3 +1,16 @@
+# 首先添加这些导入和SSL配置
+import ssl
+import requests
+import urllib3
+
+# SSL验证配置
+ssl._create_default_https_context = ssl._create_unverified_context
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+requests.packages.urllib3.disable_warnings()
+
+# 你原有的其他导入和代码放在下面
+# ... 其余代码保持不变 ...
+
 name: Update News
 
 on:
