@@ -28,14 +28,18 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests json2html pandas gnewsclient  # 添加了 gnewsclient
+        python -m pip install --upgrade certifi
+        pip install requests json2html pandas gnewsclient
     
     - name: Run update script
       env:
         NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
+        PYTHONWARNINGS: "ignore:Unverified HTTPS request"
       run: |
         echo "Python version:"
         python --version
+        # 更新证书
+        python -m certifi
         python config.py
     
     - name: Commit and push if changed
