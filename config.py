@@ -1,46 +1,30 @@
 import os
-import ssl
 import json
-import requests
-import urllib3
 import pandas as pd
 from datetime import datetime
 from json2html import json2html
-from GoogleNews import GoogleNews
-
-
-# SSL验证配置
-ssl._create_default_https_context = ssl._create_unverified_context
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-requests.packages.urllib3.disable_warnings()
+from gnews import GNews
 
 def fetch_news():
     try:
         # 创建新闻客户端
-        googlenews = GoogleNews(lang='zh', region='CN')
-        googlenews.clear()
-        googlenews.get_news('中国')  # 获取中国相关新闻
+        google_news = GNews(language='zh', country='CN', max_results=10)
         
         # 获取新闻
-        news_list = googlenews.results()
+        news_list = google_news.get_news('中国')
         
         # 处理新闻数据
         processed_articles = []
-        for article in news_list[:10]:  # 只取前10条
+        for article in news_list:
             processed_article = {
-                'title': article.get('title', ''),
-                'link': article.get('link', ''),
-                'published': article.get('date', ''),
-                'source': article.get('media', '')
+                'title': article['title'],
+                'link': article['url'],
+                'published': article['published date'],
+                'source': article['publisher'].get('name', '')
             }
             processed_articles.append(processed_article)
         
         return processed_articles
-    
-    except Exception as e:
-        print(f"Error fetching news: {e}")
-        return []
-
     
     except Exception as e:
         print(f"Error fetching news: {e}")
