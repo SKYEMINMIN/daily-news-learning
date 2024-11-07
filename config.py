@@ -7,150 +7,68 @@ from json2html import json2html
 
 def fetch_news():
     try:
-        # GNews.io API配置
         api_key = os.getenv('NEWS_API_KEY')
         if not api_key:
             raise ValueError("NEWS_API_KEY environment variable is not set")
-            
-        url = 'https://gnews.io/api/v4/top-headlines'
+
+        # 使用新闻搜索端点而不是 top-headlines
+        url = 'https://gnews.io/api/v4/search'
         params = {
             'apikey': api_key,
+            'q': 'china',  # 添加必需的查询参数
             'lang': 'zh',
             'country': 'cn',
             'max': 10
         }
         
-        # 其余代码保持不变...
-
-        
-        # 打印请求URL（隐藏API密钥）
-        print(f"Requesting URL: {url} with params: {params}")
-        
-        # 发送请求获取数据
+        print(f"Making request to GNews API...")
         response = requests.get(url, params=params, timeout=30)
         
-        # 打印响应以便调试
-        print(f"API Response Status: {response.status_code}")
-        print(f"API Response Headers: {dict(response.headers)}")
-        print(f"API Response: {response.text[:500]}")
+        print(f"Response status code: {response.status_code}")
+        print(f"Response headers: {dict(response.headers)}")
         
-        # 检查响应状态码
-        response.raise_for_status()
-        
-        data = response.json()
-        
-        processed_articles = []
-        if 'articles' in data:
-            for article in data['articles']:
-                processed_article = {
-                    'title': article.get('title', ''),
-                    'link': article.get('url', ''),
-                    'published': article.get('publishedAt', ''),
-                    'source': article.get('source', {}).get('name', 'GNews')
-                }
-                processed_articles.append(processed_article)
-            return processed_articles
-        else:
-            print(f"Response data structure: {data.keys() if isinstance(data, dict) else 'Not a dict'}")
+        # 检查响应是否是 JSON 格式
+        try:
+            data = response.json()
+            print(f"Response data keys: {data.keys() if isinstance(data, dict) else 'Not a dict'}")
+        except json.JSONDecodeError:
+            print(f"Failed to decode JSON. Response text: {response.text[:500]}")
             return []
-    
+
+        if 'errors' in data:
+            print(f"API returned errors: {data['errors']}")
+            return []
+            
+        if 'articles' not in data:
+            print(f"No articles found in response. Response data: {data}")
+            return []
+            
+        processed_articles = []
+        for article in data['articles']:
+            processed_article = {
+                'title': article.get('title', ''),
+                'link': article.get('url', ''),
+                'published': article.get('publishedAt', ''),
+                'source': article.get('source', {}).get('name', 'GNews')
+            }
+            processed_articles.append(processed_article)
+        
+        if not processed_articles:
+            print("No articles were processed")
+        else:
+            print(f"Successfully processed {len(processed_articles)} articles")
+            
+        return processed_articles
+        
     except requests.exceptions.RequestException as e:
-        print(f"Request error: {str(e)}")
+        print(f"Request failed: {str(e)}")
         if 'response' in locals():
-            print(f"Error response: {response.text}")
+            print(f"Error response: {response.text[:500]}")
         return []
     except Exception as e:
-        print(f"General error: {str(e)}")
+        print(f"Unexpected error: {str(e)}")
         if 'response' in locals():
-            print(f"Error response: {response.text}")
+            print(f"Error response: {response.text[:500]}")
         return []
 
-def save_to_json(data, filename):
-    with open(filename, 'w', encoding='utf-8') as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
-
-def save_to_html(data, filename):
-    # 将JSON转换为HTML表格
-    html_content = json2html.convert(json=data)
-    
-    # 添加HTML样式
-    styled_html = f"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="utf-8">
-        <title>每日新闻更新</title>
-        <style>
-            body {{
-                font-family: Arial, sans-serif;
-                margin: 20px;
-                background-color: #f5f5f5;
-            }}
-            table {{
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 20px;
-                background-color: white;
-                box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-            }}
-            th, td {{
-                padding: 12px;
-                text-align: left;
-                border-bottom: 1px solid #ddd;
-            }}
-            th {{
-                background-color: #4CAF50;
-                color: white;
-            }}
-            tr:hover {{
-                background-color: #f5f5f5;
-            }}
-            a {{
-                color: #2196F3;
-                text-decoration: none;
-            }}
-            a:hover {{
-                text-decoration: underline;
-            }}
-            .header {{
-                background-color: #4CAF50;
-                color: white;
-                padding: 10px;
-                text-align: center;
-                border-radius: 5px;
-                margin-bottom: 20px;
-            }}
-        </style>
-    </head>
-    <body>
-        <div class="header">
-            <h1>每日新闻更新</h1>
-            <p>更新时间：{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
-        </div>
-        {html_content}
-    </body>
-    </html>
-    """
-    
-    with open(filename, 'w', encoding='utf-8') as f:
-        f.write(styled_html)
-
-def save_to_csv(data, filename):
-    df = pd.DataFrame(data)
-    df.to_csv(filename, index=False, encoding='utf-8-sig')
-
-def main():
-    # 获取新闻数据
-    news_data = fetch_news()
-    
-    if news_data:
-        # 保存为不同格式
-        save_to_json(news_data, 'news.json')
-        save_to_html(news_data, 'news.html')
-        save_to_csv(news_data, 'news.csv')
-        print("News data has been successfully updated and saved.")
-    else:
-        print("No news data was retrieved.")
-
-if __name__ == "__main__":
-    main()
+# 其余代码保持不变...
