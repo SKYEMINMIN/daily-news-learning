@@ -1,27 +1,36 @@
-import feedparser
+import os
 import json
+import requests
 import pandas as pd
 from datetime import datetime
 from json2html import json2html
 
 def fetch_news():
     try:
-        # 使用新浪RSS源获取新闻
-        feed_url = 'https://feed.mix.sina.com.cn/api/roll/get?pageid=153&lid=2509&k=&num=50&page=1&r=0.9562828019811659'
+        # GNews.io API配置
+        api_key = os.getenv('GNEWS_API_KEY', 'dc6b340bb21432e40ed552ac70befd79')
+        url = 'https://gnews.io/api/v4/top-headlines'
+        params = {
+            'token': api_key,
+            'lang': 'zh',  # 中文新闻
+            'country': 'cn',  # 中国地区
+            'max': 10  # 获取10条新闻
+        }
         
-        # 解析RSS源
-        feed = feedparser.parse(feed_url)
+        # 发送请求获取数据
+        response = requests.get(url, params=params, timeout=10)
+        data = response.json()
         
-        # 处理新闻数据
         processed_articles = []
-        for entry in feed.entries[:10]:  # 只取前10条
-            processed_article = {
-                'title': entry.get('title', ''),
-                'link': entry.get('link', ''),
-                'published': entry.get('published', ''),
-                'source': '新浪新闻'
-            }
-            processed_articles.append(processed_article)
+        if 'articles' in data:
+            for article in data['articles']:
+                processed_article = {
+                    'title': article.get('title', ''),
+                    'link': article.get('url', ''),
+                    'published': article.get('publishedAt', ''),
+                    'source': article.get('source', {}).get('name', 'GNews')
+                }
+                processed_articles.append(processed_article)
         
         return processed_articles
     
