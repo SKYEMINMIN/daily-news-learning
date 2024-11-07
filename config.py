@@ -4,7 +4,6 @@ import requests
 import pandas as pd
 from datetime import datetime
 
-
 def fetch_news():
     try:
         api_key = os.getenv('NEWS_API_KEY')
@@ -113,17 +112,35 @@ def generate_report(articles):
 
 def save_report(html_content):
     """Save the HTML report to a file"""
-    # 确保reports目录存在
-    os.makedirs('reports', exist_ok=True)
-    
-    timestamp = datetime.now().strftime("%Y%m%d")
-    filename = f"reports/news_report_{timestamp}.html"
-    
-    with open(filename, 'w', encoding='utf-8') as f:
-        f.write(html_content)
-    
-    print(f"Report saved as {filename}")
-    return filename
+    try:
+        # 使用相对于工作目录的路径
+        reports_dir = os.path.join(os.getcwd(), 'reports')
+        os.makedirs(reports_dir, exist_ok=True)
+        print(f"Created/verified reports directory at: {reports_dir}")
+        
+        timestamp = datetime.now().strftime("%Y%m%d")
+        filename = os.path.join(reports_dir, f"news_report_{timestamp}.html")
+        
+        with open(filename, 'w', encoding='utf-8') as f:
+            f.write(html_content)
+        
+        print(f"Report saved as {filename}")
+        return filename
+    except PermissionError as e:
+        print(f"Permission error while creating directory or file: {e}")
+        # 如果创建目录失败，尝试直接在当前目录保存
+        timestamp = datetime.now().strftime("%Y%m%d")
+        filename = f"news_report_{timestamp}.html"
+        print(f"Attempting to save in current directory: {os.getcwd()}")
+        with open(filename, 'w', encoding='utf-8') as f:
+            f.write(html_content)
+        print(f"Saved report in current directory: {filename}")
+        return filename
+    except Exception as e:
+        print(f"Error saving report: {e}")
+        print(f"Current working directory: {os.getcwd()}")
+        print(f"Directory contents: {os.listdir('.')}")
+        raise
 
 def main():
     articles = fetch_news()
