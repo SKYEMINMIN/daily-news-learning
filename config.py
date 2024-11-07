@@ -13,12 +13,11 @@ def fetch_news():
             
         url = 'https://gnews.io/api/v4/top-headlines'
         params = {
-            'apikey': api_key,  # 使用正确的参数名
+            'apikey': api_key,
             'lang': 'zh',
             'country': 'cn',
             'max': 10
         }
-
         
         print(f"Making request to GNews API...")
         response = requests.get(url, params=params, timeout=30)
@@ -26,7 +25,6 @@ def fetch_news():
         print(f"Response status code: {response.status_code}")
         print(f"Response headers: {dict(response.headers)}")
         
-        # 检查响应是否是 JSON 格式
         try:
             data = response.json()
             print(f"Response data keys: {data.keys() if isinstance(data, dict) else 'Not a dict'}")
@@ -70,4 +68,68 @@ def fetch_news():
             print(f"Error response: {response.text[:500]}")
         return []
 
-# 其余代码保持不变...
+def generate_report(articles):
+    """Generate HTML report from articles"""
+    if not articles:
+        return "<p>No articles found</p>"
+    
+    # 创建HTML表格头部
+    html_content = """
+    <html>
+    <head>
+        <title>Daily News Report</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            table { border-collapse: collapse; width: 100%; }
+            th, td { padding: 8px; text-align: left; border: 1px solid #ddd; }
+            th { background-color: #f2f2f2; }
+            tr:nth-child(even) { background-color: #f9f9f9; }
+            .title { font-weight: bold; }
+            .date { color: #666; }
+        </style>
+    </head>
+    <body>
+        <h1>每日新闻摘要</h1>
+        <p>生成时间: """ + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + """</p>
+    """
+    
+    # 转换为DataFrame并生成HTML表格
+    df = pd.DataFrame(articles)
+    # 将链接转换为可点击的HTML链接
+    df['link'] = df['link'].apply(lambda x: f'<a href="{x}" target="_blank">阅读全文</a>')
+    # 格式化发布时间
+    df['published'] = pd.to_datetime(df['published']).dt.strftime('%Y-%m-%d %H:%M:%S')
+    
+    # 重命名列
+    df.columns = ['标题', '链接', '发布时间', '来源']
+    
+    html_content += df.to_html(index=False, escape=False)
+    html_content += """
+    </body>
+    </html>
+    """
+    
+    return html_content
+
+def save_report(html_content):
+    """Save the HTML report to a file"""
+    # 确保reports目录存在
+    os.makedirs('reports', exist_ok=True)
+    
+    timestamp = datetime.now().strftime("%Y%m%d")
+    filename = f"reports/news_report_{timestamp}.html"
+    
+    with open(filename, 'w', encoding='utf-8') as f:
+        f.write(html_content)
+    
+    print(f"Report saved as {filename}")
+    return filename
+
+def main():
+    articles = fetch_news()
+    html_report = generate_report(articles)
+    filename = save_report(html_report)
+    print(f"Report generation completed. File saved as: {filename}")
+
+if __name__ == "__main__":
+    main()
