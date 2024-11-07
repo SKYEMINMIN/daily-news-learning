@@ -78,19 +78,37 @@ def generate_report(articles):
 
 def save_report(html_content):
     """Save the HTML report to a file"""
-    timestamp = datetime.now().strftime("%Y%m%d")
-    filename = f"news_report_{timestamp}.html"
-    
-    with open(filename, 'w', encoding='utf-8') as f:
-        f.write(html_content)
-    
-    return filename
+    try:
+        # 获取GitHub Actions的工作目录
+        github_workspace = os.getenv('GITHUB_WORKSPACE')
+        if not github_workspace:
+            github_workspace = '.'  # 如果不在GitHub Actions环境中，使用当前目录
+            
+        # 文件名使用时间戳
+        timestamp = datetime.now().strftime("%Y%m%d")
+        filename = f"news_report_{timestamp}.html"
+        
+        # 完整的文件路径
+        filepath = os.path.join(github_workspace, filename)
+        
+        # 写入文件
+        with open(filepath, 'w', encoding='utf-8') as f:
+            f.write(html_content)
+        
+        print(f"Successfully saved report to: {filepath}")
+        return filename
+        
+    except Exception as e:
+        print(f"Error saving file: {e}")
+        print(f"Current working directory: {os.getcwd()}")
+        print(f"Environment variables: {os.environ}")
+        raise
 
 def main():
     articles = fetch_news()
     html_report = generate_report(articles)
     filename = save_report(html_report)
-    print(f"Report saved as: {filename}")
+    print(f"Report generation completed: {filename}")
 
 if __name__ == "__main__":
     main()
