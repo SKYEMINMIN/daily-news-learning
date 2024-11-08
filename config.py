@@ -2,16 +2,17 @@ import os
 import requests  
 import pandas as pd  
 from datetime import datetime  
+from config import NEWS_API_CONFIG, OUTPUT_FILE  
 
-def fetch_news(api_key, lang, country, max_results):  
+def fetch_news():  
     """获取新闻数据"""  
     try:  
         url = 'https://gnews.io/api/v4/top-headlines'  
         params = {  
-            'token': api_key,  
-            'lang': lang,  
-            'country': country,  
-            'max': max_results  
+            'token': NEWS_API_CONFIG["api_key"],  
+            'lang': NEWS_API_CONFIG["language"],  
+            'country': NEWS_API_CONFIG["country"],  
+            'max': NEWS_API_CONFIG["max_results"]  
         }  
 
         response = requests.get(url, params=params, timeout=30)  
@@ -35,7 +36,7 @@ def fetch_news(api_key, lang, country, max_results):
         print(f"Unexpected error fetching news: {e}")  
         return []  
 
-def save_as_html(articles, output_file):  
+def save_as_html(articles):  
     """保存为HTML文件"""  
     try:  
         # 创建DataFrame  
@@ -75,7 +76,7 @@ def save_as_html(articles, output_file):
         """  
 
         # 保存文件  
-        with open(output_file, 'w', encoding='utf-8') as f:  
+        with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:  
             f.write(html_content)  
 
         print("HTML file saved successfully")  
@@ -86,18 +87,12 @@ def save_as_html(articles, output_file):
 def main():  
     print("Starting news collection process...")  
 
-    api_key = 'dc6b340bb21432e40ed552ac70befd79'  
-    lang = 'zh'  
-    country = 'cn'  
-    max_results = 10  
-    output_file = 'news.html'  # 修改为您想要的输出文件路径  
-
     # 获取新闻  
-    articles = fetch_news(api_key, lang, country, max_results)  
+    articles = fetch_news()  
     print(f"Retrieved {len(articles)} articles")  
 
     # 保存HTML  
-    save_as_html(articles, output_file)  
+    save_as_html(articles)  
     print("Process completed")  
 
 if __name__ == "__main__":  
